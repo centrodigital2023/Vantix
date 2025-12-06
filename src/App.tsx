@@ -11,6 +11,9 @@ import { Propietarios } from '@/pages/Propietarios'
 import { RegistroAlojamiento } from '@/pages/RegistroAlojamiento'
 import { DestinoResultados } from '@/pages/DestinoResultados'
 import { DetalleAlojamiento } from '@/pages/DetalleAlojamiento'
+import { ReservaConfirmacion } from '@/pages/ReservaConfirmacion'
+import { ReservaExitosa } from '@/pages/ReservaExitosa'
+import { MisReservas } from '@/pages/MisReservas'
 import { Aventura } from '@/pages/categorias/Aventura'
 import { Bienestar } from '@/pages/categorias/Bienestar'
 import { Cultural } from '@/pages/categorias/Cultural'
@@ -26,11 +29,14 @@ import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { useInitializeSync } from '@/hooks/use-category-data'
 import { generateSampleAccommodations } from '@/lib/sample-data'
+import { BookingDialog } from '@/components/BookingDialog'
 
 function App() {
   const [currentPage, setCurrentPage] = useKV<PageRoute>('current-page', 'home')
   const [selectedAccommodationId, setSelectedAccommodationId] = useKV<string>('selected-accommodation-id', '')
   const [accommodations, setAccommodations] = useKV<any[]>('accommodations-data', [])
+  const [showBookingDialog, setShowBookingDialog] = useState(false)
+  const [pendingRoomId, setPendingRoomId] = useState<string>('')
   
   useInitializeSync()
 
@@ -47,6 +53,16 @@ function App() {
       setSelectedAccommodationId(() => accommodationId)
     }
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleBookRoom = (roomId: string) => {
+    setPendingRoomId(roomId)
+    setShowBookingDialog(true)
+  }
+
+  const handleBookingConfirmed = () => {
+    setShowBookingDialog(false)
+    handleNavigate('reserva-confirmacion')
   }
 
   const activePage = currentPage || 'home'
@@ -74,9 +90,15 @@ function App() {
           <DetalleAlojamiento
             accommodationId={selectedAccommodationId || ''}
             onClose={() => handleNavigate('destino-resultados')}
-            onBook={(roomId) => console.log('Booking room:', roomId)}
+            onBook={handleBookRoom}
           />
         )
+      case 'reserva-confirmacion':
+        return <ReservaConfirmacion onNavigate={handleNavigate} />
+      case 'reserva-exitosa':
+        return <ReservaExitosa onNavigate={handleNavigate} />
+      case 'mis-reservas':
+        return <MisReservas onNavigate={handleNavigate} />
       case 'categoria-aventura':
         return <Aventura />
       case 'categoria-bienestar':
@@ -110,6 +132,13 @@ function App() {
       </main>
       <Footer onNavigate={handleNavigate} />
       <Toaster />
+      <BookingDialog
+        open={showBookingDialog}
+        onOpenChange={setShowBookingDialog}
+        accommodationId={selectedAccommodationId || ''}
+        roomTypeId={pendingRoomId}
+        onConfirm={handleBookingConfirmed}
+      />
     </AuthProvider>
   )
 }

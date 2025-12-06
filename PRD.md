@@ -47,6 +47,13 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Progression: View login/signup modal → Enter credentials → Authenticate → Access protected features → Manage session
 - Success criteria: Authentication persists across sessions, secure credential handling, graceful handling of auth states
 
+**Booking Confirmation Flow with Payment Integration**
+- Functionality: Complete end-to-end booking system with Mercado Pago payment processing
+- Purpose: Enable users to securely book accommodations and complete payments
+- Trigger: Click "Reservar" button on room card in accommodation detail page
+- Progression: Select dates/guests → Fill guest information → Review booking summary → Process payment via Mercado Pago → Receive confirmation
+- Success criteria: Secure payment processing, booking data persistence, email confirmations, booking history tracking
+
 **Destination Results**
 - Functionality: Grid/list view of search results or category browsing with detailed cards
 - Purpose: Compare multiple options before making decisions
@@ -65,6 +72,11 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - **Unauthenticated Access**: Gracefully redirect to login modal when accessing protected owner features
 - **Session Persistence**: Maintain user authentication across page refreshes and browser sessions
 - **Invalid Credentials**: Clear error messaging for failed login attempts with retry capability
+- **Payment Failures**: Handle declined payments gracefully with clear next steps and retry options
+- **Booking Conflicts**: Check room availability in real-time before processing payment
+- **Incomplete Guest Information**: Validate all required fields before allowing payment
+- **Payment Timeout**: Handle Mercado Pago session timeouts with booking data preservation
+- **Network Interruptions**: Save booking state locally and resume when connection restored
 
 ## Design Direction
 

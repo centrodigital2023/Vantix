@@ -110,7 +110,31 @@ export interface Booking {
     name: string
     email: string
     phone: string
+    idNumber?: string
+    specialRequests?: string
   }
+  paymentInfo?: {
+    method: 'mercadopago' | 'card' | 'cash'
+    transactionId?: string
+    paymentStatus: 'pending' | 'approved' | 'rejected' | 'refunded'
+    preferenceId?: string
+  }
+}
+
+export interface PaymentPreference {
+  id: string
+  init_point: string
+  sandbox_init_point: string
+}
+
+export interface BookingFormData {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  idNumber: string
+  specialRequests?: string
+  acceptTerms: boolean
 }
 
 export interface Review {
@@ -185,6 +209,8 @@ export type PageRoute =
   | 'registro-alojamiento'
   | 'destino-resultados'
   | 'detalle-alojamiento'
+  | 'reserva-confirmacion'
+  | 'reserva-exitosa'
   | 'mis-reservas'
   | 'favoritos'
   | 'categoria-aventura'

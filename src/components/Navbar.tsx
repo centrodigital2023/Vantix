@@ -69,6 +69,10 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={() => onNavigate('mis-reservas')}>
+                    <Calendar size={16} className="mr-2" />
+                    Mis Reservas
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => onNavigate('propietarios')}>
                     <House size={16} className="mr-2" />
                     Mis Propiedades
