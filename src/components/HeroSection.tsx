@@ -1,13 +1,22 @@
 import { Button } from '@/components/ui/button'
 import { Sparkle, ArrowDown } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
-import { PageRoute } from '@/lib/types'
+import { PageRoute, SearchFilters } from '@/lib/types'
+import { AdvancedSearchBar } from '@/components/AdvancedSearchBar'
 
 interface HeroSectionProps {
   onNavigate: (page: PageRoute) => void
+  onSearch?: (filters: SearchFilters) => void
 }
 
-export function HeroSection({ onNavigate }: HeroSectionProps) {
+export function HeroSection({ onNavigate, onSearch }: HeroSectionProps) {
+  const handleSearch = (filters: SearchFilters) => {
+    if (onSearch) {
+      onSearch(filters)
+    }
+    onNavigate('destino-resultados')
+  }
+
   return (
     <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       <div 
@@ -20,11 +29,12 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
         }}
       />
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="space-y-8"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
             <Sparkle size={16} weight="fill" className="text-accent" />
@@ -37,11 +47,15 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-            Crea itinerarios inteligentes con información real de alojamientos, 
-            gastronomía y experiencias únicas en cada rincón del país
+            Encuentra y reserva los mejores alojamientos, experiencias y tours
+            en cada rincón del país
           </p>
+
+          <div className="max-w-5xl mx-auto">
+            <AdvancedSearchBar onSearch={handleSearch} variant="hero" />
+          </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
             <Button 
               size="lg" 
               className="text-lg px-8 py-6 bg-primary hover:bg-primary/90"

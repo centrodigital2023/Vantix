@@ -10,6 +10,7 @@ import { Contacto } from '@/pages/Contacto'
 import { Propietarios } from '@/pages/Propietarios'
 import { RegistroAlojamiento } from '@/pages/RegistroAlojamiento'
 import { DestinoResultados } from '@/pages/DestinoResultados'
+import { DetalleAlojamiento } from '@/pages/DetalleAlojamiento'
 import { Aventura } from '@/pages/categorias/Aventura'
 import { Bienestar } from '@/pages/categorias/Bienestar'
 import { Cultural } from '@/pages/categorias/Cultural'
@@ -24,14 +25,27 @@ import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { useInitializeSync } from '@/hooks/use-category-data'
+import { generateSampleAccommodations } from '@/lib/sample-data'
 
 function App() {
   const [currentPage, setCurrentPage] = useKV<PageRoute>('current-page', 'home')
+  const [selectedAccommodationId, setSelectedAccommodationId] = useKV<string>('selected-accommodation-id', '')
+  const [accommodations, setAccommodations] = useKV<any[]>('accommodations-data', [])
   
   useInitializeSync()
 
-  const handleNavigate = (page: PageRoute) => {
+  useEffect(() => {
+    if (!accommodations || accommodations.length === 0) {
+      const sampleData = generateSampleAccommodations()
+      setAccommodations(() => sampleData)
+    }
+  }, [])
+
+  const handleNavigate = (page: PageRoute, accommodationId?: string) => {
     setCurrentPage(() => page)
+    if (accommodationId) {
+      setSelectedAccommodationId(() => accommodationId)
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -55,6 +69,14 @@ function App() {
         return <RegistroAlojamiento />
       case 'destino-resultados':
         return <DestinoResultados />
+      case 'detalle-alojamiento':
+        return (
+          <DetalleAlojamiento
+            accommodationId={selectedAccommodationId || ''}
+            onClose={() => handleNavigate('destino-resultados')}
+            onBook={(roomId) => console.log('Booking room:', roomId)}
+          />
+        )
       case 'categoria-aventura':
         return <Aventura />
       case 'categoria-bienestar':

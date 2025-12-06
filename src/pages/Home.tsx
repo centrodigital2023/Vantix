@@ -3,8 +3,9 @@ import { WelcomeMessage } from '@/components/WelcomeMessage'
 import { CategoryCard } from '@/components/CategoryCard'
 import { Testimonials } from '@/components/Testimonials'
 import { CallToAction } from '@/components/CallToAction'
-import { PageRoute, Testimonial } from '@/lib/types'
+import { PageRoute, Testimonial, SearchFilters } from '@/lib/types'
 import { CATEGORIES } from '@/lib/data'
+import { useKV } from '@github/spark/hooks'
 
 interface HomeProps {
   onNavigate: (page: PageRoute) => void
@@ -38,9 +39,15 @@ const testimonials: Testimonial[] = [
 ]
 
 export function Home({ onNavigate }: HomeProps) {
+  const [, setSearchFilters] = useKV<SearchFilters>('current-search-filters', {})
+
+  const handleSearch = (filters: SearchFilters) => {
+    setSearchFilters(() => filters)
+  }
+
   return (
     <>
-      <HeroSection onNavigate={onNavigate} />
+      <HeroSection onNavigate={onNavigate} onSearch={handleSearch} />
       
       <WelcomeMessage />
       

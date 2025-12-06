@@ -15,9 +15,119 @@ export interface Destination {
   region: string
   description: string
   image: string
+  images?: string[]
   price: number
   rating: number
   featured: boolean
+  reviews?: number
+  location?: {
+    lat: number
+    lon: number
+    city: string
+    department: string
+  }
+  amenities?: string[]
+  policies?: {
+    checkIn: string
+    checkOut: string
+    cancellation: string
+  }
+}
+
+export interface Accommodation {
+  id: string
+  name: string
+  type: 'hotel' | 'hostel' | 'apartment' | 'house' | 'resort' | 'cabin'
+  category: string
+  region: string
+  city: string
+  department: string
+  description: string
+  images: string[]
+  pricePerNight: number
+  rating: number
+  reviewCount: number
+  featured: boolean
+  latitude: number
+  longitude: number
+  amenities: string[]
+  roomTypes: RoomType[]
+  policies: {
+    checkIn: string
+    checkOut: string
+    cancellation: string
+    childrenAllowed: boolean
+    petsAllowed: boolean
+  }
+  contact: {
+    phone: string
+    email: string
+    website?: string
+  }
+  availability: Record<string, boolean>
+}
+
+export interface RoomType {
+  id: string
+  name: string
+  description: string
+  maxGuests: number
+  bedType: string
+  pricePerNight: number
+  images: string[]
+  amenities: string[]
+  available: number
+}
+
+export interface SearchFilters {
+  destination?: string
+  checkIn?: string
+  checkOut?: string
+  guests?: number
+  rooms?: number
+  priceMin?: number
+  priceMax?: number
+  rating?: number
+  category?: string
+  region?: string
+  amenities?: string[]
+  propertyType?: string[]
+  sortBy?: 'price' | 'rating' | 'distance' | 'popular'
+}
+
+export interface Booking {
+  id: string
+  userId: string
+  accommodationId: string
+  roomTypeId: string
+  checkIn: string
+  checkOut: string
+  guests: number
+  totalPrice: number
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed'
+  createdAt: string
+  guestInfo: {
+    name: string
+    email: string
+    phone: string
+  }
+}
+
+export interface Review {
+  id: string
+  userId: string
+  accommodationId: string
+  rating: number
+  title: string
+  comment: string
+  date: string
+  helpful: number
+  verified: boolean
+  photos?: string[]
+  response?: {
+    text: string
+    date: string
+  }
 }
 
 export interface Testimonial {
@@ -55,9 +165,14 @@ export interface User {
   id: string
   email: string
   name: string
-  role: 'owner' | 'admin'
+  role: 'owner' | 'admin' | 'guest'
   createdAt: string
   avatarUrl?: string
+  phone?: string
+  preferences?: {
+    currency: string
+    language: string
+  }
 }
 
 export type PageRoute = 
@@ -69,6 +184,9 @@ export type PageRoute =
   | 'propietarios'
   | 'registro-alojamiento'
   | 'destino-resultados'
+  | 'detalle-alojamiento'
+  | 'mis-reservas'
+  | 'favoritos'
   | 'categoria-aventura'
   | 'categoria-bienestar'
   | 'categoria-cultural'
