@@ -22,6 +22,7 @@ import { Religioso } from '@/pages/categorias/Religioso'
 import { Rural } from '@/pages/categorias/Rural'
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 function App() {
   const [currentPage, setCurrentPage] = useKV<PageRoute>('current-page', 'home')
@@ -77,14 +78,14 @@ function App() {
   }
 
   return (
-    <>
+    <AuthProvider>
       <Navbar currentPage={activePage} onNavigate={handleNavigate} />
       <main>
         {renderPage()}
       </main>
       <Footer onNavigate={handleNavigate} />
       <Toaster />
-    </>
+    </AuthProvider>
   )
 }
 

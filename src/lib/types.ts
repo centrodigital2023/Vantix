@@ -51,6 +51,15 @@ export interface Property {
   bookings: number
 }
 
+export interface User {
+  id: string
+  email: string
+  name: string
+  role: 'owner' | 'admin'
+  createdAt: string
+  avatarUrl?: string
+}
+
 export type PageRoute = 
   | 'home'
   | 'explorar'

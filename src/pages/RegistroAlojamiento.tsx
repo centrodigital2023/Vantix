@@ -6,8 +6,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { CATEGORIES, REGIONS } from '@/lib/data'
+import { useAuth } from '@/contexts/AuthContext'
+import { AuthModal } from '@/components/AuthModal'
+import { House } from '@phosphor-icons/react'
+import { useKV } from '@github/spark/hooks'
+
+interface Property {
+  id: string
+  name: string
+  category: string
+  region: string
+  description: string
+  price: string
+  ownerId: string
+  createdAt: string
+}
 
 export function RegistroAlojamiento() {
+  const { isAuthenticated, user } = useAuth()
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [properties, setProperties] = useKV<Property[]>('user-properties', [])
+  
   const [name, setName] = useState('')
   const [category, setCategory] = useState('')
   const [region, setRegion] = useState('')
@@ -16,12 +35,52 @@ export function RegistroAlojamiento() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    toast.success('Propiedad registrada exitosamente!')
+    
+    if (!user) return
+    
+    const newProperty: Property = {
+      id: `property_${Date.now()}`,
+      name,
+      category,
+      region,
+      description,
+      price,
+      ownerId: user.id,
+      createdAt: new Date().toISOString()
+    }
+    
+    setProperties((current) => [...(current || []), newProperty])
+    
+    toast.success('¡Propiedad registrada exitosamente!')
     setName('')
     setCategory('')
     setRegion('')
     setDescription('')
     setPrice('')
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center py-16 px-4">
+        <Card className="max-w-md w-full p-8 text-center">
+          <House size={64} className="text-primary mx-auto mb-4" weight="duotone" />
+          <h1 className="text-3xl font-bold mb-2">Registrar Alojamiento</h1>
+          <p className="text-muted-foreground mb-6">
+            Necesitas iniciar sesión para registrar una propiedad
+          </p>
+          <Button size="lg" onClick={() => setShowAuthModal(true)} className="w-full">
+            Iniciar Sesión / Registrarse
+          </Button>
+        </Card>
+        
+        {showAuthModal && (
+          <AuthModal
+            onSuccess={() => setShowAuthModal(false)}
+            onCancel={() => setShowAuthModal(false)}
+          />
+        )}
+      </div>
+    )
   }
 
   return (

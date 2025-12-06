@@ -27,11 +27,11 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Success criteria: Each category displays 20+ relevant destinations with filtering options
 
 **Property Owner Dashboard**
-- Functionality: SaaS portal for accommodation owners to manage listings, view analytics, and update availability
-- Purpose: Enables property owners to maintain current information and track performance
-- Trigger: Login via /propietarios route
-- Progression: Login → View dashboard → Manage listings → Update calendar → View statistics → Respond to inquiries
-- Success criteria: Owners can update listings in <2 minutes, view booking analytics
+- Functionality: SaaS portal for accommodation owners to manage listings, view analytics, and update availability with user authentication
+- Purpose: Enables property owners to maintain current information and track performance securely
+- Trigger: Login via /propietarios route (redirects to authentication if not logged in)
+- Progression: Login/Signup → View dashboard → Manage listings → Add/Edit/Delete properties → View statistics
+- Success criteria: Owners can authenticate, update listings in <2 minutes, view booking analytics, and manage properties securely
 
 **Smart Search**
 - Functionality: Real-time search across destinations, accommodations, and experiences with filters
@@ -39,6 +39,13 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Trigger: User types in search bar on any page
 - Progression: Type query → View instant results → Apply filters (category, price, rating) → Select result → View details
 - Success criteria: Returns relevant results in <500ms, filters work instantly
+
+**User Authentication**
+- Functionality: Secure login and signup system for property owners with persistent sessions
+- Purpose: Protect property management features and associate listings with owners
+- Trigger: Accessing /propietarios or /registro-alojamiento routes without authentication
+- Progression: View login/signup modal → Enter credentials → Authenticate → Access protected features → Manage session
+- Success criteria: Authentication persists across sessions, secure credential handling, graceful handling of auth states
 
 **Destination Results**
 - Functionality: Grid/list view of search results or category browsing with detailed cards
@@ -53,8 +60,11 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - **AI Generation Failure**: Show fallback pre-curated itineraries for the selected category
 - **Offline Access**: Cache last viewed itinerary and show banner indicating limited functionality
 - **Invalid Date Ranges**: Automatically correct to minimum 1-day trip with helpful message
-- **Property Owner Verification**: Require identity verification before allowing property registration
+- **Property Owner Verification**: Require authentication before allowing property registration or management
 - **Duplicate Listings**: AI-powered detection to prevent same property being listed multiple times
+- **Unauthenticated Access**: Gracefully redirect to login modal when accessing protected owner features
+- **Session Persistence**: Maintain user authentication across page refreshes and browser sessions
+- **Invalid Credentials**: Clear error messaging for failed login attempts with retry capability
 
 ## Design Direction
 

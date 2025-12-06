@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { List, X, Compass, Calendar, Article, Envelope, House } from '@phosphor-icons/react'
+import { List, X, Compass, Calendar, Article, Envelope, House, User, SignOut } from '@phosphor-icons/react'
 import { PageRoute } from '@/lib/types'
+import { useAuth } from '@/contexts/AuthContext'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 interface NavbarProps {
   currentPage: PageRoute
@@ -10,6 +13,7 @@ interface NavbarProps {
 
 export function Navbar({ currentPage, onNavigate }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { user, isAuthenticated, logout } = useAuth()
 
   const navItems = [
     { label: 'Inicio', page: 'home' as PageRoute, icon: House },
@@ -18,6 +22,11 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
     { label: 'Blog', page: 'blog' as PageRoute, icon: Article },
     { label: 'Contacto', page: 'contacto' as PageRoute, icon: Envelope }
   ]
+
+  const handleLogout = () => {
+    logout()
+    onNavigate('home')
+  }
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border">
@@ -47,13 +56,44 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
                 </Button>
               )
             })}
-            <Button
-              variant="outline"
-              onClick={() => onNavigate('propietarios')}
-              className="ml-2"
-            >
-              Propietarios
-            </Button>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="ml-2 gap-2">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="bg-primary text-primary-foreground text-sm">
+                        {user?.name?.charAt(0).toUpperCase() || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="hidden lg:inline">{user?.name}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={() => onNavigate('propietarios')}>
+                    <House size={16} className="mr-2" />
+                    Mis Propiedades
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onNavigate('registro-alojamiento')}>
+                    <House size={16} className="mr-2" />
+                    Registrar Propiedad
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <SignOut size={16} className="mr-2" />
+                    Cerrar Sesión
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={() => onNavigate('propietarios')}
+                className="ml-2 gap-2"
+              >
+                <User size={18} />
+                Propietarios
+              </Button>
+            )}
           </div>
 
           <button
@@ -85,16 +125,59 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
                 </Button>
               )
             })}
-            <Button
-              variant="outline"
-              onClick={() => {
-                onNavigate('propietarios')
-                setMobileMenuOpen(false)
-              }}
-              className="w-full justify-start"
-            >
-              Propietarios
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <div className="pt-2 pb-2 px-3 border-t border-border">
+                  <p className="text-sm font-medium">{user?.name}</p>
+                  <p className="text-xs text-muted-foreground">{user?.email}</p>
+                </div>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    onNavigate('propietarios')
+                    setMobileMenuOpen(false)
+                  }}
+                  className="w-full justify-start gap-2"
+                >
+                  <House size={18} />
+                  Mis Propiedades
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    onNavigate('registro-alojamiento')
+                    setMobileMenuOpen(false)
+                  }}
+                  className="w-full justify-start gap-2"
+                >
+                  <House size={18} />
+                  Registrar Propiedad
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    handleLogout()
+                    setMobileMenuOpen(false)
+                  }}
+                  className="w-full justify-start gap-2"
+                >
+                  <SignOut size={18} />
+                  Cerrar Sesión
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  onNavigate('propietarios')
+                  setMobileMenuOpen(false)
+                }}
+                className="w-full justify-start gap-2"
+              >
+                <User size={18} />
+                Propietarios
+              </Button>
+            )}
           </div>
         </div>
       )}
