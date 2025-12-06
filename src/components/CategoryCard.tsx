@@ -2,6 +2,8 @@ import { Card } from '@/components/ui/card'
 import { motion } from 'framer-motion'
 import { Category } from '@/lib/types'
 import * as PhosphorIcons from '@phosphor-icons/react'
+import { useState, useEffect } from 'react'
+import { getCategoryImages } from '@/lib/api/pexels'
 
 interface CategoryCardProps {
   category: Category
@@ -11,6 +13,33 @@ interface CategoryCardProps {
 
 export function CategoryCard({ category, onClick, delay = 0 }: CategoryCardProps) {
   const IconComponent = (PhosphorIcons as any)[category.icon] || PhosphorIcons.Circle
+  const [dynamicImage, setDynamicImage] = useState<string>(category.image)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+
+    async function loadImage() {
+      try {
+        const images = await getCategoryImages(category.name)
+        if (mounted && images.length > 0) {
+          setDynamicImage(images[0])
+        }
+      } catch (error) {
+        console.error(`Error loading image for ${category.name}:`, error)
+      } finally {
+        if (mounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    loadImage()
+
+    return () => {
+      mounted = false
+    }
+  }, [category.name])
 
   return (
     <motion.div
@@ -22,11 +51,21 @@ export function CategoryCard({ category, onClick, delay = 0 }: CategoryCardProps
         className="group relative overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-0"
         onClick={onClick}
       >
-        <div className="aspect-[4/3] relative overflow-hidden">
+        <div className="aspect-[4/3] relative overflow-hidden bg-muted">
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+            </div>
+          )}
           <img 
-            src={category.image}
+            src={dynamicImage}
             alt={category.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement
+              target.src = category.image
+            }}
           />
           <div className={`absolute inset-0 bg-gradient-to-t ${category.color} opacity-60 group-hover:opacity-70 transition-opacity`} />
           

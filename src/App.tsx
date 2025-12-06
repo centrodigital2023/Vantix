@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Toaster } from '@/components/ui/sonner'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
@@ -23,9 +23,12 @@ import { Rural } from '@/pages/categorias/Rural'
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
+import { useInitializeSync } from '@/hooks/use-category-data'
 
 function App() {
   const [currentPage, setCurrentPage] = useKV<PageRoute>('current-page', 'home')
+  
+  useInitializeSync()
 
   const handleNavigate = (page: PageRoute) => {
     setCurrentPage(() => page)

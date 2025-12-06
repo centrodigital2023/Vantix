@@ -1,35 +1,71 @@
 import { CategoryTemplate } from '@/components/CategoryTemplate'
-import { Card } from '@/components/ui/card'
+import { DestinationCard } from '@/components/DestinationCard'
 import { CATEGORIES } from '@/lib/data'
-import { Star, MapPin } from '@phosphor-icons/react'
+import { useCategoryData } from '@/hooks/use-category-data'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
+import { ArrowClockwise } from '@phosphor-icons/react'
 
 const category = CATEGORIES.find(c => c.slug === 'aventura')!
 
-const destinations = [
-  { name: 'Parapente en Chicamocha', location: 'Santander', rating: 4.9, image: 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?w=400&h=300&fit=crop' },
-  { name: 'Rafting en el Río Magdalena', location: 'Huila', rating: 4.8, image: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=300&fit=crop' },
-  { name: 'Escalada en Suesca', location: 'Cundinamarca', rating: 4.7, image: 'https://images.unsplash.com/photo-1522163182402-834f871fd851?w=400&h=300&fit=crop' }
-]
-
 export function Aventura() {
+  const { data, loading, error } = useCategoryData('Aventura')
+
   return (
     <CategoryTemplate category={category}>
-      <div className="grid md:grid-cols-3 gap-6">
-        {destinations.map((dest) => (
-          <Card key={dest.name} className="overflow-hidden group cursor-pointer hover:shadow-lg transition-all">
-            <div className="aspect-video overflow-hidden">
-              <img src={dest.image} alt={dest.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+      {loading && (
+        <div className="grid md:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="space-y-3">
+              <Skeleton className="aspect-video w-full" />
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-2/3" />
             </div>
-            <div className="p-4">
-              <h3 className="font-semibold mb-2">{dest.name}</h3>
-              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <div className="flex items-center gap-1"><MapPin size={14} />{dest.location}</div>
-                <div className="flex items-center gap-1"><Star size={14} weight="fill" className="text-accent" />{dest.rating}</div>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
+
+      {error && (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground mb-4">Error cargando datos: {error}</p>
+          <Button onClick={() => window.location.reload()}>
+            <ArrowClockwise className="mr-2" />
+            Reintentar
+          </Button>
+        </div>
+      )}
+
+      {data && data.destinations.length > 0 && (
+        <div className="space-y-8">
+          <div className="flex items-center justify-between">
+            <h2 className="text-3xl font-bold">
+              Experiencias de {category.name}
+            </h2>
+            <p className="text-muted-foreground">
+              {data.destinations.length} destinos disponibles
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {data.destinations.map((dest, index) => (
+              <DestinationCard 
+                key={dest.id} 
+                destination={dest}
+                delay={index * 0.05}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {data && data.destinations.length === 0 && !loading && (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">
+            No hay destinos disponibles en este momento.
+          </p>
+        </div>
+      )}
     </CategoryTemplate>
   )
 }
