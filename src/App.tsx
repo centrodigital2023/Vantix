@@ -25,14 +25,13 @@ import { Playa } from '@/pages/categorias/Playa'
 import { Religioso } from '@/pages/categorias/Religioso'
 import { Rural } from '@/pages/categorias/Rural'
 import { FAQ, CentroDeSeguridad, SoporteTurista, ComoReservar, EstadoDeReserva } from '@/pages'
-import { Destinos, Tours, Alojamientos, Transportes, ComidaTipica } from '@/pages'
-import { SobreNosotros, MisionVision, PorQueElegirnos } from '@/pages'
-import { Terminos, Privacidad } from '@/pages'
-import { TurismosPasto, ToursNarino } from '@/pages'
-import { AventuraPage, NaturalezaPage } from '@/pages'
-import { GuiaDelViajero } from '@/pages'
-import { Ofertas } from '@/pages'
-import { GenericPage } from '@/components/GenericPage'
+import { Destinos, Tours, Alojamientos, Transportes, ComidaTipica, MapaTuristicoPage } from '@/pages'
+import { SobreNosotros, MisionVision, PorQueElegirnos, TestimoniosPage } from '@/pages'
+import { Terminos, Privacidad, CookiesPage, ReembolsosPage, CancelacionPage } from '@/pages'
+import { TurismosPasto, ToursNarino, QueHacerPasto, LugaresImperdibles } from '@/pages'
+import { AventuraPage, NaturalezaPage, CulturaPage, GastronomiaPage, SenderismoPage, FestivalesPage } from '@/pages'
+import { GuiaDelViajero, ArticulosPage, NoticiasTurismoPage, AgenciasPage, ColaboradoresPage, AfiliadosPage, GuiasTuristicosPage } from '@/pages'
+import { Ofertas, PlanesFinDeSemanaPage, ViajesBaratosPage } from '@/pages'
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
@@ -152,29 +151,29 @@ function App() {
       case 'comida-tipica':
         return <ComidaTipica onNavigate={handleNavigate} />
       case 'mapa-turistico':
-        return <GenericPage onNavigate={handleNavigate} title="Mapa Turístico" subtitle="Explora Colombia de forma interactiva" />
+        return <MapaTuristicoPage onNavigate={handleNavigate} />
         
       case 'turismo-pasto':
         return <TurismosPasto onNavigate={handleNavigate} />
       case 'tours-narino':
         return <ToursNarino onNavigate={handleNavigate} />
       case 'que-hacer-en-pasto':
-        return <GenericPage onNavigate={handleNavigate} title="Qué Hacer en Pasto" subtitle="Actividades y atracciones en Pasto" />
+        return <QueHacerPasto onNavigate={handleNavigate} />
       case 'lugares-imperdibles-narino':
-        return <GenericPage onNavigate={handleNavigate} title="Lugares Imperdibles de Nariño" subtitle="Destinos que no puedes perderte" />
+        return <LugaresImperdibles onNavigate={handleNavigate} />
         
       case 'aventura':
         return <AventuraPage onNavigate={handleNavigate} />
       case 'cultura':
-        return <GenericPage onNavigate={handleNavigate} title="Turismo Cultural" subtitle="Descubre la riqueza cultural de Colombia" />
+        return <CulturaPage onNavigate={handleNavigate} />
       case 'gastronomia':
-        return <GenericPage onNavigate={handleNavigate} title="Turismo Gastronómico" subtitle="Sabores auténticos de Colombia" />
+        return <GastronomiaPage onNavigate={handleNavigate} />
       case 'naturaleza':
         return <NaturalezaPage onNavigate={handleNavigate} />
       case 'senderismo':
-        return <GenericPage onNavigate={handleNavigate} title="Senderismo" subtitle="Rutas y caminatas espectaculares" />
+        return <SenderismoPage onNavigate={handleNavigate} />
       case 'festivales-de-colombia':
-        return <GenericPage onNavigate={handleNavigate} title="Festivales de Colombia" subtitle="Celebraciones y eventos culturales" />
+        return <FestivalesPage onNavigate={handleNavigate} />
         
       case 'sobre-nosotros':
         return <SobreNosotros onNavigate={handleNavigate} />
@@ -183,7 +182,7 @@ function App() {
       case 'por-que-elegirnos':
         return <PorQueElegirnos onNavigate={handleNavigate} />
       case 'testimonios':
-        return <GenericPage onNavigate={handleNavigate} title="Testimonios" subtitle="Lo que dicen nuestros viajeros" />
+        return <TestimoniosPage onNavigate={handleNavigate} />
       case 'preguntas-frecuentes':
         return <FAQ onNavigate={handleNavigate} />
         
@@ -192,36 +191,36 @@ function App() {
       case 'privacidad':
         return <Privacidad onNavigate={handleNavigate} />
       case 'cookies':
-        return <GenericPage onNavigate={handleNavigate} title="Política de Cookies" subtitle="Uso de cookies en nuestra plataforma" />
+        return <CookiesPage onNavigate={handleNavigate} />
       case 'reembolsos':
-        return <GenericPage onNavigate={handleNavigate} title="Política de Reembolsos" subtitle="Información sobre devoluciones" />
+        return <ReembolsosPage onNavigate={handleNavigate} />
       case 'politica-de-cancelacion':
-        return <GenericPage onNavigate={handleNavigate} title="Política de Cancelación" subtitle="Términos de cancelación de reservas" />
+        return <CancelacionPage onNavigate={handleNavigate} />
         
       case 'guia-del-viajero':
         return <GuiaDelViajero onNavigate={handleNavigate} />
       case 'articulos':
-        return <GenericPage onNavigate={handleNavigate} title="Artículos de Viaje" subtitle="Historias y guías de viajeros" />
+        return <ArticulosPage onNavigate={handleNavigate} />
       case 'noticias-de-turismo':
-        return <GenericPage onNavigate={handleNavigate} title="Noticias de Turismo" subtitle="Últimas novedades del sector" />
+        return <NoticiasTurismoPage onNavigate={handleNavigate} />
         
       case 'agencias':
-        return <GenericPage onNavigate={handleNavigate} title="Para Agencias" subtitle="Alianzas con agencias de viaje" />
+        return <AgenciasPage onNavigate={handleNavigate} />
       case 'colaboradores':
-        return <GenericPage onNavigate={handleNavigate} title="Colaboradores" subtitle="Programa para creadores de contenido" />
+        return <ColaboradoresPage onNavigate={handleNavigate} />
       case 'afiliados':
-        return <GenericPage onNavigate={handleNavigate} title="Programa de Afiliados" subtitle="Gana comisiones con nosotros" />
+        return <AfiliadosPage onNavigate={handleNavigate} />
       case 'guias-turisticos':
-        return <GenericPage onNavigate={handleNavigate} title="Para Guías Turísticos" subtitle="Únete a nuestra red de guías" />
+        return <GuiasTuristicosPage onNavigate={handleNavigate} />
         
       case 'viajes-baratos':
-        return <GenericPage onNavigate={handleNavigate} title="Viajes Baratos" subtitle="Las mejores ofertas y destinos económicos" />
+        return <ViajesBaratosPage onNavigate={handleNavigate} />
       case 'promociones':
         return <Ofertas onNavigate={handleNavigate} />
       case 'ofertas':
         return <Ofertas onNavigate={handleNavigate} />
       case 'planes-fin-de-semana':
-        return <GenericPage onNavigate={handleNavigate} title="Planes de Fin de Semana" subtitle="Escapadas perfectas para el fin de semana" />
+        return <PlanesFinDeSemanaPage onNavigate={handleNavigate} />
         
       default:
         return <Home onNavigate={handleNavigate} />
