@@ -25,9 +25,13 @@ import { Playa } from '@/pages/categorias/Playa'
 import { Religioso } from '@/pages/categorias/Religioso'
 import { Rural } from '@/pages/categorias/Rural'
 import { FAQ, CentroDeSeguridad, SoporteTurista, ComoReservar, EstadoDeReserva } from '@/pages'
-import { Destinos, Tours } from '@/pages'
-import { SobreNosotros, MisionVision } from '@/pages'
-import { Terminos } from '@/pages'
+import { Destinos, Tours, Alojamientos, Transportes, ComidaTipica } from '@/pages'
+import { SobreNosotros, MisionVision, PorQueElegirnos } from '@/pages'
+import { Terminos, Privacidad } from '@/pages'
+import { TurismosPasto, ToursNarino } from '@/pages'
+import { AventuraPage, NaturalezaPage } from '@/pages'
+import { GuiaDelViajero } from '@/pages'
+import { Ofertas } from '@/pages'
 import { GenericPage } from '@/components/GenericPage'
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
@@ -142,31 +146,31 @@ function App() {
       case 'tours':
         return <Tours onNavigate={handleNavigate} />
       case 'alojamientos':
-        return <GenericPage onNavigate={handleNavigate} title="Alojamientos en Colombia" subtitle="Encuentra el lugar perfecto para tu estadía" />
+        return <Alojamientos onNavigate={handleNavigate} />
       case 'transportes':
-        return <GenericPage onNavigate={handleNavigate} title="Transporte en Colombia" subtitle="Opciones de transporte seguro y eficiente" />
+        return <Transportes onNavigate={handleNavigate} />
       case 'comida-tipica':
-        return <GenericPage onNavigate={handleNavigate} title="Comida Típica Colombiana" subtitle="Descubre los sabores de Colombia" />
+        return <ComidaTipica onNavigate={handleNavigate} />
       case 'mapa-turistico':
         return <GenericPage onNavigate={handleNavigate} title="Mapa Turístico" subtitle="Explora Colombia de forma interactiva" />
         
       case 'turismo-pasto':
-        return <GenericPage onNavigate={handleNavigate} title="Turismo en Pasto" subtitle="Descubre la capital de Nariño" />
+        return <TurismosPasto onNavigate={handleNavigate} />
       case 'tours-narino':
-        return <GenericPage onNavigate={handleNavigate} title="Tours en Nariño" subtitle="Experiencias únicas en Nariño" />
+        return <ToursNarino onNavigate={handleNavigate} />
       case 'que-hacer-en-pasto':
         return <GenericPage onNavigate={handleNavigate} title="Qué Hacer en Pasto" subtitle="Actividades y atracciones en Pasto" />
       case 'lugares-imperdibles-narino':
         return <GenericPage onNavigate={handleNavigate} title="Lugares Imperdibles de Nariño" subtitle="Destinos que no puedes perderte" />
         
       case 'aventura':
-        return <GenericPage onNavigate={handleNavigate} title="Turismo de Aventura" subtitle="Experiencias llenas de adrenalina" />
+        return <AventuraPage onNavigate={handleNavigate} />
       case 'cultura':
         return <GenericPage onNavigate={handleNavigate} title="Turismo Cultural" subtitle="Descubre la riqueza cultural de Colombia" />
       case 'gastronomia':
         return <GenericPage onNavigate={handleNavigate} title="Turismo Gastronómico" subtitle="Sabores auténticos de Colombia" />
       case 'naturaleza':
-        return <GenericPage onNavigate={handleNavigate} title="Turismo de Naturaleza" subtitle="Biodiversidad y paisajes únicos" />
+        return <NaturalezaPage onNavigate={handleNavigate} />
       case 'senderismo':
         return <GenericPage onNavigate={handleNavigate} title="Senderismo" subtitle="Rutas y caminatas espectaculares" />
       case 'festivales-de-colombia':
@@ -177,7 +181,7 @@ function App() {
       case 'mision-vision':
         return <MisionVision onNavigate={handleNavigate} />
       case 'por-que-elegirnos':
-        return <GenericPage onNavigate={handleNavigate} title="Por Qué Elegir SendAI" subtitle="Razones para confiar en nosotros" />
+        return <PorQueElegirnos onNavigate={handleNavigate} />
       case 'testimonios':
         return <GenericPage onNavigate={handleNavigate} title="Testimonios" subtitle="Lo que dicen nuestros viajeros" />
       case 'preguntas-frecuentes':
@@ -186,7 +190,7 @@ function App() {
       case 'terminos':
         return <Terminos onNavigate={handleNavigate} />
       case 'privacidad':
-        return <GenericPage onNavigate={handleNavigate} title="Política de Privacidad" subtitle="Cómo protegemos tu información" />
+        return <Privacidad onNavigate={handleNavigate} />
       case 'cookies':
         return <GenericPage onNavigate={handleNavigate} title="Política de Cookies" subtitle="Uso de cookies en nuestra plataforma" />
       case 'reembolsos':
@@ -195,7 +199,7 @@ function App() {
         return <GenericPage onNavigate={handleNavigate} title="Política de Cancelación" subtitle="Términos de cancelación de reservas" />
         
       case 'guia-del-viajero':
-        return <GenericPage onNavigate={handleNavigate} title="Guía del Viajero" subtitle="Consejos esenciales para viajar por Colombia" />
+        return <GuiaDelViajero onNavigate={handleNavigate} />
       case 'articulos':
         return <GenericPage onNavigate={handleNavigate} title="Artículos de Viaje" subtitle="Historias y guías de viajeros" />
       case 'noticias-de-turismo':
@@ -213,9 +217,9 @@ function App() {
       case 'viajes-baratos':
         return <GenericPage onNavigate={handleNavigate} title="Viajes Baratos" subtitle="Las mejores ofertas y destinos económicos" />
       case 'promociones':
-        return <GenericPage onNavigate={handleNavigate} title="Promociones" subtitle="Descuentos y ofertas especiales" />
+        return <Ofertas onNavigate={handleNavigate} />
       case 'ofertas':
-        return <GenericPage onNavigate={handleNavigate} title="Ofertas Especiales" subtitle="Las mejores ofertas del momento" />
+        return <Ofertas onNavigate={handleNavigate} />
       case 'planes-fin-de-semana':
         return <GenericPage onNavigate={handleNavigate} title="Planes de Fin de Semana" subtitle="Escapadas perfectas para el fin de semana" />
         
