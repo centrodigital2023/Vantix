@@ -61,6 +61,13 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Progression: Navigate to specialized pages → See related content links → Discover connected experiences → Return to main actions
 - Success criteria: All footer links functional, pages load quickly, intelligent cross-linking improves user journey and SEO
 
+**AI-Powered Dynamic Content for Blog and Articles**
+- Functionality: Generates blog posts, articles, and tourism news dynamically using GPT-4o-mini AI, with persistent storage and regeneration capabilities
+- Purpose: Provide fresh, relevant, and engaging content that inspires travelers and showcases Colombia's tourism opportunities without manual content creation
+- Trigger: User visits blog/articles/news pages, or clicks "Generate Content with IA" button
+- Progression: Load page → Check for existing content → Generate new content if needed → Display cards → Click to read full article → View in dialog with markdown rendering
+- Success criteria: Content generates in <30 seconds, persists between sessions, articles are coherent and informative, images load properly, search and filtering work smoothly
+
 **Destination Results**
 - Functionality: Grid/list view of search results or category browsing with detailed cards
 - Purpose: Compare multiple options before making decisions

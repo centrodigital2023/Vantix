@@ -1,79 +1,176 @@
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Calendar, User } from '@phosphor-icons/react'
+import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { MagnifyingGlass, Sparkle, ArrowsClockwise } from '@phosphor-icons/react'
+import { BlogPostCard } from '@/components/BlogPostCard'
+import { BlogPostDetail } from '@/components/BlogPostDetail'
+import { generateBlogPosts, BlogPost } from '@/lib/ai-content'
+import { useKV } from '@github/spark/hooks'
+import { toast } from 'sonner'
 
-const blogPosts = [
-  {
-    id: '1',
-    title: 'Los 10 mejores destinos de Colombia para 2024',
-    excerpt: 'Descubre los lugares más increíbles que debes visitar en tu próximo viaje a Colombia',
-    image: 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=800&h=500&fit=crop',
-    author: 'Laura Martínez',
-    date: '15 de Marzo, 2024',
-    category: 'Guías'
-  },
-  {
-    id: '2',
-    title: 'Guía completa del café colombiano',
-    excerpt: 'Todo lo que necesitas saber sobre el café de Colombia y las mejores fincas para visitar',
-    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=500&fit=crop',
-    author: 'Carlos Gómez',
-    date: '12 de Marzo, 2024',
-    category: 'Gastronomía'
-  },
-  {
-    id: '3',
-    title: 'Aventura en el Parque Tayrona',
-    excerpt: 'Consejos y recomendaciones para disfrutar al máximo este paraíso natural',
-    image: 'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?w=800&h=500&fit=crop',
-    author: 'Ana Rodríguez',
-    date: '8 de Marzo, 2024',
-    category: 'Aventura'
-  }
-]
+const categories = ['Todos', 'Guías', 'Gastronomía', 'Aventura', 'Cultura', 'Naturaleza', 'Tips', 'Familia', 'Bienestar']
 
 export function Blog() {
-  return (
-    <div className="min-h-screen py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">
-          Blog de Experiencias
-        </h1>
-        <p className="text-xl text-center text-muted-foreground mb-12 max-w-3xl mx-auto">
-          Historias inspiradoras, guías de viaje y consejos para explorar Colombia
-        </p>
+  const [blogPosts, setBlogPosts] = useKV<BlogPost[]>('blog-posts', [])
+  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([])
+  const [selectedCategory, setSelectedCategory] = useState('Todos')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [showDetail, setShowDetail] = useState(false)
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post) => (
-            <Card key={post.id} className="overflow-hidden group cursor-pointer hover:shadow-lg transition-shadow">
-              <div className="aspect-video overflow-hidden">
-                <img 
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-              </div>
-              <div className="p-6">
-                <Badge className="mb-3">{post.category}</Badge>
-                <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                  {post.title}
-                </h3>
-                <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <User size={16} />
-                    {post.author}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar size={16} />
-                    {post.date}
-                  </div>
-                </div>
-              </div>
-            </Card>
-          ))}
+  useEffect(() => {
+    if (!blogPosts || blogPosts.length === 0) {
+      handleGenerateContent()
+    }
+  }, [])
+
+  useEffect(() => {
+    let filtered = blogPosts || []
+
+    if (selectedCategory !== 'Todos') {
+      filtered = filtered.filter(post => post.category === selectedCategory)
+    }
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      filtered = filtered.filter(post => 
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt.toLowerCase().includes(query) ||
+        post.tags.some(tag => tag.toLowerCase().includes(query))
+      )
+    }
+
+    setFilteredPosts(filtered)
+  }, [blogPosts, selectedCategory, searchQuery])
+
+  const handleGenerateContent = async () => {
+    setIsGenerating(true)
+    toast.loading('Generando contenido con IA...', { id: 'generating' })
+    
+    try {
+      const posts = await generateBlogPosts(12)
+      setBlogPosts(() => posts)
+      toast.success('Contenido generado exitosamente', { id: 'generating' })
+    } catch (error) {
+      console.error('Error generating blog posts:', error)
+      toast.error('Error al generar contenido', { id: 'generating' })
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  const handlePostClick = (post: BlogPost) => {
+    setSelectedPost(post)
+    setShowDetail(true)
+  }
+
+  return (
+    <div className="min-h-screen">
+      <div 
+        className="relative py-24 md:py-32 bg-gradient-to-br from-primary via-accent to-secondary overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent)] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center text-white">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Blog de Experiencias
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
+              Historias inspiradoras, guías de viaje y consejos para explorar Colombia
+            </p>
+            <div className="flex gap-3 justify-center flex-wrap">
+              <Button 
+                onClick={handleGenerateContent}
+                disabled={isGenerating}
+                size="lg"
+                className="bg-white text-primary hover:bg-white/90"
+              >
+                {isGenerating ? (
+                  <ArrowsClockwise size={20} weight="bold" className="animate-spin" />
+                ) : (
+                  <Sparkle size={20} weight="duotone" />
+                )}
+                {isGenerating ? 'Generando...' : 'Generar Nuevo Contenido con IA'}
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="relative flex-1">
+            <MagnifyingGlass 
+              size={20} 
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" 
+            />
+            <Input
+              placeholder="Buscar artículos, destinos, tags..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+        </div>
+
+        <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="mb-8">
+          <TabsList className="w-full justify-start overflow-x-auto flex-wrap h-auto">
+            {categories.map((category) => (
+              <TabsTrigger key={category} value={category}>
+                {category}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+
+        {filteredPosts.length === 0 && !isGenerating && (
+          <div className="text-center py-16">
+            <p className="text-muted-foreground text-lg mb-4">
+              {searchQuery ? 'No se encontraron artículos' : 'No hay artículos disponibles'}
+            </p>
+            {!searchQuery && (
+              <Button onClick={handleGenerateContent}>
+                <Sparkle size={20} weight="duotone" />
+                Generar Contenido
+              </Button>
+            )}
+          </div>
+        )}
+
+        {isGenerating && filteredPosts.length === 0 && (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="animate-pulse">
+                <div className="aspect-video bg-muted rounded-lg mb-4" />
+                <div className="h-4 bg-muted rounded w-1/4 mb-3" />
+                <div className="h-6 bg-muted rounded w-3/4 mb-2" />
+                <div className="h-4 bg-muted rounded w-full mb-2" />
+                <div className="h-4 bg-muted rounded w-2/3" />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {filteredPosts.length > 0 && (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredPosts.map((post) => (
+              <BlogPostCard 
+                key={post.id} 
+                post={post}
+                onClick={() => handlePostClick(post)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <BlogPostDetail 
+        post={selectedPost}
+        open={showDetail}
+        onClose={() => setShowDetail(false)}
+      />
     </div>
   )
 }
