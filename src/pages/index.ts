@@ -46,3 +46,4 @@ export { Ofertas } from './promociones/Ofertas'
 export { PlanesFinDeSemanaPage } from './promociones/PlanesFinDeSemanaPage'
 export { ViajesBaratosPage } from './promociones/ViajesBaratosPage'
 
+export { FeedPersonalizado } from './FeedPersonalizado'

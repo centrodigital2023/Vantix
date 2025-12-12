@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -12,6 +12,7 @@ import {
 import { Accommodation, RoomType, Review } from '@/lib/types'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useKV } from '@github/spark/hooks'
+import { useUserPreferences } from '@/hooks/use-user-preferences'
 
 interface DetalleAlojamientoProps {
   accommodationId: string
@@ -27,6 +28,43 @@ export function DetalleAlojamiento({ accommodationId, onClose, onBook }: Detalle
   
   const [accommodations] = useKV<Accommodation[]>('accommodations-data', [])
   const accommodation = accommodations?.find(a => a.id === accommodationId)
+  const { trackInteraction } = useUserPreferences()
+
+  useEffect(() => {
+    if (accommodation) {
+      trackInteraction({
+        type: 'view',
+        accommodationId: accommodation.id,
+        category: accommodation.category,
+        destinationId: accommodation.city
+      })
+    }
+  }, [accommodation])
+
+  const handleBookRoom = (roomTypeId: string) => {
+    if (accommodation) {
+      trackInteraction({
+        type: 'booking',
+        accommodationId: accommodation.id,
+        category: accommodation.category,
+        destinationId: accommodation.city
+      })
+    }
+    onBook(roomTypeId)
+  }
+
+  const handleFavoriteToggle = () => {
+    const newValue = !isFavorite
+    setIsFavorite(newValue)
+    if (newValue && accommodation) {
+      trackInteraction({
+        type: 'favorite',
+        accommodationId: accommodation.id,
+        category: accommodation.category,
+        destinationId: accommodation.city
+      })
+    }
+  }
 
   if (!accommodation) {
     return (
@@ -60,7 +98,7 @@ export function DetalleAlojamiento({ accommodationId, onClose, onBook }: Detalle
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold truncate">{accommodation.name}</h1>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" onClick={() => setIsFavorite(!isFavorite)}>
+              <Button variant="ghost" size="icon" onClick={handleFavoriteToggle}>
                 <Heart size={20} weight={isFavorite ? 'fill' : 'regular'} className={isFavorite ? 'text-red-500' : ''} />
               </Button>
               <Button variant="ghost" size="icon">
@@ -193,7 +231,7 @@ export function DetalleAlojamiento({ accommodationId, onClose, onBook }: Detalle
                           <Button
                             onClick={() => {
                               setSelectedRoom(room.id)
-                              onBook(room.id)
+                              handleBookRoom(room.id)
                             }}
                             disabled={room.available === 0}
                             className="w-full md:w-auto"

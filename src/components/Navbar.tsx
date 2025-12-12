@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { List, X, Compass, Calendar, Article, Envelope, House, User, SignOut } from '@phosphor-icons/react'
+import { List, X, Compass, Calendar, Article, Envelope, House, User, SignOut, Sparkle } from '@phosphor-icons/react'
 import { PageRoute } from '@/lib/types'
 import { useAuth } from '@/contexts/AuthContext'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -19,6 +19,7 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
     { label: 'Inicio', page: 'home' as PageRoute, icon: House },
     { label: 'Explorar', page: 'explorar' as PageRoute, icon: Compass },
     { label: 'Itinerario IA', page: 'itinerario' as PageRoute, icon: Calendar },
+    { label: 'Para Ti', page: 'feed-personalizado' as PageRoute, icon: Sparkle },
     { label: 'Blog', page: 'blog' as PageRoute, icon: Article },
     { label: 'Contacto', page: 'contacto' as PageRoute, icon: Envelope }
   ]

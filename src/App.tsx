@@ -24,6 +24,7 @@ import { Negocios } from '@/pages/categorias/Negocios'
 import { Playa } from '@/pages/categorias/Playa'
 import { Religioso } from '@/pages/categorias/Religioso'
 import { Rural } from '@/pages/categorias/Rural'
+import { FeedPersonalizado } from '@/pages/FeedPersonalizado'
 import { FAQ, CentroDeSeguridad, SoporteTurista, ComoReservar, EstadoDeReserva } from '@/pages'
 import { Destinos, Tours, Alojamientos, Transportes, ComidaTipica, MapaTuristicoPage } from '@/pages'
 import { SobreNosotros, MisionVision, PorQueElegirnos, TestimoniosPage } from '@/pages'
@@ -107,6 +108,8 @@ function App() {
         return <ReservaExitosa onNavigate={handleNavigate} />
       case 'mis-reservas':
         return <MisReservas onNavigate={handleNavigate} />
+      case 'feed-personalizado':
+        return <FeedPersonalizado onNavigate={handleNavigate} />
         
       case 'categoria-aventura':
         return <Aventura />

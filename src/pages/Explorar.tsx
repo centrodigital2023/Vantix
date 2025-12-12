@@ -2,12 +2,36 @@ import { SearchBar } from '@/components/SearchBar'
 import { CategoryCard } from '@/components/CategoryCard'
 import { CATEGORIES } from '@/lib/data'
 import { PageRoute } from '@/lib/types'
+import { useUserPreferences } from '@/hooks/use-user-preferences'
+import { useEffect } from 'react'
 
 interface ExplorarProps {
   onNavigate: (page: PageRoute) => void
 }
 
 export function Explorar({ onNavigate }: ExplorarProps) {
+  const { trackInteraction } = useUserPreferences()
+
+  useEffect(() => {
+    trackInteraction({ type: 'view', category: 'explorar' })
+  }, [])
+
+  const handleCategoryClick = (category: typeof CATEGORIES[0]) => {
+    trackInteraction({ 
+      type: 'click', 
+      category: category.slug 
+    })
+    onNavigate(`categoria-${category.slug}` as PageRoute)
+  }
+
+  const handleSearch = (query: string) => {
+    trackInteraction({ 
+      type: 'search', 
+      searchQuery: query 
+    })
+    onNavigate('destino-resultados')
+  }
+
   return (
     <div className="min-h-screen py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,7 +43,7 @@ export function Explorar({ onNavigate }: ExplorarProps) {
         </p>
         
         <div className="mb-12">
-          <SearchBar onSearch={(q, f) => onNavigate('destino-resultados')} />
+          <SearchBar onSearch={(q) => handleSearch(q)} />
         </div>
         
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -27,7 +51,7 @@ export function Explorar({ onNavigate }: ExplorarProps) {
             <CategoryCard
               key={category.id}
               category={category}
-              onClick={() => onNavigate(`categoria-${category.slug}` as PageRoute)}
+              onClick={() => handleCategoryClick(category)}
               delay={index * 0.05}
             />
           ))}

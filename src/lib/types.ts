@@ -213,6 +213,7 @@ export type PageRoute =
   | 'reserva-exitosa'
   | 'mis-reservas'
   | 'favoritos'
+  | 'feed-personalizado'
   | 'categoria-aventura'
   | 'categoria-bienestar'
   | 'categoria-cultural'

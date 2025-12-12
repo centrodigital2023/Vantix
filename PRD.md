@@ -68,6 +68,13 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Progression: Load page → Check for existing content → Generate new content if needed → Display cards → Click to read full article → View in dialog with markdown rendering
 - Success criteria: Content generates in <30 seconds, persists between sessions, articles are coherent and informative, images load properly, search and filtering work smoothly
 
+**Personalized Feed with Learning Preferences**
+- Functionality: Tracks user interactions (views, clicks, searches, bookings) across the platform and uses machine learning algorithms to generate personalized accommodation and category recommendations
+- Purpose: Improve user experience by surfacing relevant content based on individual behavior patterns, increasing engagement and conversion rates
+- Trigger: User navigates to "Para Ti" (feed-personalizado) page from navbar
+- Progression: Visit feed → View personalized recommendations → See favorite categories highlighted → Browse recommended accommodations with reasoning → Clear history if desired
+- Success criteria: Tracks all user interactions persistently, calculates preference scores accurately, recommendations update in real-time, displays clear reasoning for each recommendation, maintains history across sessions
+
 **Destination Results**
 - Functionality: Grid/list view of search results or category browsing with detailed cards
 - Purpose: Compare multiple options before making decisions
