@@ -52,25 +52,62 @@ export function TurismosPasto({ onNavigate }: TurismosPastoProps) {
         },
         {
           title: 'Qué Hacer en Pasto',
-          content: `**Visitar la Catedral**: Basílica de Nuestra Señora de Las Mercedes, joya arquitectónica del centro
-**Museo del Oro Nariño**: Colección de piezas precolombinas de culturas Quimbaya y Tumaco
-**Plaza del Carnaval**: Epicentro de la cultura pastusa, con monumentos y esculturas
-**Calle de Botaneros**: Probar empanadas, tamales y comida típica en puestos tradicionales
-**Teleférico**: Subir al cerro de Bordones para vista panorámica de la ciudad
-**Mercado de Bomboná**: Comprar artesanías, textiles y productos locales auténticos
-**Teatro Imperial**: Edificio histórico con programación cultural y presentaciones
-**Parques temáticos**: Santiago de las Atalayas, Chapalito, y espacios verdes urbanos`
+          content: `**Centro de Pasto**
+• **Catedral Basílica**: Nuestra Señora de Las Mercedes, joya arquitectónica neogótica del siglo XX
+• **Museo del Oro Nariño**: Colección de piezas precolombinas culturas Quimbaya y Tumaco-La Tolita
+• **Plaza del Carnaval**: Epicentro cultural con monumentos, esculturas y murales alusivos
+• **Calle de Botaneros**: Probar empanadas, tamales, comida típica en puestos tradicionales
+• **Teatro Imperial**: Edificio histórico de 1922, programación cultural, conciertos y obras
+
+**Miradores y Naturaleza Urbana**
+• **Cerro de Bordones**: Teleférico o caminata, vista panorámica 360° de la ciudad y el Galeras
+• **Parque Santiago de las Atalayas**: Zona verde con juegos, senderos y áreas deportivas
+• **Parque Chapalito**: Área recreativa familiar con lagos artificiales
+• **Jardín Botánico**: Flora nativa, orquídeas, plantas medicinales andinas
+
+**Compras y Artesanías**
+• **Mercado de Bomboná**: Comprar artesanías, textiles, productos locales auténticos
+• **Talleres de Barniz de Pasto**: Técnica mopa-mopa, patrimonio inmaterial, visitas guiadas
+• **Centro Comercial Unicentro**: Compras modernas, cine, gastronomía internacional
+• **Calle 18 y Carrera 25**: Zona comercial principal, bancos, tiendas, servicios`
         },
         {
-          title: 'Alrededores de Pasto',
-          content: `**Volcán Galeras**: Volcán activo vigilado, caminatas con guía autorizado hasta miradores seguros
-**Santuario de Fauna y Flora Galeras**: Reserva natural con páramos, lagunas y senderos ecológicos
-**Pueblo de Sandoná**: Famoso por sombreros artesanales tejidos a mano, a 40 minutos
-**La Florida y Chachagüí**: Pueblos tradicionales con gastronomía y cultura pastusa
-**Volcán Azufral y Laguna Verde**: Laguna de color turquesa en cráter del volcán, trekking de día completo
-**Reserva Natural La Planada**: Bosque de niebla con biodiversidad única, para observación de aves
-**Túquerres**: Pueblo ganadero con clima cálido, ideal para paseos de un día
-**Ipiales y Las Lajas**: Ciudad fronteriza con Ecuador, famosa por el santuario más bello de Colombia`
+          title: 'Alrededores de Pasto - Municipios Cercanos',
+          content: `**Laguna de La Cocha (27 km - 40 min)**
+• Segunda laguna más grande de Colombia con 4.400 hectáreas
+• Isla de La Corota: reserva natural, senderos ecológicos, biodiversidad única
+• Pueblos: El Encano, Vereda El Espino, casas de madera tradicionales
+• Actividades: paseos en lancha, pesca de trucha, gastronomía local, fotografía
+
+**Santuario de Las Lajas (77 km - 1 hora)**
+• Basílica neogótica construida 1916-1949 sobre cañón del río Guáitara
+• Arquitectura espectacular, peregrinación religiosa, puente de 50 metros de altura
+• Ipiales: ciudad fronteriza con Ecuador, comercio, gastronomía
+
+**Volcán Galeras (9 km del centro)**
+• Volcán activo 4.276 msnm, vigilado por observatorio vulcanológico
+• Caminatas con guía autorizado hasta miradores seguros
+• Santuario de Fauna y Flora Galeras: páramos, lagunas, frailejones
+
+**Sandoná (40 km - 40 min)**
+• Capital artesanal del sombrero pintado a mano, técnica única heredada
+• Clima cálido agradable (22°C promedio), arquitectura colonial
+• Talleres abiertos al público, mirador del pueblo, gastronomía
+
+**La Florida y Chachagüí (20-30 km)**
+• Pueblos tradicionales con gastronomía pastusa auténtica
+• Cascadas, fincas cafeteras, naturaleza, clima templado
+• Hornado, empanadas de pipián, gastronomía rural
+
+**Túquerres (80 km - 1.5 horas)**
+• Acceso al Volcán Azufral y Laguna Verde turquesa
+• Pueblo ganadero, clima templado, parque principal acogedor
+• Base para trekking al volcán (4-6 horas ida y vuelta)
+
+**Cumbal (130 km - 2.5 horas)**
+• Resguardo indígena Pastos, cultura ancestral viva
+• Volcán Cumbal activo, lagunas de páramo, paisajes únicos
+• Turismo comunitario, artesanías indígenas, medicina tradicional`
         },
         {
           title: 'Información Práctica',

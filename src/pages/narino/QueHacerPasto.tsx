@@ -20,37 +20,52 @@ export function QueHacerPasto({ onNavigate }: QueHacerPastoProps) {
         },
         {
           title: 'Experiencias Imperdibles en Pasto',
-          content: 'Descubre lo mejor de la capital de Nariño',
+          content: 'Descubre lo mejor de la capital de Nariño y sus alrededores',
           cards: [
             {
-              title: 'Centro Histórico',
-              description: 'Recorre el corazón colonial de Pasto: la Catedral, la Plaza de Nariño, las calles empedradas llenas de historia y arquitectura.',
+              title: 'Centro Histórico y Museos',
+              description: 'Catedral, Plaza de Nariño, Museo del Oro Nariño, Museo del Carnaval, Teatro Imperial. Arquitectura colonial y cultura.',
               icon: <Church size={40} className="text-primary" weight="duotone" />
             },
             {
               title: 'Laguna de la Cocha',
-              description: 'La segunda laguna más grande de Colombia. Isla de La Corota, niebla sobre el agua, silencio que sana.',
+              description: 'Segunda laguna más grande de Colombia. Isla de La Corota (reserva natural), paseos en lancha, trucha fresca, niebla mágica.',
               icon: <MapPin size={40} className="text-turquoise" weight="duotone" />
             },
             {
               title: 'Santuario de Las Lajas',
-              description: 'A 40 minutos de Pasto, el santuario más impresionante de Colombia: una basílica construida sobre un cañón.',
+              description: 'A 1 hora: la basílica más impresionante de Colombia, construida sobre un cañón. Arquitectura gótica y peregrinación.',
               icon: <Church size={40} className="text-accent" weight="duotone" />
             },
             {
               title: 'Carnaval de Negros y Blancos',
-              description: 'Cada enero, Pasto se transforma. Carretas monumentales, comparsas, música y alegría desbordada.',
+              description: 'Cada enero, Patrimonio UNESCO. Carretas monumentales, comparsas, música, día de blancos y negros. Fiesta cultural única.',
               icon: <Camera size={40} className="text-secondary" weight="duotone" />
             },
             {
               title: 'Volcán Galeras',
-              description: 'El guardián de Pasto. Volcán activo que domina el paisaje y define el carácter resiliente de los pastusos.',
+              description: 'El guardián de Pasto. Volcán activo con miradores seguros, trekking moderado, vista panorámica de la ciudad.',
               icon: <Mountains size={40} className="text-primary" weight="duotone" />
             },
             {
               title: 'Gastronomía Pastusa',
-              description: 'Cuy asado, chicha de quinua, quesillo nariñense, empanadas de pipián. Sabores únicos del sur.',
+              description: 'Cuy asado, empanadas de pipián, quesillo nariñense, hornado, champús, helados de paila. Sabores únicos del sur.',
               icon: <Coffee size={40} className="text-secondary" weight="duotone" />
+            },
+            {
+              title: 'Artesanías Barniz de Pasto',
+              description: 'Técnica mopa-mopa única en el mundo, Patrimonio Inmaterial. Talleres artesanales, proceso milenario, piezas únicas.',
+              icon: <Heart size={40} className="text-accent" weight="duotone" />
+            },
+            {
+              title: 'Pueblos Cercanos',
+              description: 'Sandoná (sombreros), La Cruz (colonial), Chachagüí (gastronomía), La Florida (café y naturaleza).',
+              icon: <MapPin size={40} className="text-primary" weight="duotone" />
+            },
+            {
+              title: 'Vida Nocturna y Cultura',
+              description: 'Zona Rosa de Pasto, bares con música en vivo, Teatro Imperial con obras y conciertos, ambiente universitario.',
+              icon: <Camera size={40} className="text-turquoise" weight="duotone" />
             }
           ]
         },
