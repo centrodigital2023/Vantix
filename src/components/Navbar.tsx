@@ -5,6 +5,7 @@ import { PageRoute } from '@/lib/types'
 import { useAuth } from '@/contexts/AuthContext'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { NotificationCenter } from '@/components/NotificationCenter'
 
 interface NavbarProps {
   currentPage: PageRoute
@@ -57,6 +58,9 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
                 </Button>
               )
             })}
+            
+            <NotificationCenter onNavigate={onNavigate} />
+            
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

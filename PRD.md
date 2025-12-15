@@ -47,7 +47,12 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Progression: View login/signup modal → Enter credentials → Authenticate → Access protected features → Manage session
 - Success criteria: Authentication persists across sessions, secure credential handling, graceful handling of auth states
 
-**Booking Confirmation Flow with Payment Integration**
+**Smart Accommodation Cards with Integrated Booking**
+- Functionality: Enhanced accommodation cards with hover effects revealing quick booking options, detailed view dialogs, and direct integration with booking and payment systems without leaving the card interface
+- Purpose: Streamline the booking process by reducing friction and enabling users to complete reservations with minimal clicks
+- Trigger: User views accommodation listings, hovers over cards, or clicks booking CTAs
+- Progression: View card → Hover to reveal actions → Quick book OR view full details → Select room type → Choose dates → Process payment → Confirm booking
+- Success criteria: Cards load images smoothly with carousel, hover states show actions within 200ms, quick book opens dialog instantly, full details load all room types, payment integration seamless, booking confirmed in <30 seconds from card click
 - Functionality: Complete end-to-end booking system with Mercado Pago payment processing
 - Purpose: Enable users to securely book accommodations and complete payments
 - Trigger: Click "Reservar" button on room card in accommodation detail page
@@ -69,11 +74,32 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Success criteria: Content generates in <30 seconds, persists between sessions, articles are coherent and informative, images load properly, search and filtering work smoothly
 
 **Personalized Feed with Learning Preferences**
-- Functionality: Tracks user interactions (views, clicks, searches, bookings) across the platform and uses machine learning algorithms to generate personalized accommodation and category recommendations
-- Purpose: Improve user experience by surfacing relevant content based on individual behavior patterns, increasing engagement and conversion rates
+- Functionality: Tracks user interactions (views, clicks, searches, bookings) across the platform and uses machine learning algorithms to generate personalized accommodation and category recommendations with AI-powered enhancements including weather-based recommendations, collaborative filtering, and real-time push notifications
+- Purpose: Improve user experience by surfacing relevant content based on individual behavior patterns, weather conditions, seasonal events, and similar user preferences, increasing engagement and conversion rates
 - Trigger: User navigates to "Para Ti" (feed-personalizado) page from navbar
-- Progression: Visit feed → View personalized recommendations → See favorite categories highlighted → Browse recommended accommodations with reasoning → Clear history if desired
-- Success criteria: Tracks all user interactions persistently, calculates preference scores accurately, recommendations update in real-time, displays clear reasoning for each recommendation, maintains history across sessions
+- Progression: Visit feed → View personalized recommendations → See favorite categories highlighted → Browse recommended accommodations with reasoning → View weather-based suggestions → Explore collaborative recommendations from similar users → Receive push notifications for new matches → Clear history if desired
+- Success criteria: Tracks all user interactions persistently, calculates preference scores accurately, recommendations update in real-time, displays clear reasoning for each recommendation, weather integration provides relevant seasonal suggestions, collaborative filtering matches with similar users, push notifications delivered for high-priority recommendations, maintains history across sessions
+
+**AI-Powered Weather & Seasonal Event Recommendations**
+- Functionality: Analyzes current weather conditions, temperature, humidity, and upcoming seasonal events to generate intelligent destination recommendations that match the climate and time of year
+- Purpose: Help users discover destinations that are ideal for current weather conditions and take advantage of cultural events happening nearby
+- Trigger: Automatically loads when accessing personalized feed, updates daily
+- Progression: Fetch weather data → Analyze temperature and conditions → Match with destination categories → Find upcoming events → Score and rank destinations → Display with weather reasoning → Notify users of ideal conditions
+- Success criteria: Weather data updates automatically, recommendations change based on conditions, seasonal events integrated with 3-month lookahead, clear explanation of why destination matches weather, notifications sent for perfect conditions
+
+**Collaborative Filtering with Similar Users**
+- Functionality: Implements advanced collaborative filtering algorithms to find users with similar preferences and recommend accommodations based on what similar users have viewed, clicked, and booked
+- Purpose: Discover hidden gems and popular choices among users with matching travel styles and interests
+- Trigger: Background analysis of user interactions compared against anonymized user pool
+- Progression: Track user behavior → Calculate similarity scores using cosine similarity and Jaccard index → Find top similar users → Aggregate their preferences → Generate recommendations → Display with confidence scores → Notify of high-confidence matches
+- Success criteria: Identifies 5-10 similar users minimum, recommendations have >60% confidence score, reasons explain shared interests, updates as more users join platform, privacy-preserving (no personal data exposed)
+
+**Push Notification System for Smart Recommendations**
+- Functionality: Real-time notification system that alerts users about new recommendations matching their interests, weather opportunities, upcoming events, price drops, and collaborative suggestions
+- Purpose: Re-engage users with timely, relevant information that enhances their travel planning experience
+- Trigger: New matching recommendation detected, weather changes favorably, event approaching, similar user books
+- Progression: System detects match → Checks user notification preferences → Creates notification → Sends browser push notification → Stores in notification center → User clicks to view details
+- Success criteria: Notifications respect user preferences, support browser push API, categorized by type (weather/event/collaborative/price), priority system (high/medium/low), mark as read functionality, notification history persists, opt-out available
 
 **Destination Results**
 - Functionality: Grid/list view of search results or category browsing with detailed cards
