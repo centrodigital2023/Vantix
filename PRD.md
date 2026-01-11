@@ -33,6 +33,13 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Progression: Login/Signup → View dashboard → Manage listings → Add/Edit/Delete properties → View statistics
 - Success criteria: Owners can authenticate, update listings in <2 minutes, view booking analytics, and manage properties securely
 
+**Intelligent Host Panel - Full Management System**
+- Functionality: Complete SaaS platform for accommodation hosts inspired by Booking/Airbnb but optimized for Latin America (Colombia, Mexico, Peru, Ecuador) with step-by-step registration wizard, intelligent dashboard, booking management, AI-powered recommendations, calendar sync, messaging, reviews, analytics, and legal compliance
+- Purpose: Provide professional tools for property owners to register, manage, optimize and monetize their tourism accommodations with maximum efficiency and revenue
+- Trigger: Authenticated users access /propietarios route
+- Progression: Login → Dashboard overview (metrics, properties, notifications) → Register new property (6-step wizard) → Manage existing properties → View/manage reservas → Check analytics → Configure settings
+- Success criteria: Complete property registration in 5-7 minutes, clear visualization of all metrics, intelligent AI recommendations displayed, all LATAM legal requirements integrated, mobile-responsive design, seamless navigation between modules
+
 **Smart Search**
 - Functionality: Real-time search across destinations, accommodations, and experiences with filters
 - Purpose: Quick discovery of specific locations or experiences
