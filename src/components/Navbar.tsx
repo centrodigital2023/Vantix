@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { List, X, Compass, Calendar, Article, Envelope, House, User, SignOut, Sparkle } from '@phosphor-icons/react'
+import { List, X, Compass, Calendar, Article, Envelope, House, User, SignOut, Sparkle, ShieldCheck } from '@phosphor-icons/react'
 import { PageRoute } from '@/lib/types'
 import { useAuth } from '@/contexts/AuthContext'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -15,6 +15,19 @@ interface NavbarProps {
 export function Navbar({ currentPage, onNavigate }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { user, isAuthenticated, logout } = useAuth()
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false)
+
+  useEffect(() => {
+    const checkSuperAdmin = async () => {
+      try {
+        const sparkUser = await window.spark.user()
+        setIsSuperAdmin(sparkUser?.isOwner || false)
+      } catch {
+        setIsSuperAdmin(false)
+      }
+    }
+    checkSuperAdmin()
+  }, [])
 
   const navItems = [
     { label: 'Inicio', page: 'home' as PageRoute, icon: House },
@@ -74,6 +87,15 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
+                  {isSuperAdmin && (
+                    <>
+                      <DropdownMenuItem onClick={() => onNavigate('superadmin-dashboard')}>
+                        <ShieldCheck size={16} className="mr-2" weight="duotone" />
+                        <span className="font-bold text-primary">SuperAdmin</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  )}
                   <DropdownMenuItem onClick={() => onNavigate('mis-reservas')}>
                     <Calendar size={16} className="mr-2" />
                     Mis Reservas

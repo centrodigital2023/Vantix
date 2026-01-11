@@ -189,14 +189,130 @@ export interface User {
   id: string
   email: string
   name: string
-  role: 'owner' | 'admin' | 'guest'
+  role: 'superadmin' | 'admin' | 'owner' | 'host' | 'service_provider' | 'tourist'
   createdAt: string
   avatarUrl?: string
   phone?: string
+  status: 'active' | 'suspended' | 'blocked' | 'pending'
+  country?: string
+  city?: string
+  lastLogin?: string
+  devices?: string[]
+  ipAddresses?: string[]
+  trustScore?: number
   preferences?: {
     currency: string
     language: string
   }
+}
+
+export interface SuperAdminStats {
+  activeUsers: number
+  activeHosts: number
+  blockedHosts: number
+  publishedServices: number
+  totalBookings: number
+  revenueByCountry: Record<string, number>
+  openComplaints: number
+  securityAlerts: number
+  systemStatus: 'operational' | 'degraded' | 'down'
+}
+
+export interface Complaint {
+  id: string
+  touristId: string
+  touristName: string
+  category: 'accommodation' | 'transport' | 'experience' | 'payment' | 'security' | 'other'
+  relatedServiceId?: string
+  relatedServiceName?: string
+  relatedProviderId?: string
+  relatedProviderName?: string
+  priority: 'low' | 'medium' | 'high' | 'critical'
+  status: 'open' | 'in_progress' | 'resolved' | 'closed'
+  assignedTo?: string
+  title: string
+  description: string
+  evidence?: string[]
+  createdAt: string
+  updatedAt: string
+  resolution?: string
+  aiClassification?: string
+  aiSuggestedResponse?: string
+  riskPattern?: boolean
+}
+
+export interface ModerationItem {
+  id: string
+  type: 'accommodation' | 'experience' | 'transport' | 'review' | 'photo'
+  serviceId: string
+  serviceName: string
+  providerId: string
+  providerName: string
+  status: 'pending' | 'approved' | 'rejected' | 'flagged'
+  content: {
+    title?: string
+    description?: string
+    photos?: string[]
+    rating?: number
+  }
+  aiAnalysis?: {
+    isSuspicious: boolean
+    isFakePhoto: boolean
+    isManipulatedReview: boolean
+    isSpam: boolean
+    confidenceScore: number
+    reasons: string[]
+  }
+  createdAt: string
+  reviewedAt?: string
+  reviewedBy?: string
+  rejectionReason?: string
+}
+
+export interface ProviderMetrics {
+  id: string
+  name: string
+  type: 'host' | 'service_provider'
+  email: string
+  phone?: string
+  country: string
+  city: string
+  trustScore: number
+  status: 'active' | 'suspended' | 'blocked'
+  joinedAt: string
+  services: number
+  bookings: number
+  revenue: number
+  rating: number
+  complaints: number
+  warnings: number
+  documentation: {
+    verified: boolean
+    expiresAt?: string
+  }
+}
+
+export interface SystemConfig {
+  activeCountries: string[]
+  commissionRates: Record<string, number>
+  cancellationPolicies: Record<string, any>
+  supportedLanguages: string[]
+  supportedCurrencies: string[]
+  legalPolicies: Record<string, string>
+}
+
+export interface AuditLog {
+  id: string
+  userId: string
+  userName: string
+  action: string
+  entity: string
+  entityId: string
+  changes?: Record<string, any>
+  ipAddress: string
+  timestamp: string
+  requiresDoubleAuth: boolean
+  authorizedBy?: string
 }
 
 export type PageRoute = 
@@ -266,3 +382,11 @@ export type PageRoute =
   | 'promociones'
   | 'ofertas'
   | 'planes-fin-de-semana'
+  | 'superadmin-dashboard'
+  | 'superadmin-users'
+  | 'superadmin-providers'
+  | 'superadmin-moderation'
+  | 'superadmin-complaints'
+  | 'superadmin-bookings'
+  | 'superadmin-analytics'
+  | 'superadmin-config'

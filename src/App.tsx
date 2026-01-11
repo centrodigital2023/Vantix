@@ -33,6 +33,7 @@ import { TurismosPasto, ToursNarino, QueHacerPasto, LugaresImperdibles } from '@
 import { AventuraPage, NaturalezaPage, CulturaPage, GastronomiaPage, SenderismoPage, FestivalesPage } from '@/pages'
 import { GuiaDelViajero, ArticulosPage, NoticiasTurismoPage, AgenciasPage, ColaboradoresPage, AfiliadosPage, GuiasTuristicosPage } from '@/pages'
 import { Ofertas, PlanesFinDeSemanaPage, ViajesBaratosPage } from '@/pages'
+import { SuperAdminDashboard, SuperAdminUsers, SuperAdminComplaints } from '@/pages/superadmin'
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
@@ -224,6 +225,13 @@ function App() {
         return <Ofertas onNavigate={handleNavigate} />
       case 'planes-fin-de-semana':
         return <PlanesFinDeSemanaPage onNavigate={handleNavigate} />
+        
+      case 'superadmin-dashboard':
+        return <SuperAdminDashboard onNavigate={handleNavigate} />
+      case 'superadmin-users':
+        return <SuperAdminUsers onNavigate={handleNavigate} />
+      case 'superadmin-complaints':
+        return <SuperAdminComplaints onNavigate={handleNavigate} />
         
       default:
         return <Home onNavigate={handleNavigate} />
