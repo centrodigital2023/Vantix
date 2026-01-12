@@ -100,14 +100,18 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
                     <Calendar size={16} className="mr-2" />
                     Mis Reservas
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onNavigate('propietarios')}>
-                    <House size={16} className="mr-2" />
-                    Mis Propiedades
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onNavigate('registro-alojamiento')}>
-                    <House size={16} className="mr-2" />
-                    Registrar Propiedad
-                  </DropdownMenuItem>
+                  {(user?.role === 'host' || user?.role === 'service_provider') && (
+                    <>
+                      <DropdownMenuItem onClick={() => onNavigate('propietarios')}>
+                        <House size={16} className="mr-2" />
+                        Mis Propiedades
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onNavigate('registro-alojamiento')}>
+                        <House size={16} className="mr-2" />
+                        Registrar Propiedad
+                      </DropdownMenuItem>
+                    </>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout}>
                     <SignOut size={16} className="mr-2" />
@@ -117,12 +121,12 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
               </DropdownMenu>
             ) : (
               <Button
-                variant="outline"
-                onClick={() => onNavigate('propietarios')}
+                variant="default"
+                onClick={() => onNavigate('tourist-auth')}
                 className="ml-2 gap-2"
               >
                 <User size={18} />
-                Propietarios
+                <span className="hidden lg:inline">Iniciar Sesión</span>
               </Button>
             )}
           </div>
@@ -165,25 +169,40 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
                 <Button
                   variant="ghost"
                   onClick={() => {
-                    onNavigate('propietarios')
+                    onNavigate('mis-reservas')
                     setMobileMenuOpen(false)
                   }}
                   className="w-full justify-start gap-2"
                 >
-                  <House size={18} />
-                  Mis Propiedades
+                  <Calendar size={18} />
+                  Mis Reservas
                 </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => {
-                    onNavigate('registro-alojamiento')
-                    setMobileMenuOpen(false)
-                  }}
-                  className="w-full justify-start gap-2"
-                >
-                  <House size={18} />
-                  Registrar Propiedad
-                </Button>
+                {(user?.role === 'host' || user?.role === 'service_provider') && (
+                  <>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        onNavigate('propietarios')
+                        setMobileMenuOpen(false)
+                      }}
+                      className="w-full justify-start gap-2"
+                    >
+                      <House size={18} />
+                      Mis Propiedades
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        onNavigate('registro-alojamiento')
+                        setMobileMenuOpen(false)
+                      }}
+                      className="w-full justify-start gap-2"
+                    >
+                      <House size={18} />
+                      Registrar Propiedad
+                    </Button>
+                  </>
+                )}
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -198,15 +217,15 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
               </>
             ) : (
               <Button
-                variant="outline"
+                variant="default"
                 onClick={() => {
-                  onNavigate('propietarios')
+                  onNavigate('tourist-auth')
                   setMobileMenuOpen(false)
                 }}
                 className="w-full justify-start gap-2"
               >
                 <User size={18} />
-                Propietarios
+                Iniciar Sesión
               </Button>
             )}
           </div>

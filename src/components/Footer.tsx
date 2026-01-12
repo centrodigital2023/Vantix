@@ -102,6 +102,23 @@ export function Footer({ onNavigate }: FooterProps) {
             <a href="#" className="hover:text-accent transition-colors"><TwitterLogo size={24} weight="fill" /></a>
           </div>
         </div>
+
+        {/* Enlaces discretos para anfitriones y admin */}
+        <div className="border-t border-background/20 pt-6 mb-6 flex flex-wrap justify-center gap-4 text-xs opacity-50 hover:opacity-100 transition-opacity">
+          <button 
+            onClick={() => onNavigate('host-auth')} 
+            className="hover:text-accent transition-colors"
+          >
+            Acceso Anfitriones
+          </button>
+          <span className="text-background/30">|</span>
+          <button 
+            onClick={() => onNavigate('admin-auth')} 
+            className="hover:text-destructive transition-colors"
+          >
+            Acceso Administrativo
+          </button>
+        </div>
         
         {/* Copyright */}
         <div className="border-t border-background/20 pt-8 text-center text-sm opacity-60">

@@ -48,11 +48,26 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Success criteria: Returns relevant results in <500ms, filters work instantly
 
 **User Authentication**
-- Functionality: Secure login and signup system for property owners with persistent sessions
-- Purpose: Protect property management features and associate listings with owners
-- Trigger: Accessing /propietarios or /registro-alojamiento routes without authentication
-- Progression: View login/signup modal → Enter credentials → Authenticate → Access protected features → Manage session
-- Success criteria: Authentication persists across sessions, secure credential handling, graceful handling of auth states
+- Functionality: Secure login and signup system with role-based access control (Tourist, Host, Service Provider, Admin, SuperAdmin) and persistent sessions
+- Purpose: Protect role-specific features, associate listings with owners, enable booking history for tourists, and provide secure administrative access
+- Trigger: 
+  - Tourists: Clicking "Iniciar Sesión" button in navbar (top right) or attempting to book/save itineraries
+  - Hosts/Service Providers: Clicking "Acceso Anfitriones" link in footer (discrete placement) or accessing property management features
+  - SuperAdmin: Clicking "Acceso Administrativo" link in footer (discrete placement)
+- Progression: 
+  - **Tourist Flow**: View tourist auth page → Choose login/signup tabs → Optional Google OAuth → Authenticate as 'tourist' role → Access booking and itinerary features
+  - **Host/Service Provider Flow**: View host auth page → Select account type (Anfitrión or Prestador) → Register with business info → Verification notice (24-48 hours) → Authenticate → Access property/service management panel → Await SuperAdmin approval
+  - **SuperAdmin Flow**: View admin auth page → Enter predefined credentials → Complete 2FA verification (mandatory) → IP logging → Authenticate as 'superadmin' role → Access full system administration
+- Success criteria: 
+  - Authentication persists across sessions
+  - Secure credential handling
+  - Graceful handling of auth states
+  - Role-based UI rendering (tourists see booking options, hosts see property management, superadmin sees all controls)
+  - Google OAuth integration for tourists only
+  - 2FA mandatory for SuperAdmin with max 3 attempts
+  - Discrete footer placement for host and admin access links
+  - Clear separation of authentication interfaces by role
+  - Verification workflow for new hosts/service providers with SuperAdmin approval gate
 
 **Smart Accommodation Cards with Integrated Booking**
 - Functionality: Enhanced accommodation cards with hover effects revealing quick booking options, detailed view dialogs, and direct integration with booking and payment systems without leaving the card interface

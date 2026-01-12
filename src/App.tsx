@@ -34,6 +34,7 @@ import { AventuraPage, NaturalezaPage, CulturaPage, GastronomiaPage, SenderismoP
 import { GuiaDelViajero, ArticulosPage, NoticiasTurismoPage, AgenciasPage, ColaboradoresPage, AfiliadosPage, GuiasTuristicosPage } from '@/pages'
 import { Ofertas, PlanesFinDeSemanaPage, ViajesBaratosPage } from '@/pages'
 import { SuperAdminDashboard, SuperAdminUsers, SuperAdminComplaints } from '@/pages/superadmin'
+import { TouristAuth, HostAuth, AdminAuth } from '@/pages'
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
@@ -77,6 +78,8 @@ function App() {
 
   const activePage = currentPage || 'home'
 
+  const isAuthPage = activePage === 'tourist-auth' || activePage === 'host-auth' || activePage === 'admin-auth'
+
   const renderPage = () => {
     switch (activePage) {
       case 'home':
@@ -111,6 +114,13 @@ function App() {
         return <MisReservas onNavigate={handleNavigate} />
       case 'feed-personalizado':
         return <FeedPersonalizado onNavigate={handleNavigate} />
+      
+      case 'tourist-auth':
+        return <TouristAuth onNavigate={handleNavigate} />
+      case 'host-auth':
+        return <HostAuth onNavigate={handleNavigate} />
+      case 'admin-auth':
+        return <AdminAuth onNavigate={handleNavigate} />
         
       case 'categoria-aventura':
         return <Aventura />
@@ -240,11 +250,11 @@ function App() {
 
   return (
     <AuthProvider>
-      <Navbar currentPage={activePage} onNavigate={handleNavigate} />
+      {!isAuthPage && <Navbar currentPage={activePage} onNavigate={handleNavigate} />}
       <main>
         {renderPage()}
       </main>
-      <Footer onNavigate={handleNavigate} />
+      {!isAuthPage && <Footer onNavigate={handleNavigate} />}
       <Toaster />
       <BookingDialog
         open={showBookingDialog}
