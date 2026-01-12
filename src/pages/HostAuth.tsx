@@ -43,7 +43,7 @@ export function HostAuth({ onNavigate }: HostAuthProps) {
     
     if (success) {
       toast.success('¡Bienvenido a tu panel de gestión!')
-      onNavigate('propietarios')
+      onNavigate('host-panel')
     } else {
       toast.error('Email o contraseña incorrectos')
     }
@@ -73,7 +73,7 @@ export function HostAuth({ onNavigate }: HostAuthProps) {
     
     if (success) {
       toast.success('¡Cuenta creada con éxito! Tu perfil será verificado en las próximas 24-48 horas.')
-      onNavigate('propietarios')
+      onNavigate('host-panel')
     } else {
       toast.error('No se pudo crear la cuenta. Por favor intenta nuevamente.')
     }

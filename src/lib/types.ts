@@ -333,6 +333,7 @@ export type PageRoute =
   | 'tourist-auth'
   | 'host-auth'
   | 'admin-auth'
+  | 'host-panel'
   | 'categoria-aventura'
   | 'categoria-bienestar'
   | 'categoria-cultural'

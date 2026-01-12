@@ -35,6 +35,7 @@ import { GuiaDelViajero, ArticulosPage, NoticiasTurismoPage, AgenciasPage, Colab
 import { Ofertas, PlanesFinDeSemanaPage, ViajesBaratosPage } from '@/pages'
 import { SuperAdminDashboard, SuperAdminUsers, SuperAdminComplaints } from '@/pages/superadmin'
 import { TouristAuth, HostAuth, AdminAuth } from '@/pages'
+import { HostPanelMain } from '@/pages/panel-anfitrion/HostPanelMain'
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
@@ -79,6 +80,8 @@ function App() {
   const activePage = currentPage || 'home'
 
   const isAuthPage = activePage === 'tourist-auth' || activePage === 'host-auth' || activePage === 'admin-auth'
+  const isHostPanel = activePage === 'host-panel'
+  const isSuperAdminPanel = activePage.startsWith('superadmin-')
 
   const renderPage = () => {
     switch (activePage) {
@@ -236,6 +239,9 @@ function App() {
       case 'planes-fin-de-semana':
         return <PlanesFinDeSemanaPage onNavigate={handleNavigate} />
         
+      case 'host-panel':
+        return <HostPanelMain onNavigate={handleNavigate} />
+        
       case 'superadmin-dashboard':
         return <SuperAdminDashboard onNavigate={handleNavigate} />
       case 'superadmin-users':
@@ -250,11 +256,11 @@ function App() {
 
   return (
     <AuthProvider>
-      {!isAuthPage && <Navbar currentPage={activePage} onNavigate={handleNavigate} />}
+      {!isAuthPage && !isHostPanel && !isSuperAdminPanel && <Navbar currentPage={activePage} onNavigate={handleNavigate} />}
       <main>
         {renderPage()}
       </main>
-      {!isAuthPage && <Footer onNavigate={handleNavigate} />}
+      {!isAuthPage && !isHostPanel && !isSuperAdminPanel && <Footer onNavigate={handleNavigate} />}
       <Toaster />
       <BookingDialog
         open={showBookingDialog}
