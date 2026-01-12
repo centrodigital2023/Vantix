@@ -8,10 +8,11 @@ import {
   SERVICE_CATEGORY_ICONS,
   SERVICE_CATEGORY_COLORS 
 } from '@/lib/types-services'
-import { ArrowRight } from '@phosphor-icons/react'
+import { ArrowRight, ArrowLeft } from '@phosphor-icons/react'
 
 interface ServiceCategorySelectorProps {
   onSelectCategory: (category: ServiceCategory) => void
+  onNavigateHome?: () => void
 }
 
 const categories: ServiceCategory[] = [
@@ -32,7 +33,7 @@ const categoryDescriptions: Record<ServiceCategory, string> = {
   gastronomy: 'Ofrece experiencias gastronómicas y culinarias'
 }
 
-export function ServiceCategorySelector({ onSelectCategory }: ServiceCategorySelectorProps) {
+export function ServiceCategorySelector({ onSelectCategory, onNavigateHome }: ServiceCategorySelectorProps) {
   const [hoveredCategory, setHoveredCategory] = useState<ServiceCategory | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | null>(null)
 
@@ -46,6 +47,23 @@ export function ServiceCategorySelector({ onSelectCategory }: ServiceCategorySel
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-12 px-4">
       <div className="max-w-7xl mx-auto">
+        {onNavigateHome && (
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="mb-6"
+          >
+            <Button
+              variant="ghost"
+              onClick={onNavigateHome}
+              className="gap-2"
+            >
+              <ArrowLeft size={18} />
+              Volver al inicio
+            </Button>
+          </motion.div>
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

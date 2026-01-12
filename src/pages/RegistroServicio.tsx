@@ -34,7 +34,10 @@ export function RegistroServicio({ onNavigate }: RegistroServicioProps) {
   }
 
   if (step === 'category') {
-    return <ServiceCategorySelector onSelectCategory={handleCategorySelect} />
+    return <ServiceCategorySelector 
+      onSelectCategory={handleCategorySelect} 
+      onNavigateHome={() => onNavigate?.('home')}
+    />
   }
 
   if (step === 'wizard' && selectedCategory) {
@@ -109,6 +112,13 @@ export function RegistroServicio({ onNavigate }: RegistroServicioProps) {
                 onClick={() => setStep('category')}
               >
                 Registrar Otro Servicio
+              </Button>
+              <Button
+                size="lg"
+                variant="ghost"
+                onClick={() => onNavigate?.('home')}
+              >
+                Volver al Inicio
               </Button>
             </div>
 
