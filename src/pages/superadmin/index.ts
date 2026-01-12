@@ -1,3 +1,6 @@
 export { SuperAdminDashboard } from './SuperAdminDashboard'
 export { SuperAdminUsers } from './SuperAdminUsers'
 export { SuperAdminComplaints } from './SuperAdminComplaints'
+export { SuperAdminProviders } from './SuperAdminProviders'
+export { SuperAdminAnalytics } from './SuperAdminAnalytics'
+export { SuperAdminConfig } from './SuperAdminConfig'

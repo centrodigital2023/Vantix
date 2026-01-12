@@ -33,7 +33,7 @@ import { TurismosPasto, ToursNarino, QueHacerPasto, LugaresImperdibles } from '@
 import { AventuraPage, NaturalezaPage, CulturaPage, GastronomiaPage, SenderismoPage, FestivalesPage } from '@/pages'
 import { GuiaDelViajero, ArticulosPage, NoticiasTurismoPage, AgenciasPage, ColaboradoresPage, AfiliadosPage, GuiasTuristicosPage } from '@/pages'
 import { Ofertas, PlanesFinDeSemanaPage, ViajesBaratosPage } from '@/pages'
-import { SuperAdminDashboard, SuperAdminUsers, SuperAdminComplaints } from '@/pages/superadmin'
+import { SuperAdminDashboard, SuperAdminUsers, SuperAdminComplaints, SuperAdminProviders, SuperAdminAnalytics, SuperAdminConfig } from '@/pages/superadmin'
 import { TouristAuth, HostAuth, AdminAuth } from '@/pages'
 import { HostPanelMain } from '@/pages/panel-anfitrion/HostPanelMain'
 import { RegistroServicio } from '@/pages/RegistroServicio'
@@ -254,6 +254,12 @@ function App() {
         return <SuperAdminUsers onNavigate={handleNavigate} />
       case 'superadmin-complaints':
         return <SuperAdminComplaints onNavigate={handleNavigate} />
+      case 'superadmin-providers':
+        return <SuperAdminProviders onNavigate={handleNavigate} />
+      case 'superadmin-analytics':
+        return <SuperAdminAnalytics onNavigate={handleNavigate} />
+      case 'superadmin-config':
+        return <SuperAdminConfig onNavigate={handleNavigate} />
         
       default:
         return <Home onNavigate={handleNavigate} />
