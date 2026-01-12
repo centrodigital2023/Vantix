@@ -334,6 +334,8 @@ export type PageRoute =
   | 'host-auth'
   | 'admin-auth'
   | 'host-panel'
+  | 'registro-servicio'
+  | 'panel-prestador'
   | 'categoria-aventura'
   | 'categoria-bienestar'
   | 'categoria-cultural'

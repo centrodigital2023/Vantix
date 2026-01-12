@@ -36,6 +36,8 @@ import { Ofertas, PlanesFinDeSemanaPage, ViajesBaratosPage } from '@/pages'
 import { SuperAdminDashboard, SuperAdminUsers, SuperAdminComplaints } from '@/pages/superadmin'
 import { TouristAuth, HostAuth, AdminAuth } from '@/pages'
 import { HostPanelMain } from '@/pages/panel-anfitrion/HostPanelMain'
+import { RegistroServicio } from '@/pages/RegistroServicio'
+import { PanelPrestador } from '@/pages/PanelPrestador'
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
@@ -99,6 +101,10 @@ function App() {
         return <Propietarios onNavigate={handleNavigate} />
       case 'registro-alojamiento':
         return <RegistroAlojamiento />
+      case 'registro-servicio':
+        return <RegistroServicio onNavigate={handleNavigate} />
+      case 'panel-prestador':
+        return <PanelPrestador onNavigate={handleNavigate} />
       case 'destino-resultados':
         return <DestinoResultados />
       case 'detalle-alojamiento':

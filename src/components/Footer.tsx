@@ -103,13 +103,20 @@ export function Footer({ onNavigate }: FooterProps) {
           </div>
         </div>
 
-        {/* Enlaces discretos para anfitriones y admin */}
+        {/* Enlaces discretos para anfitriones, prestadores y admin */}
         <div className="border-t border-background/20 pt-6 mb-6 flex flex-wrap justify-center gap-4 text-xs opacity-50 hover:opacity-100 transition-opacity">
           <button 
             onClick={() => onNavigate('host-auth')} 
             className="hover:text-accent transition-colors"
           >
             Acceso Anfitriones
+          </button>
+          <span className="text-background/30">|</span>
+          <button 
+            onClick={() => onNavigate('registro-servicio')} 
+            className="hover:text-primary transition-colors"
+          >
+            Registro Prestadores
           </button>
           <span className="text-background/30">|</span>
           <button 
