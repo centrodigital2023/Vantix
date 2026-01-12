@@ -3,16 +3,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Users, Buildings, Warning, CurrencyDollar, ShieldWarning, ChartLine, TrendUp, MapPin } from '@phosphor-icons/react'
+import { Users, Buildings, Warning, CurrencyDollar, ShieldWarning, ChartLine, TrendUp, MapPin, SignOut, ArrowLeft } from '@phosphor-icons/react'
 import { SuperAdminStats } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { motion } from 'framer-motion'
+import { useAuth } from '@/contexts/AuthContext'
+import { toast } from 'sonner'
 
 interface SuperAdminDashboardProps {
   onNavigate: (page: string) => void
 }
 
 export function SuperAdminDashboard({ onNavigate }: SuperAdminDashboardProps) {
+  const { logout } = useAuth()
   const [stats, setStats] = useKV<SuperAdminStats>('superadmin-stats', {
     activeUsers: 2847,
     activeHosts: 456,
@@ -35,6 +38,16 @@ export function SuperAdminDashboard({ onNavigate }: SuperAdminDashboardProps) {
   const [timeRange, setTimeRange] = useState<string>('7d')
 
   const totalRevenue = stats ? Object.values(stats.revenueByCountry).reduce((a, b) => a + b, 0) : 0
+
+  const handleLogout = () => {
+    logout()
+    toast.success('Sesión de SuperAdmin cerrada exitosamente')
+    onNavigate('home')
+  }
+
+  const handleBackToHome = () => {
+    onNavigate('home')
+  }
 
   const statCards = [
     {
@@ -127,20 +140,43 @@ export function SuperAdminDashboard({ onNavigate }: SuperAdminDashboardProps) {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <div className="flex items-center justify-between mb-2">
-            <h1 className="text-4xl font-bold tracking-tight">
-              Dashboard Superadmin
-            </h1>
-            <Badge 
-              variant={stats?.systemStatus === 'operational' ? 'default' : 'destructive'}
-              className="text-sm px-3 py-1"
-            >
-              {stats?.systemStatus === 'operational' ? '● Sistema Operativo' : '● Sistema Degradado'}
-            </Badge>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleBackToHome}
+                className="gap-2"
+              >
+                <ArrowLeft size={18} />
+                Volver al Inicio
+              </Button>
+              <div>
+                <h1 className="text-4xl font-bold tracking-tight">
+                  Dashboard Superadmin
+                </h1>
+                <p className="text-muted-foreground text-lg">
+                  Control total de SendAI Latinoamérica
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Badge 
+                variant={stats?.systemStatus === 'operational' ? 'default' : 'destructive'}
+                className="text-sm px-3 py-1"
+              >
+                {stats?.systemStatus === 'operational' ? '● Sistema Operativo' : '● Sistema Degradado'}
+              </Badge>
+              <Button
+                variant="outline"
+                onClick={handleLogout}
+                className="gap-2"
+              >
+                <SignOut size={20} weight="bold" />
+                Cerrar Sesión
+              </Button>
+            </div>
           </div>
-          <p className="text-muted-foreground text-lg">
-            Control total de SendAI Latinoamérica
-          </p>
         </motion.div>
 
         <div className="flex gap-4 mb-8">

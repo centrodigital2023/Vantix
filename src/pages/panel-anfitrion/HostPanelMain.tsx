@@ -20,13 +20,15 @@ import {
   Star,
   CheckCircle,
   Eye,
-  Sparkle
+  Sparkle,
+  ArrowLeft
 } from '@phosphor-icons/react'
 import { HostMetricsCard } from '@/components/host/HostMetricsCard'
 import { PropertyCard } from '@/components/host/PropertyCard'
 import { AIRecommendationCard } from '@/components/host/AIRecommendationCard'
 import { HostProperty, HostMetrics, HostReservation, HostAlert } from '@/lib/host-types'
 import { toast } from 'sonner'
+import { useAuth } from '@/contexts/AuthContext'
 
 interface HostPanelMainProps {
   onNavigate?: (page: string) => void
@@ -301,7 +303,15 @@ export function HostPanelMain({ onNavigate }: HostPanelMainProps) {
               ))}
             </div>
 
-            <div className="mt-8 pt-4 border-t border-border">
+            <div className="mt-8 pt-4 border-t border-border space-y-2">
+              <button
+                onClick={() => onNavigate?.('home')}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-muted transition-all duration-200"
+              >
+                <ArrowLeft weight="bold" />
+                <span className="font-medium">Volver al Inicio</span>
+              </button>
+              
               <button
                 onClick={handleSignOut}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-destructive/10 hover:text-destructive transition-all duration-200"

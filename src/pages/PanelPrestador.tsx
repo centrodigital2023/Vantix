@@ -1,13 +1,17 @@
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Plus, CalendarBlank, CurrencyDollar, Star, Bell, ChartLine, Sparkle } from '@phosphor-icons/react'
+import { Plus, CalendarBlank, CurrencyDollar, Star, Bell, ChartLine, Sparkle, SignOut, ArrowLeft } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
+import { useAuth } from '@/contexts/AuthContext'
+import { toast } from 'sonner'
 
 interface PanelPrestadorProps {
   onNavigate?: (page: string) => void
 }
 
 export function PanelPrestador({ onNavigate }: PanelPrestadorProps) {
+  const { logout } = useAuth()
+  
   const metrics = {
     total_services: 3,
     active_services: 2,
@@ -17,25 +21,57 @@ export function PanelPrestador({ onNavigate }: PanelPrestadorProps) {
     total_reviews: 24
   }
 
+  const handleLogout = () => {
+    logout()
+    toast.success('Sesión cerrada exitosamente')
+    onNavigate?.('home')
+  }
+
+  const handleBackToHome = () => {
+    onNavigate?.('home')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       {/* Header */}
       <div className="bg-card border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold">Panel de Prestador</h1>
-              <p className="text-muted-foreground mt-1">
-                Gestiona tus servicios turísticos
-              </p>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleBackToHome}
+                className="gap-2"
+              >
+                <ArrowLeft size={18} />
+                Inicio
+              </Button>
+              <div>
+                <h1 className="text-3xl font-bold">Panel de Prestador</h1>
+                <p className="text-muted-foreground mt-1">
+                  Gestiona tus servicios turísticos
+                </p>
+              </div>
             </div>
-            <Button
-              size="lg"
-              onClick={() => onNavigate?.('registro-servicio')}
-            >
-              <Plus className="mr-2" weight="bold" />
-              Nuevo Servicio
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button
+                size="lg"
+                onClick={() => onNavigate?.('registro-servicio')}
+              >
+                <Plus className="mr-2" weight="bold" />
+                Nuevo Servicio
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={handleLogout}
+                className="gap-2"
+              >
+                <SignOut size={20} weight="bold" />
+                Cerrar Sesión
+              </Button>
+            </div>
           </div>
         </div>
       </div>

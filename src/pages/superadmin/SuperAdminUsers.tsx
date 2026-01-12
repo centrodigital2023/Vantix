@@ -11,6 +11,7 @@ import { User } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
+import { SuperAdminHeader } from '@/components/superadmin/SuperAdminHeader'
 
 interface SuperAdminUsersProps {
   onNavigate: (page: string) => void
@@ -160,21 +161,11 @@ export function SuperAdminUsers({ onNavigate }: SuperAdminUsersProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <Button variant="ghost" onClick={() => onNavigate('superadmin-dashboard')} className="mb-4">
-            ← Volver al Dashboard
-          </Button>
-          <h1 className="text-4xl font-bold tracking-tight mb-2">
-            Gestión de Usuarios
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Administra todos los usuarios de la plataforma SendAI
-          </p>
-        </motion.div>
+        <SuperAdminHeader
+          title="Gestión de Usuarios"
+          description="Administra todos los usuarios de la plataforma SendAI"
+          onNavigate={onNavigate}
+        />
 
         <Card className="mb-6">
           <CardContent className="pt-6">
