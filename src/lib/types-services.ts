@@ -97,6 +97,14 @@ export interface Service {
   reviews_count?: number
   created_at: string
   updated_at?: string
+  checks_accepted?: {
+    intermediary_role: boolean
+    legal_responsibility: boolean
+    ai_validation: boolean
+    compliance: boolean
+    commissions: boolean
+    insurance: boolean
+  }
 }
 
 export interface TransportDetails {

@@ -1,11 +1,8 @@
 import { Service, ServiceType, TourRoute, DayItinerary } from './service-types'
 
 const spark = typeof window !== 'undefined' && window.spark ? window.spark : {
-  llmPrompt: (strings: TemplateStringsArray | string[], ...values: any[]) => {
-    if (Array.isArray(strings) && 'raw' in strings) {
-      return String.raw({ raw: strings as any }, ...values)
-    }
-    return strings.join('')
+  llmPrompt: (strings: TemplateStringsArray, ...values: any[]): string => {
+    return String.raw({ raw: strings }, ...values)
   },
   llm: async () => { throw new Error('spark.llm not available') }
 }

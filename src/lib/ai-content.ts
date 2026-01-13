@@ -83,7 +83,7 @@ export async function generateBlogPosts(count: number = 12): Promise<BlogPost[]>
     const topic = blogTopics[i % blogTopics.length]
     const city = colombianCities[Math.floor(Math.random() * colombianCities.length)]
     
-    const promptText = `Genera un artículo de blog sobre turismo en Colombia. 
+    const prompt = window.spark.llmPrompt`Genera un artículo de blog sobre turismo en Colombia. 
     
 Tema: ${topic.theme}
 Categoría: ${topic.category}
@@ -107,7 +107,7 @@ Responde en formato JSON con esta estructura:
 }`
 
     try {
-      const result = await window.spark.llm(promptText, 'gpt-4o-mini', true)
+      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
       const parsed = JSON.parse(result)
       
       posts.push({
@@ -137,7 +137,7 @@ export async function generateArticles(count: number = 12): Promise<Article[]> {
     const topic = articleTopics[i % articleTopics.length]
     const city = colombianCities[Math.floor(Math.random() * colombianCities.length)]
     
-    const promptText = `Genera un artículo profundo sobre viajes en Colombia.
+    const prompt = window.spark.llmPrompt`Genera un artículo profundo sobre viajes en Colombia.
 
 Categoría: ${topic.category}
 Enfoque: ${topic.focus}
@@ -160,7 +160,7 @@ Responde en formato JSON:
 }`
 
     try {
-      const result = await window.spark.llm(promptText, 'gpt-4o-mini', true)
+      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
       const parsed = JSON.parse(result)
       
       articles.push({
@@ -189,7 +189,7 @@ export async function generateNews(count: number = 10): Promise<NewsItem[]> {
   for (let i = 0; i < count; i++) {
     const topic = newsTopics[i % newsTopics.length]
     
-    const promptText = `Genera una noticia actual sobre turismo en Colombia.
+    const prompt = window.spark.llmPrompt`Genera una noticia actual sobre turismo en Colombia.
 
 Categoría: ${topic.category}
 Enfoque: ${topic.focus}
@@ -209,7 +209,7 @@ Responde en formato JSON:
 }`
 
     try {
-      const result = await window.spark.llm(promptText, 'gpt-4o-mini', true)
+      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
       const parsed = JSON.parse(result)
       
       news.push({

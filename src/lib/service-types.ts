@@ -86,6 +86,14 @@ export interface BaseService {
   createdAt: string
   updatedAt: string
   metadata?: Record<string, any>
+  checks_accepted?: {
+    intermediary_role: boolean
+    legal_responsibility: boolean
+    ai_validation: boolean
+    compliance: boolean
+    commissions: boolean
+    insurance: boolean
+  }
 }
 
 export interface AccommodationService extends BaseService {
