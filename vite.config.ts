@@ -17,6 +17,15 @@ export default defineConfig({
     createIconImportProxy() as PluginOption,
     sparkPlugin() as PluginOption,
   ],
+  css: {
+    lightningcss: {
+      drafts: {
+        mediaQueries: true,
+        nesting: true,
+        customMedia: true,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': resolve(projectRoot, 'src')
