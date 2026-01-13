@@ -4,7 +4,9 @@ const spark = typeof window !== 'undefined' && window.spark ? window.spark : {
   llmPrompt: (strings: TemplateStringsArray, ...values: any[]): string => {
     return String.raw({ raw: strings }, ...values)
   },
-  llm: async () => { throw new Error('spark.llm not available') }
+  llm: async () => {
+    throw new Error('spark.llm not available')
+  }
 }
 
 export interface ItineraryPreferences {
@@ -212,7 +214,6 @@ export async function generateAIItinerary(
 You are an expert travel planner for Colombia and Latin America specializing in creating personalized itineraries.
 
 Create a detailed ${preferences.duration}-day itinerary based on these preferences:
-
 **Destination**: ${preferences.destination}
 ${preferences.destinations && preferences.destinations.length > 1 ? `**Additional destinations**: ${preferences.destinations.join(', ')}` : ''}
 **Travel dates**: ${preferences.startDate} to ${preferences.endDate}
@@ -342,7 +343,6 @@ IMPORTANT GUIDELINES:
 13. For Caribbean: Cartagena old city, Rosario Islands, beach activities, street food
 14. Suggest activities that match stated interests
 15. ${includeWeather ? 'Consider weather conditions and suggest indoor alternatives for rainy days' : ''}
-
 Return ONLY the JSON object, no additional text.
 `
 
@@ -375,7 +375,7 @@ Return ONLY the JSON object, no additional text.
       alternatives: [],
       generatedAt: new Date().toISOString(),
       aiModel: 'gpt-4o',
-      prompt: prompt
+      prompt
     }
 
     if (includeWeather) {
@@ -415,7 +415,7 @@ async function fetchWeatherForecast(
   return Array.from({ length: duration }, (_, i) => {
     const date = new Date(startDate)
     date.setDate(date.getDate() + i)
-    
+
     return {
       date: date.toISOString().split('T')[0],
       condition: 'Parcialmente nublado',
@@ -475,7 +475,7 @@ Return the optimized version maintaining the JSON structure.
 
   const response = await spark.llm(prompt, 'gpt-4o', true)
   const optimizedData = JSON.parse(response)
-  
+
   return {
     ...itinerary,
     ...optimizedData,
@@ -491,9 +491,9 @@ export async function addDayToItinerary(
 ): Promise<AIItinerary> {
   const newDay = itinerary.duration + 1
   const newDays = [...itinerary.days]
-  
+
   const insertIndex = position === 'before' ? dayNumber - 1 : dayNumber
-  
+
   newDays.splice(insertIndex, 0, {
     day: dayNumber,
     date: new Date(itinerary.startDate).toISOString().split('T')[0],
@@ -506,11 +506,11 @@ export async function addDayToItinerary(
     costs: { activities: 0, meals: 0, accommodation: 0, transport: 0, total: 0 },
     tips: []
   })
-  
+
   newDays.forEach((day, index) => {
     day.day = index + 1
   })
-  
+
   return {
     ...itinerary,
     duration: newDay,
