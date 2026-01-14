@@ -184,7 +184,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', 'Playfair Display', 'Space Mono', system-ui, -apple-system, sans-serif;
   }
   
   /* Typography for the manifesto */

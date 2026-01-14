@@ -14,6 +14,8 @@ export function HeroManifesto({ onSearch }: HeroManifestoProps) {
 
   useEffect(() => {
     let titleIndex = 0
+    let subtitleInterval: NodeJS.Timeout | null = null
+    
     const titleInterval = setInterval(() => {
       if (titleIndex < fullTitle.length) {
         setDisplayedTitle(fullTitle.slice(0, titleIndex + 1))
@@ -22,18 +24,21 @@ export function HeroManifesto({ onSearch }: HeroManifestoProps) {
         clearInterval(titleInterval)
         // Start subtitle after title is complete
         let subtitleIndex = 0
-        const subtitleInterval = setInterval(() => {
+        subtitleInterval = setInterval(() => {
           if (subtitleIndex < fullSubtitle.length) {
             setDisplayedSubtitle(fullSubtitle.slice(0, subtitleIndex + 1))
             subtitleIndex++
           } else {
-            clearInterval(subtitleInterval)
+            if (subtitleInterval) clearInterval(subtitleInterval)
           }
-        }, 20)
+        }, 25)
       }
-    }, 50)
+    }, 80)
 
-    return () => clearInterval(titleInterval)
+    return () => {
+      clearInterval(titleInterval)
+      if (subtitleInterval) clearInterval(subtitleInterval)
+    }
   }, [])
 
   return (
