@@ -38,16 +38,17 @@ import { TouristAuth, HostAuth, AdminAuth } from '@/pages'
 import { HostPanelMain } from '@/pages/panel-anfitrion/HostPanelMain'
 import { RegistroServicio } from '@/pages/RegistroServicio'
 import { PanelPrestador } from '@/pages/PanelPrestador'
+import { NotFoundPage } from '@/pages/NotFound'
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { useInitializeSync } from '@/hooks/use-category-data'
 import { generateSampleAccommodations } from '@/lib/sample-data'
 import { BookingDialog } from '@/components/BookingDialog'
+import { useRouter } from '@/hooks/use-router'
 
 function App() {
-  const [currentPage, setCurrentPage] = useKV<PageRoute>('current-page', 'home')
-  const [selectedAccommodationId, setSelectedAccommodationId] = useKV<string>('selected-accommodation-id', '')
+  const { currentPage, params, navigateTo: routerNavigate } = useRouter()
   const [accommodations, setAccommodations] = useKV<any[]>('accommodations-data', [])
   const [showBookingDialog, setShowBookingDialog] = useState(false)
   const [pendingRoomId, setPendingRoomId] = useState<string>('')
@@ -62,11 +63,11 @@ function App() {
   }, [])
 
   const handleNavigate = (page: PageRoute, accommodationId?: string) => {
-    setCurrentPage(() => page)
     if (accommodationId) {
-      setSelectedAccommodationId(() => accommodationId)
+      routerNavigate(page, { id: accommodationId })
+    } else {
+      routerNavigate(page)
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleBookRoom = (roomId: string) => {
@@ -79,7 +80,8 @@ function App() {
     handleNavigate('reserva-confirmacion')
   }
 
-  const activePage = currentPage || 'home'
+  const activePage = currentPage
+  const selectedAccommodationId = params.id || ''
 
   const isAuthPage = activePage === 'tourist-auth' || activePage === 'host-auth' || activePage === 'admin-auth'
   const isHostPanel = activePage === 'host-panel'
@@ -262,7 +264,7 @@ function App() {
         return <SuperAdminConfig onNavigate={handleNavigate} />
         
       default:
-        return <Home onNavigate={handleNavigate} />
+        return <NotFoundPage onNavigate={handleNavigate} />
     }
   }
 
