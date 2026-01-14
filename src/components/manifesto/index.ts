@@ -1,0 +1,6 @@
+export { HeroManifesto } from './HeroManifesto'
+export { EmotionalSearchBar } from './EmotionalSearchBar'
+export { ManifestoSection } from './ManifestoSection'
+export { SensorialMarketplace } from './SensorialMarketplace'
+export { TechnologySection } from './TechnologySection'
+export { ManifestoFooter } from './ManifestoFooter'
