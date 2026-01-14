@@ -107,8 +107,24 @@ Responde en formato JSON con esta estructura:
 }`
 
     try {
-      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
-      const parsed = JSON.parse(result)
+      // Validar que window.spark y window.spark.llm estén disponibles
+      if (!window.spark || typeof window.spark.llm !== 'function') {
+        throw new Error('Spark LLM API no está disponible')
+      }
+
+      const result = await Promise.race([
+        window.spark.llm(prompt, 'gpt-4o-mini', true),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Timeout: La solicitud tardó demasiado')), 30000)
+        )
+      ])
+      
+      const parsed = JSON.parse(result as string)
+      
+      // Validar la estructura de la respuesta
+      if (!parsed.title || !parsed.excerpt || !parsed.content || !parsed.tags) {
+        throw new Error('Respuesta del LLM incompleta')
+      }
       
       posts.push({
         id: `blog-${Date.now()}-${i}`,
@@ -124,6 +140,7 @@ Responde en formato JSON con esta estructura:
       })
     } catch (error) {
       console.error('Error generating blog post:', error)
+      // Continuar con el siguiente post en lugar de fallar completamente
     }
   }
   
@@ -160,8 +177,22 @@ Responde en formato JSON:
 }`
 
     try {
-      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
-      const parsed = JSON.parse(result)
+      if (!window.spark || typeof window.spark.llm !== 'function') {
+        throw new Error('Spark LLM API no está disponible')
+      }
+
+      const result = await Promise.race([
+        window.spark.llm(prompt, 'gpt-4o-mini', true),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Timeout: La solicitud tardó demasiado')), 30000)
+        )
+      ])
+      
+      const parsed = JSON.parse(result as string)
+      
+      if (!parsed.title || !parsed.subtitle || !parsed.content || !parsed.tags) {
+        throw new Error('Respuesta del LLM incompleta')
+      }
       
       articles.push({
         id: `article-${Date.now()}-${i}`,
@@ -209,8 +240,22 @@ Responde en formato JSON:
 }`
 
     try {
-      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
-      const parsed = JSON.parse(result)
+      if (!window.spark || typeof window.spark.llm !== 'function') {
+        throw new Error('Spark LLM API no está disponible')
+      }
+
+      const result = await Promise.race([
+        window.spark.llm(prompt, 'gpt-4o-mini', true),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Timeout: La solicitud tardó demasiado')), 30000)
+        )
+      ])
+      
+      const parsed = JSON.parse(result as string)
+      
+      if (!parsed.title || !parsed.excerpt || !parsed.content) {
+        throw new Error('Respuesta del LLM incompleta')
+      }
       
       news.push({
         id: `news-${Date.now()}-${i}`,

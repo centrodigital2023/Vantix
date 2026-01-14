@@ -347,8 +347,30 @@ Return ONLY the JSON object, no additional text.
 `
 
   try {
-    const response = await spark.llm(prompt, 'gpt-4o', true)
-    const itineraryData = JSON.parse(response)
+    // Validar que spark.llm esté disponible
+    if (!spark.llm || typeof spark.llm !== 'function') {
+      throw new Error('Spark LLM API no está disponible. Verifica que la aplicación esté correctamente inicializada.')
+    }
+
+    // Validar preferencias
+    if (!preferences.destination || !preferences.startDate || !preferences.endDate) {
+      throw new Error('Faltan datos requeridos: destino, fecha de inicio y fecha de fin son obligatorios.')
+    }
+
+    // Añadir timeout de 60 segundos para itinerarios (son más complejos)
+    const response = await Promise.race([
+      spark.llm(prompt, 'gpt-4o', true),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout: La generación del itinerario tardó más de 60 segundos. Intenta con un itinerario más corto.')), 60000)
+      )
+    ])
+    
+    const itineraryData = JSON.parse(response as string)
+
+    // Validar estructura de la respuesta
+    if (!itineraryData.name || !itineraryData.days || !Array.isArray(itineraryData.days)) {
+      throw new Error('El formato de respuesta del LLM es inválido. Falta información requerida.')
+    }
 
     const itinerary: AIItinerary = {
       id: `itinerary_${Date.now()}`,
@@ -362,13 +384,25 @@ Return ONLY the JSON object, no additional text.
       duration: preferences.duration,
       days: itineraryData.days,
       services: {
-        accommodations: itineraryData.days.map((d: any) => d.accommodation.name),
+        accommodations: itineraryData.days.map((d: any) => d.accommodation?.name || 'No especificado').filter(Boolean),
         transports: itineraryData.days.filter((d: any) => d.transport).map((d: any) => d.transport.type),
-        experiences: itineraryData.days.flatMap((d: any) => d.activities.map((a: any) => a.name)),
-        restaurants: itineraryData.days.flatMap((d: any) => d.meals.map((m: any) => m.restaurant.name))
+        experiences: itineraryData.days.flatMap((d: any) => d.activities?.map((a: any) => a.name) || []),
+        restaurants: itineraryData.days.flatMap((d: any) => d.meals?.map((m: any) => m.restaurant?.name) || [])
       },
-      costs: itineraryData.costs,
-      map: itineraryData.map,
+      costs: itineraryData.costs || {
+        accommodation: 0,
+        transport: 0,
+        experiences: 0,
+        food: 0,
+        other: 0,
+        total: 0,
+        currency: preferences.budget.currency
+      },
+      map: itineraryData.map || {
+        center: { lat: 4.7110, lon: -74.0721 },
+        zoom: 10,
+        route: []
+      },
       tips: itineraryData.tips || [],
       safetyWarnings: itineraryData.safetyWarnings || [],
       weather: [],
@@ -379,15 +413,23 @@ Return ONLY the JSON object, no additional text.
     }
 
     if (includeWeather) {
-      itinerary.weather = await fetchWeatherForecast(
-        preferences.destination,
-        preferences.startDate,
-        preferences.duration
-      )
+      try {
+        itinerary.weather = await fetchWeatherForecast(
+          preferences.destination,
+          preferences.startDate,
+          preferences.duration
+        )
+      } catch (error) {
+        console.warn('No se pudo obtener el pronóstico del tiempo:', error)
+      }
     }
 
     if (includeAlternatives) {
-      itinerary.alternatives = await generateAlternatives(itinerary, preferences)
+      try {
+        itinerary.alternatives = await generateAlternatives(itinerary, preferences)
+      } catch (error) {
+        console.warn('No se pudieron generar alternativas:', error)
+      }
     }
 
     return {
@@ -403,7 +445,19 @@ Return ONLY the JSON object, no additional text.
     }
   } catch (error) {
     console.error('Error generating itinerary:', error)
-    throw new Error('No se pudo generar el itinerario. Por favor intenta de nuevo.')
+    
+    // Proporcionar un mensaje de error más descriptivo
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+    
+    if (errorMessage.includes('400')) {
+      throw new Error('Error en la solicitud (400): Verifica que todos los parámetros sean válidos y que el prompt no sea demasiado largo.')
+    } else if (errorMessage.includes('Timeout')) {
+      throw new Error(errorMessage)
+    } else if (errorMessage.includes('JSON')) {
+      throw new Error('Error al procesar la respuesta: El formato recibido no es válido. Intenta nuevamente.')
+    }
+    
+    throw new Error(`No se pudo generar el itinerario: ${errorMessage}`)
   }
 }
 
@@ -473,14 +527,29 @@ ${JSON.stringify(itinerary, null, 2)}
 Return the optimized version maintaining the JSON structure.
 `
 
-  const response = await spark.llm(prompt, 'gpt-4o', true)
-  const optimizedData = JSON.parse(response)
+  try {
+    if (!spark.llm || typeof spark.llm !== 'function') {
+      throw new Error('Spark LLM API no está disponible')
+    }
 
-  return {
-    ...itinerary,
-    ...optimizedData,
-    id: `itinerary_${Date.now()}`,
-    generatedAt: new Date().toISOString()
+    const response = await Promise.race([
+      spark.llm(prompt, 'gpt-4o', true),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout al optimizar itinerario')), 45000)
+      )
+    ])
+    
+    const optimizedData = JSON.parse(response as string)
+
+    return {
+      ...itinerary,
+      ...optimizedData,
+      id: `itinerary_${Date.now()}`,
+      generatedAt: new Date().toISOString()
+    }
+  } catch (error) {
+    console.error('Error optimizing itinerary:', error)
+    throw new Error('No se pudo optimizar el itinerario. Usando versión original.')
   }
 }
 
@@ -536,6 +605,27 @@ Reason for alternatives: ${reason}
 Return a JSON array of 3 alternative activities with the same structure.
 `
 
-  const response = await spark.llm(prompt, 'gpt-4o', true)
-  return JSON.parse(response)
+  try {
+    if (!spark.llm || typeof spark.llm !== 'function') {
+      throw new Error('Spark LLM API no está disponible')
+    }
+
+    const response = await Promise.race([
+      spark.llm(prompt, 'gpt-4o', true),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout al sugerir alternativas')), 30000)
+      )
+    ])
+    
+    const alternatives = JSON.parse(response as string)
+    
+    if (!Array.isArray(alternatives)) {
+      throw new Error('Formato de respuesta inválido')
+    }
+    
+    return alternatives
+  } catch (error) {
+    console.error('Error suggesting alternatives:', error)
+    return []
+  }
 }
