@@ -8,14 +8,14 @@ interface SobreNosotrosProps {
 export function SobreNosotros({ onNavigate }: SobreNosotrosProps) {
   return (
     <ContentPage
-      title="Sobre SendAI"
+      title="Sobre Vantix"
       subtitle="Somos una plataforma de turismo inteligente dedicada a hacer que viajar por Colombia sea fácil, seguro e inolvidable"
       heroGradient="from-primary via-secondary to-turquoise"
       onNavigate={onNavigate}
       sections={[
         {
           title: 'Nuestra Historia',
-          content: `SendAI nació del sueño de hacer que el turismo en Colombia sea accesible para todos. Fundada en 2024 en Pasto, Nariño, comenzamos con la visión de combinar tecnología de inteligencia artificial con el conocimiento local para crear experiencias de viaje únicas.
+          content: `Vantix nació del sueño de hacer que el turismo en Colombia sea accesible para todos. Fundada en 2024 en Pasto, Nariño, comenzamos con la visión de combinar tecnología de inteligencia artificial con el conocimiento local para crear experiencias de viaje únicas.
 
 Hoy somos la plataforma líder en itinerarios inteligentes, conectando a viajeros con alojamientos verificados, experiencias auténticas y la magia de Colombia.`
         },

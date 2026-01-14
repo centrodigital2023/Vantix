@@ -129,7 +129,7 @@ export function Footer({ onNavigate }: FooterProps) {
         
         {/* Copyright */}
         <div className="border-t border-background/20 pt-8 text-center text-sm opacity-60">
-          © 2025 SendAI Latinoamérica Colombia. Todos los derechos reservados.
+          © 2025 Vantix Latinoamérica Colombia. Todos los derechos reservados.
         </div>
       </div>
     </footer>

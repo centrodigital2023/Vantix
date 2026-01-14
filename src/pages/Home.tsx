@@ -22,7 +22,7 @@ const testimonials: Testimonial[] = [
     id: '1',
     name: 'María González',
     location: 'Madrid, España',
-    text: 'SendAI hizo que planificar mi viaje a Colombia fuera increíblemente fácil. El itinerario generado por IA fue perfecto para mis intereses.',
+    text: 'Vantix hizo que planificar mi viaje a Colombia fuera increíblemente fácil. El itinerario generado por IA fue perfecto para mis intereses.',
     image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
     rating: 5
   },
@@ -38,7 +38,7 @@ const testimonials: Testimonial[] = [
     id: '3',
     name: 'Ana Rodríguez',
     location: 'Buenos Aires, Argentina',
-    text: 'Las recomendaciones de alojamiento fueron excelentes y el servicio al cliente superó mis expectativas. ¡Volveré a usar SendAI!',
+    text: 'Las recomendaciones de alojamiento fueron excelentes y el servicio al cliente superó mis expectativas. ¡Volveré a usar Vantix!',
     image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
     rating: 5
   }

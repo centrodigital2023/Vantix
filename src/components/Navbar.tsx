@@ -51,9 +51,7 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
             onClick={() => onNavigate('home')}
             className="flex items-center gap-2"
           >
-            <div className="text-2xl font-bold text-primary">
-              Send<span className="text-accent">AI</span>
-            </div>
+            <img src="/src/assets/images/logovantix.png" alt="Vantix" className="h-10 w-auto" />
           </button>
 
           <div className="hidden md:flex items-center gap-1">

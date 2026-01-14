@@ -74,7 +74,7 @@ Nuestro compromiso con el turismo sostenible ha generado:
 • Reducción del 30% en huella de carbono mediante planificación inteligente
 • Preservación de 10+ sitios de patrimonio cultural
 
-Cada viaje que planificas con SendAI contribuye a construir un turismo más justo y sostenible.`
+Cada viaje que planificas con Vantix contribuye a construir un turismo más justo y sostenible.`
         }
       ]}
       callToAction={{

@@ -76,7 +76,7 @@ export function Contacto() {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Email</h3>
-                  <p className="text-muted-foreground">info@sendai.co</p>
+                  <p className="text-muted-foreground">info@vantix.co</p>
                 </div>
               </div>
             </Card>

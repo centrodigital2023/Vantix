@@ -1,4 +1,4 @@
-# SendAI - Plataforma Inteligente de Turismo Colombiano 🇨🇴
+# Vantix - Plataforma Inteligente de Turismo Colombiano 🇨🇴
 
 Una plataforma de turismo moderna y dinámica que utiliza múltiples APIs para ofrecer información actualizada sobre destinos, alojamientos y experiencias en Colombia.
 

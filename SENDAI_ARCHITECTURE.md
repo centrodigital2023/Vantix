@@ -1,8 +1,8 @@
-# ARQUITECTURA INTELIGENTE SENDAI - SISTEMA COMPLETO
+# ARQUITECTURA INTELIGENTE VANTIX - SISTEMA COMPLETO
 
 ## 🎯 VISIÓN GENERAL
 
-SendAI es una plataforma turística inteligente para Colombia y Latinoamérica que conecta viajeros con experiencias auténticas mediante tecnología de IA avanzada.
+Vantix es una plataforma turística inteligente para Colombia y Latinoamérica que conecta viajeros con experiencias auténticas mediante tecnología de IA avanzada.
 
 ## 👥 ROLES DEL SYSTEM (SEPARACIÓN CLARA)
 

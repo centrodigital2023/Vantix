@@ -1,7 +1,7 @@
 # CONTRATO DE INTERMEDIACIÓN TURÍSTICA DIGITAL
 ## PRESTADORES DE SERVICIOS
 
-**SENDAI S.A.S.**
+**VANTIX S.A.S.**
 
 ---
 
@@ -9,11 +9,11 @@
 
 **Entre:**
 
-**SENDAI S.A.S.**, sociedad comercial legalmente constituida en la República de Colombia, cuyo objeto principal es la operación de una plataforma tecnológica de intermediación turística apoyada en inteligencia artificial, en adelante **SENDAI**.
+**VANTIX S.A.S.**, sociedad comercial legalmente constituida en la República de Colombia, cuyo objeto principal es la operación de una plataforma tecnológica de intermediación turística apoyada en inteligencia artificial, en adelante **VANTIX**.
 
 **Y:**
 
-**EL PRESTADOR DE SERVICIOS TURÍSTICOS**, persona natural o jurídica, cuyos datos reposan en la cuenta registrada en la plataforma SENDAI, en adelante **EL PRESTADOR**.
+**EL PRESTADOR DE SERVICIOS TURÍSTICOS**, persona natural o jurídica, cuyos datos reposan en la cuenta registrada en la plataforma VANTIX, en adelante **EL PRESTADOR**.
 
 Ambas partes acuerdan celebrar el presente Contrato de Intermediación Turística Digital, el cual se regirá por las siguientes cláusulas:
 
@@ -21,10 +21,10 @@ Ambas partes acuerdan celebrar el presente Contrato de Intermediación Turístic
 
 ## 2. OBJETO
 
-El presente contrato tiene por objeto regular la intermediación tecnológica realizada por SENDAI entre EL PRESTADOR y los turistas, mediante la publicación, visibilidad, promoción, gestión de reservas y procesamiento de pagos de servicios turísticos ofrecidos por EL PRESTADOR.
+El presente contrato tiene por objeto regular la intermediación tecnológica realizada por VANTIX entre EL PRESTADOR y los turistas, mediante la publicación, visibilidad, promoción, gestión de reservas y procesamiento de pagos de servicios turísticos ofrecidos por EL PRESTADOR.
 
-🔹 **SENDAI actúa exclusivamente como intermediario digital.**  
-🔹 **SENDAI no presta, ejecuta ni controla directamente los servicios turísticos ofrecidos.**
+🔹 **VANTIX actúa exclusivamente como intermediario digital.**  
+🔹 **VANTIX no presta, ejecuta ni controla directamente los servicios turísticos ofrecidos.**
 
 ---
 
@@ -32,9 +32,9 @@ El presente contrato tiene por objeto regular la intermediación tecnológica re
 
 EL PRESTADOR reconoce y acepta que:
 
-a) SENDAI no es operador turístico, agencia de viajes, transportador, guía, aseguradora ni prestador directo.
+a) VANTIX no es operador turístico, agencia de viajes, transportador, guía, aseguradora ni prestador directo.
 
-b) SENDAI no asume responsabilidad operativa, técnica, física ni legal sobre los servicios ofrecidos.
+b) VANTIX no asume responsabilidad operativa, técnica, física ni legal sobre los servicios ofrecidos.
 
 c) Toda obligación frente al turista recae **exclusivamente en EL PRESTADOR**.
 
@@ -73,22 +73,22 @@ EL PRESTADOR se obliga a:
 
 ## 6. DOCUMENTACIÓN Y VALIDACIÓN
 
-EL PRESTADOR autoriza a SENDAI a:
+EL PRESTADOR autoriza a VANTIX a:
 
 - Analizar documentos mediante **inteligencia artificial**.
 - Clasificar estados: **aprobado, en revisión o rechazado**.
 - **Suspender servicios** ante inconsistencias, riesgos o quejas graves.
 
 📌 El **Registro Nacional de Turismo (RNT)** es opcional, pero **recomendado**.  
-SENDAI podrá ofrecer acompañamiento administrativo, sin asumir obligación legal.
+VANTIX podrá ofrecer acompañamiento administrativo, sin asumir obligación legal.
 
 ---
 
 ## 7. PAGOS Y COMISIONES
 
-- SENDAI podrá procesar **pagos en nombre del PRESTADOR**.
-- SENDAI cobrará una **comisión por intermediación**, visible y aceptada previamente.
-- **SENDAI no garantiza volumen de reservas ni ingresos mínimos.**
+- VANTIX podrá procesar **pagos en nombre del PRESTADOR**.
+- VANTIX cobrará una **comisión por intermediación**, visible y aceptada previamente.
+- **VANTIX no garantiza volumen de reservas ni ingresos mínimos.**
 
 ---
 
@@ -96,13 +96,13 @@ SENDAI podrá ofrecer acompañamiento administrativo, sin asumir obligación leg
 
 EL PRESTADOR podrá adquirir **seguros ofrecidos por terceros aliados**.
 
-📌 **SENDAI no actúa como aseguradora** ni responde por coberturas.
+📌 **VANTIX no actúa como aseguradora** ni responde por coberturas.
 
 ---
 
 ## 9. QUEJAS, INCIDENTES Y SUSPENSIÓN
 
-SENDAI podrá **suspender o eliminar servicios** en caso de:
+VANTIX podrá **suspender o eliminar servicios** en caso de:
 
 - Quejas reiteradas
 - Riesgo para turistas
@@ -126,7 +126,7 @@ EL PRESTADOR autoriza el uso de datos para:
 
 ## 11. LIMITACIÓN DE RESPONSABILIDAD
 
-**SENDAI no será responsable por:**
+**VANTIX no será responsable por:**
 
 - Accidentes
 - Daños
@@ -134,13 +134,13 @@ EL PRESTADOR autoriza el uso de datos para:
 - Incumplimientos del PRESTADOR
 - Casos fortuitos o fuerza mayor
 
-**EL PRESTADOR mantendrá indemne a SENDAI** frente a cualquier reclamación.
+**EL PRESTADOR mantendrá indemne a VANTIX** frente a cualquier reclamación.
 
 ---
 
 ## 12. TERMINACIÓN
 
-SENDAI podrá terminar el contrato **unilateralmente** cuando exista riesgo legal, reputacional o de seguridad.
+VANTIX podrá terminar el contrato **unilateralmente** cuando exista riesgo legal, reputacional o de seguridad.
 
 ---
 
@@ -184,11 +184,11 @@ El PRESTADOR declara haber leído, comprendido y aceptado este contrato en su to
 
 ---
 
-**SENDAI S.A.S. - Plataforma de Intermediación Turística**  
+**VANTIX S.A.S. - Plataforma de Intermediación Turística**  
 **"Conectamos experiencias auténticas con viajeros del mundo"**
 
 ---
 
-_Documento generado automáticamente por el sistema SENDAI._  
+_Documento generado automáticamente por el sistema VANTIX._  
 _Última actualización: 2025_  
 _Versión del contrato: 1.0_

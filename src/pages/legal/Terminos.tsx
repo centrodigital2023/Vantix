@@ -15,11 +15,11 @@ export function Terminos({ onNavigate }: TerminosProps) {
       sections={[
         {
           title: '1. Aceptación de Términos',
-          content: `Al acceder y utilizar SendAI, aceptas estar sujeto a estos términos y condiciones. Si no estás de acuerdo con alguna parte de estos términos, no debes usar nuestra plataforma.`
+          content: `Al acceder y utilizar Vantix, aceptas estar sujeto a estos términos y condiciones. Si no estás de acuerdo con alguna parte de estos términos, no debes usar nuestra plataforma.`
         },
         {
           title: '2. Uso de la Plataforma',
-          content: `SendAI es una plataforma de intermediación turística que conecta viajeros con proveedores de alojamiento y servicios turísticos en Colombia. No somos propietarios ni operadores de los alojamientos listados.
+          content: `Vantix es una plataforma de intermediación turística que conecta viajeros con proveedores de alojamiento y servicios turísticos en Colombia. No somos propietarios ni operadores de los alojamientos listados.
 
 Los usuarios se comprometen a:
 • Proporcionar información precisa y actualizada
@@ -37,19 +37,19 @@ Los usuarios se comprometen a:
         },
         {
           title: '4. Responsabilidades',
-          content: `SendAI actúa como intermediario. Los proveedores de servicios son responsables de:
+          content: `Vantix actúa como intermediario. Los proveedores de servicios son responsables de:
 • La calidad y veracidad de la información de sus listados
 • El cumplimiento de servicios y amenidades ofrecidas
 • La seguridad y condiciones de sus instalaciones
 
-SendAI no se hace responsable por:
+Vantix no se hace responsable por:
 • Servicios no prestados por el proveedor
 • Daños, pérdidas o accidentes en las instalaciones
 • Cambios de última hora por causas de fuerza mayor`
         },
         {
           title: '5. Propiedad Intelectual',
-          content: `Todo el contenido de SendAI (textos, imágenes, logos, software) está protegido por derechos de autor y marcas registradas. No se permite su uso sin autorización expresa.`
+          content: `Todo el contenido de Vantix (textos, imágenes, logos, software) está protegido por derechos de autor y marcas registradas. No se permite su uso sin autorización expresa.`
         },
         {
           title: '6. Modificaciones',

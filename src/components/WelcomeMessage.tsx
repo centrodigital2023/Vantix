@@ -6,7 +6,7 @@ export function WelcomeMessage() {
           Descubre Colombia de una forma única
         </h2>
         <p className="text-lg text-muted-foreground leading-relaxed">
-          SendAI utiliza inteligencia artificial para crear itinerarios personalizados basados en tus preferencias. 
+          Vantix utiliza inteligencia artificial para crear itinerarios personalizados basados en tus preferencias. 
           Conectamos viajeros con experiencias auténticas, alojamientos verificados y la rica diversidad cultural 
           de Colombia. Desde las playas del Caribe hasta las montañas andinas, tu aventura perfecta te espera.
         </p>

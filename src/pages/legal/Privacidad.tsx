@@ -10,17 +10,17 @@ export function Privacidad({ onNavigate }: PrivacidadProps) {
   return (
     <ContentPage
       title="Política de Privacidad"
-      subtitle="En SendAI protegemos tu información personal con los más altos estándares de seguridad. Transparencia total en el manejo de tus datos"
+      subtitle="En Vantix protegemos tu información personal con los más altos estándares de seguridad. Transparencia total en el manejo de tus datos"
       heroGradient="from-primary via-secondary to-accent"
       onNavigate={onNavigate}
       sections={[
         {
           title: 'Compromiso con tu Privacidad',
-          content: `SendAI se compromete a proteger la privacidad de todos los usuarios de nuestra plataforma. Esta Política de Privacidad explica cómo recopilamos, usamos, compartimos y protegemos tu información personal.
+          content: `Vantix se compromete a proteger la privacidad de todos los usuarios de nuestra plataforma. Esta Política de Privacidad explica cómo recopilamos, usamos, compartimos y protegemos tu información personal.
 
 Última actualización: Enero 2025
 
-Al usar SendAI, aceptas las prácticas descritas en esta política. Si no estás de acuerdo, por favor no uses nuestros servicios.`
+Al usar Vantix, aceptas las prácticas descritas en esta política. Si no estás de acuerdo, por favor no uses nuestros servicios.`
         },
         {
           title: 'Información que Recopilamos',
