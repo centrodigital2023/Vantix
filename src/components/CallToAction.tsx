@@ -20,10 +20,11 @@ export function CallToAction({ onNavigate }: CallToActionProps) {
           
           <div className="relative z-10">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              ¿Listo para tu próxima aventura?
+              No esperes permisos para vivir
             </h2>
             <p className="text-lg mb-8 opacity-90">
-              Crea tu itinerario personalizado con inteligencia artificial en minutos
+              La vida no se vive en "algún día". Se vive en coordenadas reales, 
+              en geografías que puedes tocar. Reserva hoy lo que soñaste ayer.
             </p>
             <Button 
               size="lg" 
@@ -32,7 +33,7 @@ export function CallToAction({ onNavigate }: CallToActionProps) {
               onClick={() => onNavigate('itinerario')}
             >
               <Sparkle className="mr-2" weight="fill" />
-              Generar Itinerario Ahora
+              Reservar ahora
             </Button>
           </div>
         </div>

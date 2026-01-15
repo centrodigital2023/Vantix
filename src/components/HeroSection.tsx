@@ -38,17 +38,16 @@ export function HeroSection({ onNavigate, onSearch }: HeroSectionProps) {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
             <Sparkle size={16} weight="fill" className="text-accent" />
-            <span className="text-sm font-medium text-accent">Potenciado por Inteligencia Artificial</span>
+            <span className="text-sm font-medium text-accent">Impulsado por emoción + tecnología</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-tight">
-            Tu viaje perfecto por
-            <span className="block text-primary mt-2">Colombia comienza aquí</span>
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
+            VIVIR ES URGENTE.
+            <span className="block text-primary mt-2">La felicidad tiene coordenadas</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-            Encuentra y reserva los mejores alojamientos, experiencias y tours
-            en cada rincón del país
+            Despierta. Respira. Viaja. Antes de que sea tarde.
           </p>
 
           <div className="max-w-5xl mx-auto">
@@ -62,7 +61,7 @@ export function HeroSection({ onNavigate, onSearch }: HeroSectionProps) {
               onClick={() => onNavigate('itinerario')}
             >
               <Sparkle className="mr-2" weight="fill" />
-              Crear Itinerario con IA
+              Encontrar mi destino
             </Button>
             <Button 
               size="lg" 
@@ -70,7 +69,7 @@ export function HeroSection({ onNavigate, onSearch }: HeroSectionProps) {
               className="text-lg px-8 py-6"
               onClick={() => onNavigate('explorar')}
             >
-              Explorar Destinos
+              Despertar
             </Button>
           </div>
         </motion.div>

@@ -51,11 +51,11 @@ export function AdvancedSearchBar({ onSearch, variant = 'hero' }: AdvancedSearch
         <div className="space-y-2">
           <Label htmlFor="destination" className="flex items-center gap-2">
             <MapPin size={16} weight="fill" className="text-primary" />
-            Destino
+            Coordenadas
           </Label>
           <Input
             id="destination"
-            placeholder="¿A dónde vas?"
+            placeholder="¿Dónde quieres despertar?"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
             className="h-12"

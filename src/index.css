@@ -15,38 +15,59 @@
   }
 }
 
+/* Custom VANTIX color classes for manifesto components */
+@theme {
+  --color-vantix-black: oklch(0.12 0.01 30);
+  --color-vantix-charcoal: oklch(0.16 0.01 30);
+  --color-vantix-bone: oklch(0.98 0.005 40);
+  --color-vantix-amber: oklch(0.72 0.18 65);
+  --color-vantix-dust: oklch(0.65 0.01 35);
+}
+
 :root {
-  --background: oklch(0.98 0.01 180);
-  --foreground: oklch(0.15 0.02 240);
+  /* Fondo - Negro profundo con matiz cálido */
+  --background: oklch(0.12 0.01 30);
+  --foreground: oklch(0.98 0.005 40); /* Blanco hueso cálido */
   
-  --card: oklch(0.99 0.005 180);
-  --card-foreground: oklch(0.15 0.02 240);
-  --popover: oklch(1.00 0 0);
-  --popover-foreground: oklch(0.15 0.02 240);
+  /* Cards - Negro suave elevado */
+  --card: oklch(0.16 0.01 30);
+  --card-foreground: oklch(0.96 0.005 40);
+  --popover: oklch(0.16 0.01 30);
+  --popover-foreground: oklch(0.96 0.005 40);
   
-  --primary: oklch(0.65 0.20 160);
-  --primary-foreground: oklch(0.98 0.01 180);
-  --secondary: oklch(0.92 0.08 200);
-  --secondary-foreground: oklch(0.20 0.05 240);
-  --muted: oklch(0.94 0.02 180);
-  --muted-foreground: oklch(0.45 0.02 240);
-  --accent: oklch(0.75 0.15 280);
-  --accent-foreground: oklch(0.15 0.02 240);
+  /* Primario - Ámbar Eléctrico (señal vital) */
+  --primary: oklch(0.72 0.18 65); /* Ámbar eléctrico/neón cálido */
+  --primary-foreground: oklch(0.10 0.01 30); /* Negro profundo */
+  
+  /* Acento - Ámbar intenso para CTAs urgentes */
+  --accent: oklch(0.75 0.20 60); /* Ámbar más intenso */
+  --accent-foreground: oklch(0.10 0.01 30);
+  
+  /* Secundario - Gris cálido elegante */
+  --secondary: oklch(0.25 0.01 35);
+  --secondary-foreground: oklch(0.94 0.005 40);
+  
+  /* Muted - Grises neutros cálidos */
+  --muted: oklch(0.22 0.01 30);
+  --muted-foreground: oklch(0.65 0.01 35);
+  
   --destructive: oklch(0.65 0.20 25);
-  --destructive-foreground: oklch(0.98 0.01 180);
+  --destructive-foreground: oklch(0.98 0.005 40);
   
-  --turquoise: oklch(0.70 0.12 210);
-  --turquoise-foreground: oklch(0.25 0 0);
+  /* Turquesa convertido a gris cálido */
+  --turquoise: oklch(0.30 0.01 35);
+  --turquoise-foreground: oklch(0.94 0.005 40);
   
-  --border: oklch(0.88 0.02 180);
-  --input: oklch(0.88 0.02 180);
-  --ring: oklch(0.65 0.20 160);
+  /* Bordes sutiles */
+  --border: oklch(0.28 0.01 30);
+  --input: oklch(0.24 0.01 30);
+  --ring: oklch(0.72 0.18 65); /* Ámbar para focus */
   
   --radius: 0.75rem;
   
-  --chart-1: oklch(0.65 0.20 160);
+  --chart-1: oklch(0.72 0.18 65);
   
-  --chart-2: oklch(0.75 0.15 280);
+  --chart-2: oklch(0.75 0.20 60);
   
   --chart-3: oklch(0.55 0.18 120);
   
@@ -54,23 +75,23 @@
   
   --chart-5: oklch(0.60 0.15 40);
   
-  --sidebar: oklch(0.96 0.01 180);
+  --sidebar: oklch(0.16 0.01 30);
   
-  --sidebar-foreground: oklch(0.15 0.02 240);
+  --sidebar-foreground: oklch(0.96 0.005 40);
   
-  --sidebar-primary: oklch(0.65 0.20 160);
+  --sidebar-primary: oklch(0.72 0.18 65);
   
-  --sidebar-primary-foreground: oklch(0.98 0.01 180);
+  --sidebar-primary-foreground: oklch(0.10 0.01 30);
   
-  --sidebar-accent: oklch(0.92 0.08 200);
+  --sidebar-accent: oklch(0.25 0.01 35);
   
-  --sidebar-accent-foreground: oklch(0.20 0.05 240);
+  --sidebar-accent-foreground: oklch(0.94 0.005 40);
   
-  --sidebar-border: oklch(0.88 0.02 180);
+  --sidebar-border: oklch(0.28 0.01 30);
   
-  --sidebar-ring: oklch(0.65 0.20 160);
+  --sidebar-ring: oklch(0.72 0.18 65);
   
-  --shadow-color: oklch(0.65 0.20 160);
+  --shadow-color: oklch(0.72 0.18 65);
   
   --shadow-opacity: 0.15;
   

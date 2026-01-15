@@ -11,7 +11,7 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
     <div className="py-16 md:py-24 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          Historias de nuestros viajeros
+          Voces de quienes se atrevieron
         </h2>
         
         <div className="grid md:grid-cols-3 gap-6">

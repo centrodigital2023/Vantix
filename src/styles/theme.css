@@ -176,47 +176,47 @@
     --radius-2xl: calc(16px * var(--radius-factor) * var(--size-scale));
     --radius-full: 9999px;
 
-    /* Neutral colors */
-    --color-neutral-1: var(--slate-1);
-    --color-neutral-2: var(--slate-2);
-    --color-neutral-3: var(--slate-3);
-    --color-neutral-4: var(--slate-4);
-    --color-neutral-5: var(--slate-5);
-    --color-neutral-6: var(--slate-6);
-    --color-neutral-7: var(--slate-7);
-    --color-neutral-8: var(--slate-8);
-    --color-neutral-9: var(--slate-9);
-    --color-neutral-10: var(--slate-10);
-    --color-neutral-11: var(--slate-11);
-    --color-neutral-12: var(--slate-12);
-    --color-neutral-a1: var(--slate-a1);
-    --color-neutral-a2: var(--slate-a2);
-    --color-neutral-a3: var(--slate-a3);
-    --color-neutral-a4: var(--slate-a4);
-    --color-neutral-a5: var(--slate-a5);
-    --color-neutral-a6: var(--slate-a6);
-    --color-neutral-a7: var(--slate-a7);
-    --color-neutral-a8: var(--slate-a8);
-    --color-neutral-a9: var(--slate-a9);
-    --color-neutral-a10: var(--slate-a10);
-    --color-neutral-a11: var(--slate-a11);
-    --color-neutral-a12: var(--slate-a12);
-    --color-neutral-contrast: var(--slate-contrast);
+    /* Neutral colors - CAMBIO DE SLATE A MAUVE (más cálido) */
+    --color-neutral-1: var(--mauve-1);
+    --color-neutral-2: var(--mauve-2);
+    --color-neutral-3: var(--mauve-3);
+    --color-neutral-4: var(--mauve-4);
+    --color-neutral-5: var(--mauve-5);
+    --color-neutral-6: var(--mauve-6);
+    --color-neutral-7: var(--mauve-7);
+    --color-neutral-8: var(--mauve-8);
+    --color-neutral-9: var(--mauve-9);
+    --color-neutral-10: var(--mauve-10);
+    --color-neutral-11: var(--mauve-11);
+    --color-neutral-12: var(--mauve-12);
+    --color-neutral-a1: var(--mauve-a1);
+    --color-neutral-a2: var(--mauve-a2);
+    --color-neutral-a3: var(--mauve-a3);
+    --color-neutral-a4: var(--mauve-a4);
+    --color-neutral-a5: var(--mauve-a5);
+    --color-neutral-a6: var(--mauve-a6);
+    --color-neutral-a7: var(--mauve-a7);
+    --color-neutral-a8: var(--mauve-a8);
+    --color-neutral-a9: var(--mauve-a9);
+    --color-neutral-a10: var(--mauve-a10);
+    --color-neutral-a11: var(--mauve-a11);
+    --color-neutral-a12: var(--mauve-a12);
+    --color-neutral-contrast: var(--mauve-contrast);
 
-    /* Accent colors */
-    --color-accent-1: var(--blue-1);
-    --color-accent-2: var(--blue-2);
-    --color-accent-3: var(--blue-3);
-    --color-accent-4: var(--blue-4);
-    --color-accent-5: var(--blue-5);
-    --color-accent-6: var(--blue-6);
-    --color-accent-7: var(--blue-7);
-    --color-accent-8: var(--blue-8);
-    --color-accent-9: var(--blue-9);
-    --color-accent-10: var(--blue-10);
-    --color-accent-11: var(--blue-11);
-    --color-accent-12: var(--blue-12);
-    --color-accent-contrast: var(--blue-contrast);
+    /* Accent colors - CAMBIO DE BLUE A AMBER */
+    --color-accent-1: var(--amber-1);
+    --color-accent-2: var(--amber-2);
+    --color-accent-3: var(--amber-3);
+    --color-accent-4: var(--amber-4);
+    --color-accent-5: var(--amber-5);
+    --color-accent-6: var(--amber-6);
+    --color-accent-7: var(--amber-7);
+    --color-accent-8: var(--amber-8);
+    --color-accent-9: var(--amber-9);
+    --color-accent-10: var(--amber-10);
+    --color-accent-11: var(--amber-11);
+    --color-accent-12: var(--amber-12);
+    --color-accent-contrast: var(--amber-contrast);
 
     /* Secondary accent colors */
     --color-accent-secondary-1: var(--violet-1);
