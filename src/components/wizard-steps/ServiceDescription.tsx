@@ -37,24 +37,20 @@ export function ServiceDescription({ category, data, onNext, onPrevious }: Servi
     
     try {
       const categoryLabel = SERVICE_CATEGORY_LABELS[category]
-      const prompt = `Genera una descripción atractiva y persuasiva para un servicio turístico de tipo "${categoryLabel}" llamado "${data.name}" ubicado en ${data.location.city}, ${data.location.department}, Colombia.
-
-La descripción debe:
-- Ser emocionalmente atractiva
-- Destacar la experiencia única
-- Incluir elementos culturales y naturales de la región
-- Ser persuasiva pero honesta
-- Tener entre 150-300 palabras
-- Usar lenguaje poético pero claro
-- No usar comillas
-
-Responde solo con la descripción.`
+      const prompt = window.spark.llmPrompt`Descripción atractiva 150-300 palabras para servicio "${categoryLabel}" llamado "${data.name}" en ${data.location.city}, ${data.location.department}, Colombia. Destaca experiencia única, cultura, naturaleza. Lenguaje poético claro. Solo texto.`
 
       const result = await window.spark.llm(prompt, 'gpt-4o')
       setFormData({ ...formData, description: result.trim() })
       toast.success('¡Descripción generada por IA!')
     } catch (error) {
-      toast.error('Error al generar descripción')
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+      
+      if (errorMessage.includes('400') || errorMessage.toLowerCase().includes('bad request')) {
+        toast.error('Prompt demasiado largo. Intenta con un nombre más corto.')
+      } else {
+        toast.error('Error al generar descripción')
+      }
+      
       console.error(error)
     } finally {
       setIsGenerating(false)

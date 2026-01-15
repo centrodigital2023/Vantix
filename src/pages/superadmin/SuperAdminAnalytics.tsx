@@ -109,7 +109,15 @@ export function SuperAdminAnalytics({ onNavigate }: SuperAdminAnalyticsProps) {
       setAiInsights(insights)
       toast.success('Insights generados con IA')
     } catch (error) {
-      toast.error('Error al generar insights')
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+      
+      if (errorMessage.includes('400') || errorMessage.toLowerCase().includes('bad request')) {
+        toast.error('Error 400: Datos demasiado extensos. Reduce el rango de fechas.')
+      } else {
+        toast.error('Error al generar insights')
+      }
+      
+      console.error(error)
     } finally {
       setIsGeneratingInsights(false)
     }

@@ -40,22 +40,20 @@ export function ServiceBasicInfo({ category, data, onNext, onPrevious }: Service
     
     try {
       const categoryLabel = SERVICE_CATEGORY_LABELS[category]
-      const prompt = window.spark.llmPrompt`Genera un título atractivo y optimizado SEO para un servicio turístico de tipo "${categoryLabel}" ubicado en ${formData.location.city}, ${formData.location.department}, Colombia.
-
-El título debe:
-- Ser corto (máximo 50 caracteres)
-- Incluir la ubicación
-- Ser descriptivo y atractivo
-- Usar palabras clave locales
-- No usar comillas
-
-Responde solo con el título, sin explicaciones adicionales.`
+      const prompt = window.spark.llmPrompt`Título atractivo SEO (máx 50 chars) para servicio "${categoryLabel}" en ${formData.location.city}, ${formData.location.department}, Colombia. Incluye ubicación. Solo título.`
 
       const result = await window.spark.llm(prompt, 'gpt-4o-mini')
       setAiSuggestion(result.trim())
       toast.success('¡Sugerencia generada por IA!')
     } catch (error) {
-      toast.error('Error al generar sugerencia')
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+      
+      if (errorMessage.includes('400') || errorMessage.toLowerCase().includes('bad request')) {
+        toast.error('Error 400: Datos demasiado largos. Intenta con un nombre más corto.')
+      } else {
+        toast.error('Error al generar sugerencia')
+      }
+      
       console.error(error)
     } finally {
       setIsGenerating(false)

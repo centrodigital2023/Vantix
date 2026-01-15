@@ -112,26 +112,27 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
     setIsGeneratingResponse(true)
     
     try {
-      const promptText = `Eres un experto en atención al cliente de turismo. 
-      Genera una respuesta profesional y empática para esta queja:
+      const prompt = window.spark.llmPrompt`Respuesta profesional empática para queja:
+Categoría: ${selectedComplaint.category}
+Título: ${selectedComplaint.title}
+Descripción: ${selectedComplaint.description.substring(0, 200)}
+Prioridad: ${selectedComplaint.priority}
+
+Incluye: empatía, solución, tiempos. Español Colombia.`
       
-      Categoría: ${selectedComplaint.category}
-      Título: ${selectedComplaint.title}
-      Descripción: ${selectedComplaint.description}
-      Prioridad: ${selectedComplaint.priority}
-      
-      La respuesta debe:
-      - Ser empática y profesional
-      - Ofrecer soluciones concretas
-      - Mencionar tiempos de resolución
-      - Mantener el tono de la marca SendAI
-      - En español de Colombia`
-      
-      const response = await window.spark.llm(promptText, 'gpt-4o-mini')
+      const response = await window.spark.llm(prompt, 'gpt-4o-mini')
       setResolution(response)
       toast.success('Respuesta generada con IA')
     } catch (error) {
-      toast.error('Error al generar respuesta con IA')
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+      
+      if (errorMessage.includes('400') || errorMessage.toLowerCase().includes('bad request')) {
+        toast.error('Error 400: Descripción de queja demasiado larga.')
+      } else {
+        toast.error('Error al generar respuesta con IA')
+      }
+      
+      console.error(error)
     } finally {
       setIsGeneratingResponse(false)
     }

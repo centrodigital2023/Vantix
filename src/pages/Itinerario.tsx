@@ -21,38 +21,46 @@ export function Itinerario() {
       return
     }
 
+    // Validar duración máxima para evitar error 400
+    const daysNum = parseInt(days)
+    if (daysNum > 7) {
+      toast.error('La duración máxima es de 7 días. Para viajes más largos, genera itinerarios separados.')
+      return
+    }
+
     setIsGenerating(true)
     
     try {
-      const promptText = `Genera un itinerario detallado de viaje para Colombia con los siguientes parámetros:
-      - Categoría: ${category}
-      - Región: ${region}
-      - Duración: ${days} días
-      - Número de viajeros: ${travelers}
+      const prompt = window.spark.llmPrompt`Itinerario ${days} días Colombia:
+- Tipo: ${category}
+- Región: ${region}
+- Viajeros: ${travelers}
+
+JSON:
+{
+  "title": "...",
+  "days": [{"day": 1, "title": "...", "activities": [...], "accommodation": "...", "dining": [...]}]
+}`
       
-      Incluye recomendaciones de alojamiento, restaurantes, actividades y consejos prácticos.
-      Retorna el resultado como JSON con la siguiente estructura:
-      {
-        "title": "Título del itinerario",
-        "days": [
-          {
-            "day": 1,
-            "title": "Día 1",
-            "activities": ["Actividad 1", "Actividad 2"],
-            "accommodation": "Nombre del alojamiento",
-            "dining": ["Restaurante 1", "Restaurante 2"]
-          }
-        ]
-      }`
-      
-      const result = await window.spark.llm(promptText, 'gpt-4o-mini', true)
+      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
       const itinerary = JSON.parse(result)
       
       setSavedItinerary((current: any) => itinerary)
       toast.success('¡Itinerario generado con éxito!')
     } catch (error) {
-      toast.error('Error al generar el itinerario')
-      console.error(error)
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+      
+      if (errorMessage.includes('400') || errorMessage.toLowerCase().includes('bad request')) {
+        toast.error('El prompt es demasiado largo. Intenta reducir la duración del viaje.')
+      } else if (errorMessage.includes('401') || errorMessage.toLowerCase().includes('unauthorized')) {
+        toast.error('Error de autenticación con la API')
+      } else if (errorMessage.includes('429') || errorMessage.toLowerCase().includes('rate limit')) {
+        toast.error('Límite de solicitudes alcanzado. Intenta en unos minutos.')
+      } else {
+        toast.error('Error al generar el itinerario')
+      }
+      
+      console.error('Error:', error)
     } finally {
       setIsGenerating(false)
     }
@@ -121,6 +129,7 @@ export function Itinerario() {
                     {[3, 4, 5, 6, 7].map((d) => (
                       <SelectItem key={d} value={d.toString()}>{d} días</SelectItem>
                     ))}
+                    <SelectItem value="" disabled className="text-xs text-muted-foreground">Máx. 7 días para evitar errores</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

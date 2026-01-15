@@ -149,13 +149,13 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
       Tiene seguro: ${selectedProvider.hasInsurance ? 'Sí' : 'No'}
       
       Genera:
-      1. Score de riesgo (0-100)
+      1. Score riesgo (0-100)
       2. Score legal (0-100)
-      3. Score reputacional (0-100)
-      4. Recomendación clara (APROBAR / RECHAZAR / OBSERVAR / SUSPENDER)
-      5. Razones específicas
+      3. Score reputación (0-100)
+      4. Acción: APROBAR/RECHAZAR/OBSERVAR/SUSPENDER
+      5. Razones
       
-      Responde en español profesional de Colombia.`
+      Español Colombia.`
 
       const response = await window.spark.llm(prompt, 'gpt-4o')
       
@@ -166,7 +166,15 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
 
       toast.success('Análisis de IA completado')
     } catch (error) {
-      toast.error('Error al analizar con IA')
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+      
+      if (errorMessage.includes('400') || errorMessage.toLowerCase().includes('bad request')) {
+        toast.error('Error 400: Información del proveedor demasiado extensa.')
+      } else {
+        toast.error('Error al analizar con IA')
+      }
+      
+      console.error(error)
     } finally {
       setIsAnalyzing(false)
     }
