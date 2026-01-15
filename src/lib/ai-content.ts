@@ -83,26 +83,21 @@ export async function generateBlogPosts(count: number = 12): Promise<BlogPost[]>
     const topic = blogTopics[i % blogTopics.length]
     const city = colombianCities[Math.floor(Math.random() * colombianCities.length)]
     
-    const prompt = window.spark.llmPrompt`Genera un artículo de blog sobre turismo en Colombia. 
-    
-Tema: ${topic.theme}
-Categoría: ${topic.category}
-Enfoque: ${topic.focus}
-Ciudad o destino: ${city}
+    const prompt = window.spark.llmPrompt`Genera blog sobre turismo Colombia. 
+Tema: ${topic.theme}, Categoría: ${topic.category}, Destino: ${city}
 
-El artículo debe:
-1. Tener un título atractivo y específico (máximo 80 caracteres)
-2. Un extracto de 120-150 caracteres que enganche al lector
-3. Contenido completo de 800-1000 palabras dividido en secciones
-4. Tono inspirador pero práctico, como si lo escribiera un viajero experimentado
-5. Incluir consejos específicos y recomendaciones reales
-6. 5 tags relacionados con el contenido
+Incluye:
+- Título atractivo (<80 chars)
+- Extracto breve (120-150 chars)
+- Contenido 800-1000 palabras en markdown
+- Tono inspirador y práctico
+- 5 tags
 
-Responde en formato JSON con esta estructura:
+JSON:
 {
-  "title": "título del artículo",
-  "excerpt": "extracto breve",
-  "content": "contenido completo en formato markdown con secciones ## y párrafos",
+  "title": "título",
+  "excerpt": "extracto",
+  "content": "contenido markdown",
   "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"]
 }`
 
@@ -115,7 +110,7 @@ Responde en formato JSON con esta estructura:
       const result = await Promise.race([
         window.spark.llm(prompt, 'gpt-4o-mini', true),
         new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Timeout: La solicitud tardó demasiado')), 30000)
+          setTimeout(() => reject(new Error('Timeout')), 30000)
         )
       ])
       
@@ -154,25 +149,22 @@ export async function generateArticles(count: number = 12): Promise<Article[]> {
     const topic = articleTopics[i % articleTopics.length]
     const city = colombianCities[Math.floor(Math.random() * colombianCities.length)]
     
-    const prompt = window.spark.llmPrompt`Genera un artículo profundo sobre viajes en Colombia.
+    const prompt = window.spark.llmPrompt`Genera artículo sobre viajes Colombia.
 
-Categoría: ${topic.category}
-Enfoque: ${topic.focus}
-Destino: ${city}
+Categoría: ${topic.category}, Destino: ${city}
 
-El artículo debe:
-1. Título impactante (máximo 80 caracteres)
-2. Subtítulo descriptivo (máximo 120 caracteres)
-3. Contenido extenso de 1200-1500 palabras con secciones claras
-4. Tono narrativo y personal, como una historia de viajero
-5. Información práctica mezclada con anécdotas
-6. 5 tags relacionados
+Incluye:
+- Título impactante (<80 chars)
+- Subtítulo descriptivo (<120 chars)
+- Contenido 1200-1500 palabras en markdown
+- Tono narrativo personal
+- 5 tags
 
-Responde en formato JSON:
+JSON:
 {
-  "title": "título principal",
-  "subtitle": "subtítulo descriptivo",
-  "content": "contenido completo en markdown con secciones ##",
+  "title": "título",
+  "subtitle": "subtítulo",
+  "content": "contenido markdown",
   "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"]
 }`
 
@@ -220,23 +212,21 @@ export async function generateNews(count: number = 10): Promise<NewsItem[]> {
   for (let i = 0; i < count; i++) {
     const topic = newsTopics[i % newsTopics.length]
     
-    const prompt = window.spark.llmPrompt`Genera una noticia actual sobre turismo en Colombia.
+    const prompt = window.spark.llmPrompt`Genera noticia sobre turismo Colombia.
 
 Categoría: ${topic.category}
-Enfoque: ${topic.focus}
 
-La noticia debe:
-1. Título periodístico conciso (máximo 100 caracteres)
-2. Extracto de 150 caracteres
-3. Contenido de 400-600 palabras estilo periodístico
-4. Información objetiva y actual
-5. Datos y cifras cuando sea relevante
+Incluye:
+- Título periodístico (<100 chars)
+- Extracto (150 chars)
+- Contenido 400-600 palabras estilo periodístico
+- Información objetiva
 
-Responde en formato JSON:
+JSON:
 {
-  "title": "título de la noticia",
-  "excerpt": "extracto breve",
-  "content": "contenido completo en markdown"
+  "title": "título",
+  "excerpt": "extracto",
+  "content": "contenido markdown"
 }`
 
     try {

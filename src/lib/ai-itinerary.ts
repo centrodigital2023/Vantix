@@ -210,48 +210,55 @@ export async function generateAIItinerary(
 ): Promise<ItineraryGenerationResult> {
   const { preferences, useRealTimeData, includeWeather, includeAlternatives, optimizeFor } = request
 
-  const prompt = spark.llmPrompt`
-You are an expert travel planner for Colombia and Latin America specializing in creating personalized itineraries.
+  // Construir prompt de forma más compacta para evitar error 400
+  const destinationsText = preferences.destinations && preferences.destinations.length > 1 
+    ? `Additional: ${preferences.destinations.join(', ')}` 
+    : ''
+  const childrenText = preferences.travelers.children 
+    ? `, ${preferences.travelers.children} children` 
+    : ''
+  const dietaryText = preferences.dietaryRestrictions?.length 
+    ? `Diet: ${preferences.dietaryRestrictions.join(', ')}` 
+    : ''
+  const accessibilityText = preferences.accessibility?.length 
+    ? `Access: ${preferences.accessibility.join(', ')}` 
+    : ''
 
-Create a detailed ${preferences.duration}-day itinerary based on these preferences:
-**Destination**: ${preferences.destination}
-${preferences.destinations && preferences.destinations.length > 1 ? `**Additional destinations**: ${preferences.destinations.join(', ')}` : ''}
-**Travel dates**: ${preferences.startDate} to ${preferences.endDate}
-**Budget**: ${preferences.budget.min} - ${preferences.budget.max} ${preferences.budget.currency}
-**Interests**: ${preferences.interests.join(', ')}
-**Travel type**: ${preferences.travelType}
-**Travelers**: ${preferences.travelers.adults} adults${preferences.travelers.children ? `, ${preferences.travelers.children} children (ages: ${preferences.travelers.childAges?.join(', ')})` : ''}
-**Pace**: ${preferences.pace}
-**Accommodation preference**: ${preferences.accommodationPreference || 'any'}
-**Transport preference**: ${preferences.transportPreference || 'any'}
-${preferences.fitnessLevel ? `**Fitness level**: ${preferences.fitnessLevel}` : ''}
-${preferences.dietaryRestrictions ? `**Dietary restrictions**: ${preferences.dietaryRestrictions.join(', ')}` : ''}
-${preferences.accessibility ? `**Accessibility needs**: ${preferences.accessibility.join(', ')}` : ''}
+  const prompt = spark.llmPrompt`You are an expert travel planner for Colombia. Create a ${preferences.duration}-day itinerary.
 
-**Optimization**: ${optimizeFor}
+**Trip Details:**
+- Destination: ${preferences.destination} ${destinationsText}
+- Dates: ${preferences.startDate} to ${preferences.endDate}
+- Budget: ${preferences.budget.min}-${preferences.budget.max} ${preferences.budget.currency}
+- Interests: ${preferences.interests.join(', ')}
+- Type: ${preferences.travelType}, ${preferences.travelers.adults} adults${childrenText}
+- Pace: ${preferences.pace}, Accommodation: ${preferences.accommodationPreference || 'any'}
+${dietaryText ? `- ${dietaryText}` : ''}
+${accessibilityText ? `- ${accessibilityText}` : ''}
+- Optimize: ${optimizeFor}
 
-Generate a comprehensive itinerary in JSON format with this structure:
+**Return JSON with this structure (NO additional text):**
 {
-  "name": "Catchy itinerary title",
-  "description": "Brief overview of the trip",
+  "name": "Trip title",
+  "description": "Brief overview",
   "days": [
     {
       "day": 1,
       "date": "YYYY-MM-DD",
       "title": "Day title",
-      "description": "What makes this day special",
-      "location": {"name": "City/Area", "lat": 0.0, "lon": 0.0},
+      "description": "Day overview",
+      "location": {"name": "City", "lat": 0.0, "lon": 0.0},
       "activities": [
         {
           "time": "09:00",
           "duration": 120,
-          "name": "Activity name",
-          "description": "What you'll do and why it's great",
+          "name": "Activity",
+          "description": "Details",
           "type": "experience",
-          "location": {"name": "Place", "address": "Full address", "lat": 0.0, "lon": 0.0},
+          "location": {"name": "Place", "address": "Address", "lat": 0.0, "lon": 0.0},
           "cost": 50000,
-          "tips": ["Practical tip 1", "Practical tip 2"],
-          "aiRecommendationReason": "Why this fits their preferences"
+          "tips": ["Tip"],
+          "aiRecommendationReason": "Why"
         }
       ],
       "meals": [
@@ -259,38 +266,38 @@ Generate a comprehensive itinerary in JSON format with this structure:
           "time": "12:30",
           "type": "lunch",
           "restaurant": {
-            "name": "Restaurant name",
-            "cuisine": "Type of cuisine",
+            "name": "Restaurant",
+            "cuisine": "Type",
             "priceRange": "$$",
-            "address": "Full address",
+            "address": "Address",
             "lat": 0.0,
             "lon": 0.0,
             "rating": 4.5
           },
           "estimatedCost": 30000,
-          "recommendations": ["Dish 1", "Dish 2"]
+          "recommendations": ["Dish"]
         }
       ],
       "accommodation": {
-        "name": "Hotel/Accommodation name",
-        "type": "hotel/hostel/house",
-        "address": "Full address",
+        "name": "Hotel",
+        "type": "hotel",
+        "address": "Address",
         "lat": 0.0,
         "lon": 0.0,
         "rating": 4.2,
         "pricePerNight": 150000,
-        "amenities": ["WiFi", "Breakfast", "Pool"],
+        "amenities": ["WiFi"],
         "checkIn": "15:00",
         "checkOut": "11:00"
       },
       "transport": {
         "type": "bus",
-        "from": "Starting point",
+        "from": "Origin",
         "to": "Destination",
         "duration": 180,
         "distance": 120,
         "cost": 25000,
-        "details": "Specific transport info"
+        "details": "Info"
       },
       "costs": {
         "activities": 100000,
@@ -299,7 +306,7 @@ Generate a comprehensive itinerary in JSON format with this structure:
         "transport": 25000,
         "total": 355000
       },
-      "tips": ["Day-specific tip 1", "Day-specific tip 2"]
+      "tips": ["Tip"]
     }
   ],
   "costs": {
@@ -316,34 +323,18 @@ Generate a comprehensive itinerary in JSON format with this structure:
     "zoom": 10,
     "route": [{"lat": 0.0, "lon": 0.0}]
   },
-  "tips": [
-    "General tip 1 about the region",
-    "Cultural insight or etiquette tip",
-    "Money/safety tip",
-    "Best time for activities"
-  ],
-  "safetyWarnings": [
-    "Important safety information if applicable"
-  ]
+  "tips": ["General tip"],
+  "safetyWarnings": ["Safety info if needed"]
 }
 
-IMPORTANT GUIDELINES:
-1. Use real places, restaurants, and attractions in Colombia
-2. Provide accurate coordinates (lat/lon) for all locations
-3. Base prices on realistic Colombian market rates in COP
-4. Consider travel times between locations
-5. Balance activities with rest time based on pace preference
-6. Include local cultural experiences, not just tourist traps
-7. Recommend authentic local restaurants
-8. Consider the travel type (family-friendly if children, romantic if couple, etc.)
-9. Respect budget constraints but show value
-10. Include practical tips about weather, clothing, local customs
-11. For Nariño/Pasto region, highlight: Laguna de la Cocha, Santuario de Las Lajas, Galeras Volcano viewpoints, local cuisine (cuy, traditional sweets)
-12. For coffee region: Coffee farm tours, Cocora Valley, Salento, thermal springs
-13. For Caribbean: Cartagena old city, Rosario Islands, beach activities, street food
-14. Suggest activities that match stated interests
-15. ${includeWeather ? 'Consider weather conditions and suggest indoor alternatives for rainy days' : ''}
-Return ONLY the JSON object, no additional text.
+**Guidelines:**
+1. Use real Colombian places with accurate coordinates
+2. Base prices on realistic COP market rates
+3. Consider travel times and ${preferences.pace} pace
+4. Match activities to interests: ${preferences.interests.join(', ')}
+5. Stay within budget ${preferences.budget.min}-${preferences.budget.max} ${preferences.budget.currency}
+6. Include practical tips
+Return ONLY the JSON, no extra text.
 `
 
   try {
@@ -355,6 +346,11 @@ Return ONLY the JSON object, no additional text.
     // Validar preferencias
     if (!preferences.destination || !preferences.startDate || !preferences.endDate) {
       throw new Error('Faltan datos requeridos: destino, fecha de inicio y fecha de fin son obligatorios.')
+    }
+
+    // Validar duración del viaje (evitar prompts excesivamente largos)
+    if (preferences.duration > 14) {
+      throw new Error('La duración máxima del itinerario es de 14 días. Para viajes más largos, genera itinerarios separados.')
     }
 
     // Añadir timeout de 60 segundos para itinerarios (son más complejos)
@@ -449,12 +445,21 @@ Return ONLY the JSON object, no additional text.
     // Proporcionar un mensaje de error más descriptivo
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
     
-    if (errorMessage.includes('400')) {
-      throw new Error('Error en la solicitud (400): Verifica que todos los parámetros sean válidos y que el prompt no sea demasiado largo.')
+    // Detectar errores específicos
+    if (errorMessage.includes('400') || errorMessage.includes('Bad Request')) {
+      throw new Error('Error 400: El prompt es demasiado largo o tiene formato inválido. Intenta reducir la duración del viaje (máximo 14 días) o simplificar las preferencias.')
+    } else if (errorMessage.includes('401') || errorMessage.includes('Unauthorized')) {
+      throw new Error('Error de autenticación: La clave API no es válida o ha expirado.')
+    } else if (errorMessage.includes('429') || errorMessage.includes('rate limit')) {
+      throw new Error('Límite de solicitudes excedido: Has alcanzado el límite de la API. Intenta nuevamente en unos minutos.')
+    } else if (errorMessage.includes('500') || errorMessage.includes('Internal Server')) {
+      throw new Error('Error del servidor: El servicio está temporalmente no disponible. Intenta nuevamente más tarde.')
     } else if (errorMessage.includes('Timeout')) {
       throw new Error(errorMessage)
     } else if (errorMessage.includes('JSON')) {
       throw new Error('Error al procesar la respuesta: El formato recibido no es válido. Intenta nuevamente.')
+    } else if (errorMessage.includes('duración máxima')) {
+      throw new Error(errorMessage)
     }
     
     throw new Error(`No se pudo generar el itinerario: ${errorMessage}`)
