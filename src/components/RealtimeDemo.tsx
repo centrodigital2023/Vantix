@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useKV } from '@github/spark/hooks'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -24,18 +25,24 @@ interface TestRecord {
 }
 
 export function RealtimeDemo() {
+  const [supabaseUrl] = useKV<string>('VITE_SUPABASE_URL', '')
+  const [supabaseKey] = useKV<string>('VITE_SUPABASE_ANON_KEY', '')
   const [newName, setNewName] = useState('')
   const [newDescription, setNewDescription] = useState('')
+
+  const isConfigured = Boolean(supabaseUrl && supabaseKey)
 
   const {
     data: records,
     loading,
     error,
-    refetch,
-    isConfigured
-  } = useSupabaseRealtimeQuery<TestRecord>('accommodations', {
-    order: { column: 'created_at', ascending: false },
-    limit: 10
+    refetch
+  } = useSupabaseRealtimeQuery<TestRecord>({
+    table: 'accommodations',
+    initialQuery: {
+      orderBy: { column: 'created_at', ascending: false },
+      limit: 10
+    }
   })
 
   const { insert, remove, loading: mutationLoading } = useSupabaseMutation('accommodations')

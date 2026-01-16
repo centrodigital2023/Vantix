@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Progress } from '@/components/ui/progress'
 import { 
   UploadSimple, 
   Image as ImageIcon, 
@@ -8,17 +9,23 @@ import {
   DotsSixVertical,
   Sparkle,
   CheckCircle,
-  Warning
+  Warning,
+  CloudArrowUp,
+  CircleNotch
 } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { useSupabaseStorage } from '@/hooks/use-supabase-storage'
 
 export interface PhotoData {
   id: string
-  file: File
+  file?: File
   preview: string
+  url?: string
   order: number
   isMain: boolean
+  uploading?: boolean
+  uploadProgress?: number
   quality?: 'excellent' | 'good' | 'poor'
   aiAnalysis?: {
     score: number
@@ -33,6 +40,8 @@ interface IntelligentPhotoUploadProps {
   maxPhotos?: number
   onAnalyze?: (photo: PhotoData) => Promise<void>
   analyzing?: boolean
+  useRealStorage?: boolean
+  storageBucket?: string
 }
 
 export function IntelligentPhotoUpload({
@@ -40,10 +49,43 @@ export function IntelligentPhotoUpload({
   onChange,
   maxPhotos = 20,
   onAnalyze,
-  analyzing = false
+  analyzing = false,
+  useRealStorage = true,
+  storageBucket = 'accommodation-images'
 }: IntelligentPhotoUploadProps) {
   const [dragOver, setDragOver] = useState(false)
   const [draggingId, setDraggingId] = useState<string | null>(null)
+
+  const {
+    uploads,
+    isUploading,
+    uploadFile,
+    isConfigured
+  } = useSupabaseStorage({
+    bucket: storageBucket,
+    maxSizeMB: 10,
+    allowedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+  })
+
+  useEffect(() => {
+    uploads.forEach(upload => {
+      if (upload.status === 'uploading' || upload.status === 'processing') {
+        onChange(photos.map(p => 
+          p.id === upload.id 
+            ? { ...p, uploading: true, uploadProgress: upload.progress }
+            : p
+        ))
+      } else if (upload.status === 'completed' && upload.url) {
+        onChange(photos.map(p => 
+          p.id === upload.id 
+            ? { ...p, url: upload.url, uploading: false, uploadProgress: 100 }
+            : p
+        ))
+      } else if (upload.status === 'error') {
+        onChange(photos.filter(p => p.id !== upload.id))
+      }
+    })
+  }, [uploads])
 
   const handleFileSelect = useCallback(async (files: FileList | null) => {
     if (!files) return
@@ -72,19 +114,39 @@ export function IntelligentPhotoUpload({
     const newPhotos: PhotoData[] = await Promise.all(
       validFiles.map(async (file, index) => {
         const preview = await readFileAsDataURL(file)
+        const id = `photo_${Date.now()}_${index}`
         return {
-          id: `photo_${Date.now()}_${index}`,
+          id,
           file,
           preview,
           order: photos.length + index,
-          isMain: photos.length === 0 && index === 0
+          isMain: photos.length === 0 && index === 0,
+          uploading: useRealStorage && isConfigured
         }
       })
     )
 
     onChange([...photos, ...newPhotos])
     toast.success(`${newPhotos.length} foto(s) agregada(s)`)
-  }, [photos, onChange, maxPhotos])
+
+    if (useRealStorage && isConfigured) {
+      for (let i = 0; i < validFiles.length; i++) {
+        const file = validFiles[i]
+        const photoId = newPhotos[i].id
+        try {
+          const url = await uploadFile(file, 'accommodations')
+          const updatedPhotos = [...photos, ...newPhotos].map(p => 
+            p.id === photoId
+              ? { ...p, url, uploading: false, uploadProgress: 100 }
+              : p
+          )
+          onChange(updatedPhotos)
+        } catch (error) {
+          console.error('Upload error:', error)
+        }
+      }
+    }
+  }, [photos, onChange, maxPhotos, useRealStorage, isConfigured, uploadFile])
 
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -248,10 +310,31 @@ export function IntelligentPhotoUpload({
               >
                 <div className="aspect-square relative">
                   <img
-                    src={photo.preview}
+                    src={photo.url || photo.preview}
                     alt={`Preview ${photo.order + 1}`}
                     className="w-full h-full object-cover"
                   />
+                  
+                  {photo.uploading && (
+                    <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-2">
+                      <CircleNotch className="w-8 h-8 text-white animate-spin" weight="bold" />
+                      <span className="text-white text-sm font-medium">
+                        {photo.uploadProgress || 0}%
+                      </span>
+                      <Progress 
+                        value={photo.uploadProgress || 0} 
+                        className="w-3/4 h-1"
+                      />
+                    </div>
+                  )}
+
+                  {photo.url && !photo.uploading && (
+                    <div className="absolute top-2 right-2">
+                      <div className="bg-green-500 text-white p-1 rounded-full">
+                        <CloudArrowUp className="w-4 h-4" weight="fill" />
+                      </div>
+                    </div>
+                  )}
                   
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
@@ -272,28 +355,30 @@ export function IntelligentPhotoUpload({
                     <DotsSixVertical className="w-5 h-5 text-white drop-shadow-lg" weight="bold" />
                   </div>
                   
-                  <div className="absolute bottom-2 left-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {!photo.isMain && (
+                  {!photo.uploading && (
+                    <div className="absolute bottom-2 left-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {!photo.isMain && (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="secondary"
+                          className="flex-1 h-8 text-xs"
+                          onClick={() => handleSetMain(photo.id)}
+                        >
+                          Hacer principal
+                        </Button>
+                      )}
                       <Button
                         type="button"
                         size="sm"
-                        variant="secondary"
-                        className="flex-1 h-8 text-xs"
-                        onClick={() => handleSetMain(photo.id)}
+                        variant="destructive"
+                        className="h-8 px-3"
+                        onClick={() => handleDelete(photo.id)}
                       >
-                        Hacer principal
+                        <Trash className="w-4 h-4" />
                       </Button>
-                    )}
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="destructive"
-                      className="h-8 px-3"
-                      onClick={() => handleDelete(photo.id)}
-                    >
-                      <Trash className="w-4 h-4" />
-                    </Button>
-                  </div>
+                    </div>
+                  )}
                 </div>
 
                 {photo.aiAnalysis && (

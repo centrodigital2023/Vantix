@@ -6,6 +6,7 @@ import { Footer } from '@/components/Footer'
 // Páginas principales - carga directa para mejor UX
 import { Home } from '@/pages/Home'
 import { Explorar } from '@/pages/Explorar'
+import { SupabaseTestingPage } from '@/pages/SupabaseTestingPage'
 
 // Lazy loading para el resto de páginas
 const Itinerario = lazy(() => import('@/pages/Itinerario').then(m => ({ default: m.Itinerario })))
@@ -173,6 +174,8 @@ function AppContent() {
     switch (activePage) {
       case 'home':
         return <Home onNavigate={handleNavigate} />
+      case 'supabase-testing':
+        return <SupabaseTestingPage />
       case 'explorar':
         return <Explorar onNavigate={handleNavigate} />
       case 'itinerario':

@@ -321,6 +321,7 @@ export type PageRoute =
   | 'itinerario'
   | 'blog'
   | 'contacto'
+  | 'supabase-testing'
   | 'propietarios'
   | 'registro-alojamiento'
   | 'destino-resultados'
