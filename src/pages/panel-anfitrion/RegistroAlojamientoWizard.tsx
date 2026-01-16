@@ -590,6 +590,126 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
                       </div>
                     </div>
 
+                    <Separator className="my-6" />
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="descripcion">Descripción del Alojamiento *</Label>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={applyAIDescription}
+                          className="gap-2"
+                        >
+                          <Sparkle size={16} weight="duotone" />
+                          Optimizar con IA
+                        </Button>
+                      </div>
+                      <Textarea
+                        id="descripcion"
+                        placeholder="Describe tu propiedad: ubicación, vistas, ambiente, qué hace especial tu alojamiento..."
+                        rows={8}
+                        value={formData.descripcion || ''}
+                        onChange={(e) => actualizarFormData('descripcion', e.target.value)}
+                        className="resize-none"
+                      />
+                      <div className="flex items-center justify-between text-xs">
+                        <span className={`${
+                          !formData.descripcion || formData.descripcion.length < 100 
+                            ? 'text-orange-600' 
+                            : formData.descripcion.length >= 300
+                            ? 'text-green-600'
+                            : 'text-muted-foreground'
+                        }`}>
+                          {formData.descripcion?.length || 0} caracteres
+                          {formData.descripcion && formData.descripcion.length < 100 && ' (mínimo 100)'}
+                        </span>
+                        <span className="text-muted-foreground">
+                          Descripciones detalladas aumentan 60% las reservas
+                        </span>
+                      </div>
+                    </div>
+
+                    {formData.descripcion && formData.descripcion.length >= 100 && (
+                      <Alert className="border-green-600/20 bg-green-50/50 dark:bg-green-950/20">
+                        <CheckCircle size={18} weight="fill" className="text-green-600" />
+                        <AlertDescription className="text-green-700 dark:text-green-400">
+                          ¡Excelente! Tu descripción es suficientemente detallada
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                  </>
+                )}
+                              <label
+                                htmlFor={amenidad}
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                              >
+                                {amenidad}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="font-semibold mb-3">Seguridad</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {['Detector de Humo', 'Detector de CO', 'Botiquín', 'Extintor', 'Cámaras Seguridad'].map(amenidad => (
+                            <div key={amenidad} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={amenidad}
+                                checked={formData.amenidades?.includes(amenidad)}
+                                onCheckedChange={() => toggleAmenidad(amenidad)}
+                              />
+                              <label
+                                htmlFor={amenidad}
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                              >
+                                {amenidad}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="font-semibold mb-3">Extras LATAM</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {['Piscina', 'Jacuzzi', 'Jardín', 'Terraza', 'Parqueadero', 'Admite Mascotas', 'Desayuno Incluido', 'Check-in Autónomo'].map(amenidad => (
+                            <div key={amenidad} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={amenidad}
+                                checked={formData.amenidades?.includes(amenidad)}
+                                onCheckedChange={() => toggleAmenidad(amenidad)}
+                              />
+                              <label
+                                htmlFor={amenidad}
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                              >
+                                {amenidad}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="p-4 bg-secondary/10 rounded-lg">
+                        <p className="text-sm font-medium mb-1">Amenidades seleccionadas</p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {formData.amenidades && formData.amenidades.length > 0 ? (
+                            formData.amenidades.map(amenidad => (
+                              <Badge key={amenidad} variant="secondary">
+                                {amenidad}
+                              </Badge>
+                            ))
+                          ) : (
+                            <span className="text-sm text-muted-foreground">Ninguna seleccionada</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="descripcion">Descripción del Alojamiento</Label>
                       <Textarea
