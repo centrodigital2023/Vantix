@@ -1,14 +1,14 @@
 # Planning Guide
 
-Vantix is a comprehensive tourism booking platform for Colombia (similar to Booking.com but specialized for Colombian tourism) that combines AI-powered itinerary generation with real-time accommodation booking, reviews, price comparison, and authentic local experiences across all tourism categories.
+Vantix is a comprehensive tourism booking platform for Colombia (similar to Booking.com but specialized for Colombian tourism) that combines AI-powered itinerary generation with real-time accommodation booking, reviews, price comparison, and authentic local experiences across all tourism categories. **Now powered by Supabase for scalable data management, authentication, and real-time features.**
 
 **Experience Qualities**:
 1. **Inspiring** - Showcases Colombia's diverse beauty through vivid imagery and compelling stories that ignite wanderlust
 2. **Intelligent** - Leverages AI (Gemini, SerpApi) to create personalized itineraries based on real-time data and user preferences
-3. **Trustworthy** - Provides verified accommodations and genuine reviews to build confidence in travel decisions
+3. **Trustworthy** - Provides verified accommodations and genuine reviews to build confidence in travel decisions, backed by secure Supabase infrastructure
 
 **Complexity Level**: Complex Application (advanced functionality, likely with multiple views)
-This platform requires multiple interconnected features: AI-powered itinerary generation, category-based browsing, property owner dashboards, search functionality, blog content, and booking management across 10 distinct tourism categories.
+This platform requires multiple interconnected features: AI-powered itinerary generation, category-based browsing, property owner dashboards, search functionality, blog content, booking management across 10 distinct tourism categories, and full Supabase integration for data persistence, authentication, and real-time updates.
 
 ## Essential Features
 
@@ -89,7 +89,23 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Purpose: Enable users to securely book accommodations and complete payments
 - Trigger: Click "Reservar" button on room card in accommodation detail page
 - Progression: Select dates/guests → Fill guest information → Review booking summary → Process payment via Mercado Pago → Receive confirmation
-- Success criteria: Secure payment processing, booking data persistence, email confirmations, booking history tracking
+- Success criteria: Secure payment processing, booking data persistence, booking history tracking
+
+**Supabase Integration**
+- Functionality: Complete backend infrastructure with PostgreSQL database, authentication, real-time subscriptions, and storage
+- Purpose: Provide scalable, secure, and real-time data management for all platform features
+- Trigger: Application initialization, user authentication, data operations (CRUD)
+- Progression: Configure credentials → Initialize client → Authenticate users → Perform data operations → Real-time updates
+- Success criteria: 
+  - Supabase client successfully connected
+  - Authentication working with email/password and OAuth
+  - All CRUD operations functional for accommodations, bookings, reviews
+  - Row Level Security (RLS) policies protecting user data
+  - Real-time subscriptions updating UI automatically
+  - Storage bucket configured for image uploads
+  - Smart hooks (useSupabaseData, useSupabaseAuth) simplifying data operations
+  - Responsive components for accommodation management
+  - Configuration UI for easy setup
 
 **Intelligent Footer Subpages with Internal Linking**
 - Functionality: Comprehensive footer with 60+ organized subpages covering help, destinations, SEO-optimized local content, experiences, company info, legal, blog, partners, and offers

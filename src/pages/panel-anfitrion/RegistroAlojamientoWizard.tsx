@@ -154,10 +154,12 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
     try {
       toast.loading('Analizando precios del mercado...')
       const pricing = await suggestOptimalPricing(formData as PropertyData)
-      actualizarFormData('precioPorNoche', pricing.recommended)
-      toast.success('¡Precio optimizado aplicado!', {
-        description: `Precio sugerido: $${pricing.recommended.toLocaleString('es-CO')}`
-      })
+      if (pricing) {
+        actualizarFormData('precioPorNoche', pricing.recommended)
+        toast.success('¡Precio optimizado aplicado!', {
+          description: `Precio sugerido: $${pricing.recommended.toLocaleString('es-CO')}`
+        })
+      }
     } catch (error) {
       toast.error('Error al analizar precios')
     }
@@ -642,30 +644,8 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
                   </>
                 )}
 
-                            icon: '✨'
-                          },
-                          {
-                            title: 'Ángulos Amplios',
-                            desc: 'Usa lente gran angular para mostrar más espacio',
-                            icon: '📐'
-                          },
-                          {
-                            title: 'Detalles Especiales',
-                            desc: 'Captura amenidades únicas y detalles que te diferencian',
-                            icon: '⭐'
-                          }
-                        ].map((tip, index) => (
-                          <div key={index} className="flex gap-3 p-3 bg-muted/50 rounded-lg">
-                            <span className="text-2xl">{tip.icon}</span>
-                            <div>
-                              <p className="font-medium text-sm">{tip.title}</p>
-                              <p className="text-xs text-muted-foreground">{tip.desc}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
+                {pasoActual === 3 && (
+                  <>
                     {/* Estadísticas de fotos con IA */}
                     {photoUpload.photos.length > 0 && (
                       <div className="p-4 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg border">
@@ -704,7 +684,7 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
                         </div>
                       </div>
                     )}
-                  </div>
+                  </>
                 )}
 
                 {pasoActual === 5 && (
