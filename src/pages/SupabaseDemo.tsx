@@ -3,10 +3,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { Database, CheckCircle, Warning } from '@phosphor-icons/react'
+import { Database, CheckCircle, Warning, Images, WifiHigh } from '@phosphor-icons/react'
 import { SupabaseConfig } from '@/components/SupabaseConfig'
 import { SmartAccommodationsList } from '@/components/SmartAccommodationsListV2'
 import { SupabaseAccommodationForm } from '@/components/SupabaseAccommodationForm'
+import { ImageUploadZone } from '@/components/ImageUploadZone'
+import { RealtimeDemo } from '@/components/RealtimeDemo'
 import { SupabaseAuthProvider, useSupabaseAuthContext } from '@/contexts/SupabaseAuthContext'
 import { toast } from 'sonner'
 
@@ -57,11 +59,13 @@ function SupabaseDemoContent() {
         )}
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:w-[600px] lg:mx-auto">
-            <TabsTrigger value="config">Configuración</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5 lg:w-[800px] lg:mx-auto">
+            <TabsTrigger value="config">Config</TabsTrigger>
             <TabsTrigger value="list">Alojamientos</TabsTrigger>
+            <TabsTrigger value="images">Imágenes</TabsTrigger>
+            <TabsTrigger value="realtime">Tiempo Real</TabsTrigger>
             <TabsTrigger value="create" disabled={!isAuthenticated}>
-              Crear Nuevo
+              Crear
             </TabsTrigger>
           </TabsList>
 
@@ -92,11 +96,11 @@ function SupabaseDemoContent() {
                     },
                     {
                       title: 'Almacenamiento de Imágenes',
-                      desc: 'Upload y gestión de fotos de propiedades',
+                      desc: 'Upload y gestión con Supabase Storage',
                     },
                     {
-                      title: 'Análisis y Estadísticas',
-                      desc: 'Dashboard con métricas en tiempo real',
+                      title: 'Tiempo Real',
+                      desc: 'Suscripciones a cambios en la base de datos',
                     },
                     {
                       title: 'Reseñas y Ratings',
@@ -126,6 +130,139 @@ function SupabaseDemoContent() {
                   onSelectAccommodation={(id) => toast.success(`Alojamiento seleccionado: ${id}`)}
                   showFilters={true}
                 />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="images" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <Images size={24} className="text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle>Sistema de Carga de Imágenes</CardTitle>
+                    <CardDescription>
+                      Carga imágenes directamente a Supabase Storage con validación y optimización
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ImageUploadZone
+                  bucket="accommodations"
+                  folder="demo"
+                  maxFiles={10}
+                  maxSizeMB={10}
+                  onUploadComplete={(urls) => {
+                    toast.success(`${urls.length} imagen(es) cargada(s) exitosamente`)
+                  }}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Características del Sistema</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-sm">✅ Validación Automática</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Valida formato, tamaño y dimensiones antes de subir
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-sm">📊 Progreso en Tiempo Real</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Visualiza el estado de cada archivo mientras se carga
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-sm">🖼️ Vista Previa</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Visualiza las imágenes cargadas con opciones de eliminar
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-sm">🔒 Seguridad</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Almacenamiento seguro con Supabase Storage
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="realtime" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-green-500/10 rounded-lg">
+                    <WifiHigh size={24} className="text-green-500" />
+                  </div>
+                  <div>
+                    <CardTitle>Suscripciones en Tiempo Real</CardTitle>
+                    <CardDescription>
+                      Los datos se actualizan automáticamente cuando cambian en la base de datos
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+            </Card>
+
+            <RealtimeDemo />
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Cómo Funciona</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex gap-4 items-start">
+                    <div className="bg-primary/10 rounded-full p-2 mt-1">
+                      <span className="text-primary font-bold text-sm">1</span>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold">Suscripción Automática</h4>
+                      <p className="text-sm text-muted-foreground">
+                        El componente se suscribe a cambios en la tabla de base de datos
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4 items-start">
+                    <div className="bg-primary/10 rounded-full p-2 mt-1">
+                      <span className="text-primary font-bold text-sm">2</span>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold">Detección de Cambios</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Supabase detecta INSERT, UPDATE o DELETE en tiempo real
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4 items-start">
+                    <div className="bg-primary/10 rounded-full p-2 mt-1">
+                      <span className="text-primary font-bold text-sm">3</span>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold">Actualización Instantánea</h4>
+                      <p className="text-sm text-muted-foreground">
+                        La UI se actualiza automáticamente sin necesidad de refrescar
+                      </p>
+                    </div>
+                  </div>
+                  <Alert className="mt-4">
+                    <AlertDescription>
+                      💡 <strong>Prueba esto:</strong> Abre esta página en dos pestañas diferentes. 
+                      Agrega o elimina un registro en una pestaña y observa cómo se actualiza 
+                      automáticamente en la otra.
+                    </AlertDescription>
+                  </Alert>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

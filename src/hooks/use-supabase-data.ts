@@ -155,3 +155,64 @@ export function useSupabaseData<T extends TableName>(tableName: T) {
     error,
   }
 }
+
+export function useSupabaseMutation(tableName: string) {
+  const [loading, setLoading] = useState(false)
+
+  const insert = useCallback(async (data: any) => {
+    setLoading(true)
+    try {
+      const { data: result, error } = await supabase
+        .from(tableName)
+        .insert(data)
+        .select()
+        .single()
+      
+      if (error) throw error
+      return result
+    } catch (err: any) {
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [tableName])
+
+  const update = useCallback(async (id: string, data: any) => {
+    setLoading(true)
+    try {
+      const { data: result, error } = await supabase
+        .from(tableName)
+        .update(data)
+        .eq('id', id)
+        .select()
+        .single()
+      
+      if (error) throw error
+      return result
+    } finally {
+      setLoading(false)
+    }
+  }, [tableName])
+
+  const remove = useCallback(async (id: string) => {
+    setLoading(true)
+    try {
+      const { error } = await supabase
+        .from(tableName)
+        .delete()
+        .eq('id', id)
+      
+      if (error) throw error
+      return true
+    } finally {
+      setLoading(false)
+    }
+  }, [tableName])
+
+  return {
+    insert,
+    update,
+    remove,
+    loading
+  }
+}
