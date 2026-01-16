@@ -1,23 +1,23 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { createClient, SupabaseClient, Real
 import { createClient, SupabaseClient, RealtimeChannel } from '@supabase/supabase-js'
 import { toast } from 'sonner'
 
-type RealtimeEvent = 'INSERT' | 'UPDATE' | 'DELETE' | '*'
-
-interface RealtimeSubscription {
   table: string
-  event?: RealtimeEvent
-  filter?: string
-  onInsert?: (payload: any) => void
-  onUpdate?: (payload: any) => void
-  onDelete?: (payload: any) => void
-  onChange?: (payload: any) => void
-}
 
-export function useSupabaseRealtime(subscriptions: RealtimeSubscription[]) {
-  const [supabaseUrl] = useKV<string>('VITE_SUPABASE_URL', '')
-  const [supabaseKey] = useKV<string>('VITE_SUPABASE_ANON_KEY', '')
+  onUpdate?: (payload: any) => v
+  onChange?: (p
+
+  const [supabase
+  const [isConnected, setIsConnecte
+
+    if (!supabaseUrl || !supabaseKe
+    }
+ 
+
+    if (!supabase || subscriptions.length === 0) {
+    }
+    const newChannels: RealtimeChannel[] = []
   const [isConnected, setIsConnected] = useState(false)
   const [channels, setChannels] = useState<RealtimeChannel[]>([])
 
@@ -39,17 +39,17 @@ export function useSupabaseRealtime(subscriptions: RealtimeSubscription[]) {
     subscriptions.forEach((subscription, index) => {
       const channelName = `realtime_${subscription.table}_${index}`
       
-      const channel = supabase
+      let channel = supabase
         .channel(channelName)
         .on(
-          'postgres_changes' as any,
+          'postgres_changes',
           {
             event: subscription.event || '*',
             schema: 'public',
             table: subscription.table,
             filter: subscription.filter
-          } as any,
-          (payload: any) => {
+          },
+          (payload) => {
             if (subscription.onChange) {
               subscription.onChange(payload)
             }
@@ -78,143 +78,143 @@ export function useSupabaseRealtime(subscriptions: RealtimeSubscription[]) {
         )
         .subscribe((status) => {
           if (status === 'SUBSCRIBED') {
-            setIsConnected(true)
-          } else if (status === 'CLOSED') {
-            setIsConnected(false)
-          } else if (status === 'CHANNEL_ERROR') {
-            toast.error('Error en la conexión en tiempo real')
-            setIsConnected(false)
-          }
-        })
-
-      newChannels.push(channel)
-    })
-
-    setChannels(newChannels)
-
-    return () => {
-      newChannels.forEach(channel => {
-        supabase.removeChannel(channel)
-      })
       setIsConnected(false)
-    }
-  }, [supabaseUrl, supabaseKey, subscriptions, getSupabaseClient])
-
+  }, [supabaseUrl, supabaseKey, subscriptio
   return {
-    isConnected,
-    isConfigured: Boolean(supabaseUrl && supabaseKey)
-  }
+    isConfigured: Boolean(supabaseUrl && supabaseK
 }
+export function useSupabaseRealti
+  initialQu
+  const [s
 
-export function useSupabaseRealtimeQuery<T = any>(
-  table: string,
-  initialQuery?: any
-) {
-  const [supabaseUrl] = useKV<string>('VITE_SUPABASE_URL', '')
-  const [supabaseKey] = useKV<string>('VITE_SUPABASE_ANON_KEY', '')
-  const [data, setData] = useState<T[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const [error, setError] = use
+  cons
 
-  const getSupabaseClient = useCallback((): SupabaseClient | null => {
-    if (!supabaseUrl || !supabaseKey) {
-      return null
-    }
-    return createClient(supabaseUrl, supabaseKey)
-  }, [supabaseUrl, supabaseKey])
+    return createClient(supa
 
-  const fetchData = useCallback(async () => {
-    const supabase = getSupabaseClient()
-    if (!supabase) {
+    const supabase
       setLoading(false)
-      return
     }
-
-    try {
-      setLoading(true)
-      let query = supabase.from(table).select('*')
-
-      if (initialQuery?.filter) {
-        Object.entries(initialQuery.filter).forEach(([key, value]) => {
+    try 
+      let query = supabase.
+     
           query = query.eq(key, value)
-        })
-      }
 
-      if (initialQuery?.order) {
-        query = query.order(initialQuery.order.column, {
-          ascending: initialQuery.order.ascending ?? true
-        })
+      if (
+          ascend
       }
-
-      if (initialQuery?.limit) {
-        query = query.limit(initialQuery.limit)
-      }
-
-      const { data: result, error: queryError } = await query
+   
+ 
 
       if (queryError) {
-        throw queryError
       }
-
-      setData(result || [])
-      setError(null)
-    } catch (err: any) {
-      setError(err)
+      setData(result
+   
       toast.error('Error al cargar datos', {
-        description: err.message
       })
-    } finally {
       setLoading(false)
-    }
   }, [table, initialQuery, getSupabaseClient])
+  useEffect(() => {
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
-
-  useEffect(() => {
-    const supabase = getSupabaseClient()
     if (!supabase) {
-      return
     }
-
-    const channel = supabase
-      .channel(`realtime_query_${table}`)
+    c
       .on(
-        'postgres_changes' as any,
         {
-          event: '*',
-          schema: 'public',
-          table: table
+
         } as any,
-        (payload: any) => {
-          if (payload.eventType === 'INSERT') {
-            setData((current) => [payload.new as T, ...current])
-          } else if (payload.eventType === 'UPDATE') {
-            setData((current) =>
-              current.map((item: any) =>
-                item.id === (payload.new as any).id ? (payload.new as T) : item
-              )
-            )
-          } else if (payload.eventType === 'DELETE') {
-            setData((current) =>
-              current.filter((item: any) => item.id !== (payload.old as any).id)
-            )
-          }
-        }
+          if (payload.eventType === 'INS
+          } else if 
+              current.m
+            
+     
+
+         
       )
-      .subscribe()
 
-    return () => {
-      supabase.removeChannel(channel)
-    }
+
   }, [table, getSupabaseClient])
-
   return {
-    data,
     loading,
-    error,
-    refetch: fetchData,
-    isConfigured: Boolean(supabaseUrl && supabaseKey)
+    refetc
   }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
