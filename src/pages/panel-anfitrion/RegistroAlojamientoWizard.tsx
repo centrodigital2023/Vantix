@@ -79,14 +79,101 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
   const [formData, setFormData] = useState<Partial<FormData>>({
     amenidades: []
   })
+  const [aiAnalysis, setAiAnalysis] = useState<AIOptimizationResult | null>(null)
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [showAISuggestions, setShowAISuggestions] = useState(false)
+  const [acceptedTerms, setAcceptedTerms] = useState(false)
+  const [acceptedVeracity, setAcceptedVeracity] = useState(false)
+
+  const photoUpload = usePhotoUpload({
+    maxFiles: 20,
+    maxSizeMB: 10,
+    minWidth: 1024,
+    minHeight: 768,
+    onUploadComplete: (photos) => {
+      console.log('Fotos completadas:', photos.length)
+    }
+  })
 
   const progreso = (pasoActual / PASOS.length) * 100
 
   const actualizarFormData = (campo: string, valor: any) => {
     setFormData(prev => ({ ...prev, [campo]: valor }))
+    // Resetear análisis IA cuando cambian datos importantes
+    if (['tipo', 'categoria', 'descripcion', 'precioPorNoche', 'amenidades'].includes(campo)) {
+      setAiAnalysis(null)
+    }
+  }
+
+  const runAIAnalysis = async () => {
+    setIsAnalyzing(true)
+    try {
+      const propertyData: PropertyData = {
+        tipo: formData.tipo,
+        categoria: formData.categoria,
+        nombre: formData.nombre,
+        pais: formData.pais,
+        region: formData.region,
+        ciudad: formData.ciudad,
+        descripcion: formData.descripcion,
+        amenidades: formData.amenidades,
+        precioPorNoche: formData.precioPorNoche,
+        huespedes: formData.huespedes,
+        dormitorios: formData.dormitorios,
+        camas: formData.camas,
+        banos: formData.banos
+      }
+
+      const analysis = await analyzeProperty(propertyData)
+      setAiAnalysis(analysis)
+      setShowAISuggestions(true)
+      
+      toast.success('¡Análisis IA completado!', {
+        description: `Tu anuncio tiene un puntaje de ${analysis.score}/100`
+      })
+    } catch (error) {
+      console.error('Error en análisis IA:', error)
+      toast.error('No se pudo completar el análisis IA')
+    } finally {
+      setIsAnalyzing(false)
+    }
+  }
+
+  const applyAIDescription = async () => {
+    try {
+      toast.loading('Generando descripción optimizada...')
+      const optimized = await optimizeDescription(formData as PropertyData)
+      actualizarFormData('descripcion', optimized)
+      toast.success('¡Descripción optimizada aplicada!')
+    } catch (error) {
+      toast.error('Error al generar descripción')
+    }
+  }
+
+  const applyAIPricing = async () => {
+    try {
+      toast.loading('Analizando precios del mercado...')
+      const pricing = await suggestOptimalPricing(formData as PropertyData)
+      actualizarFormData('precioPorNoche', pricing.recommended)
+      toast.success('¡Precio optimizado aplicado!', {
+        description: `Precio sugerido: $${pricing.recommended.toLocaleString('es-CO')}`
+      })
+    } catch (error) {
+      toast.error('Error al analizar precios')
+    }
   }
 
   const siguientePaso = () => {
+    // Validar paso actual antes de continuar
+    const validation = validateStep(pasoActual, formData as PropertyData)
+    
+    if (!validation.valid) {
+      validation.errors.forEach(error => {
+        toast.error(error)
+      })
+      return
+    }
+
     if (pasoActual < PASOS.length) {
       setPasoActual(prev => prev + 1)
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -101,8 +188,19 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
   }
 
   const finalizarRegistro = () => {
+    // Validación final
+    if (!acceptedTerms || !acceptedVeracity) {
+      toast.error('Debes aceptar los términos y condiciones')
+      return
+    }
+
+    if (!photoUpload.hasMinimumPhotos) {
+      toast.error('Debes subir al menos 5 fotos de calidad')
+      return
+    }
+
     toast.success('¡Alojamiento registrado exitosamente!', {
-      description: 'Tu propiedad será revisada en las próximas 24 horas'
+      description: 'Tu propiedad será revisada en las próximas 24-48 horas'
     })
     onComplete?.()
   }
@@ -115,6 +213,14 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
       actualizarFormData('amenidades', [...amenidades, amenidad])
     }
   }
+
+  // Ejecutar análisis IA automáticamente cuando se completen campos clave
+  useEffect(() => {
+    if (pasoActual === 5 && formData.precioPorNoche && !aiAnalysis && !isAnalyzing) {
+      // Auto-analizar cuando llega al paso de precios
+      runAIAnalysis()
+    }
+  }, [pasoActual, formData.precioPorNoche])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background py-8">
