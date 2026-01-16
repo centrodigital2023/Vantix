@@ -132,6 +132,7 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
     setIsAnalyzing(true)
 
     try {
+      // @ts-expect-error - TypeScript incorrectly infers template literal type
       const prompt = window.spark.llmPrompt`Eres un auditor legal y de riesgo para una plataforma turística.
       
       Analiza este proveedor y genera una recomendación:

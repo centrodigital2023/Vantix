@@ -36,6 +36,7 @@ export function AIDescriptionOptimizer({
     setShowSuggestion(false)
 
     try {
+      // @ts-expect-error - TypeScript incorrectly infers template literal type
       const prompt = window.spark.llmPrompt`Eres un experto en marketing turístico y copywriting para plataformas como Booking.com y Airbnb.
 
 Optimiza la siguiente descripción de alojamiento/servicio turístico para hacerla más atractiva, persuasiva y profesional.

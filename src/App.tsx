@@ -116,7 +116,7 @@ import { BookingDialog } from '@/components/BookingDialog'
 import { useRouter } from '@/hooks/use-router'
 import { toast } from 'sonner'
 
-function App() {
+function AppContent() {
   const { currentPage, params, navigateTo: routerNavigate } = useRouter()
   const { isAuthenticated } = useAuth()
   const [accommodations, setAccommodations] = useKV<any[]>('accommodations-data', [])
@@ -351,7 +351,7 @@ function App() {
   }
 
   return (
-    <AuthProvider>
+    <>
       {!isAuthPage && !isHostPanel && !isSuperAdminPanel && <Navbar currentPage={activePage} onNavigate={handleNavigate} />}
       <main>
         <Suspense fallback={
@@ -372,6 +372,14 @@ function App() {
         onConfirm={handleBookingConfirmed}
         onLoginRequired={handleLoginRequired}
       />
+    </>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
     </AuthProvider>
   )
 }

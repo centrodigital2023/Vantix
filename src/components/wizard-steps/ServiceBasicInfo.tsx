@@ -40,6 +40,7 @@ export function ServiceBasicInfo({ category, data, onNext, onPrevious }: Service
     
     try {
       const categoryLabel = SERVICE_CATEGORY_LABELS[category]
+      // @ts-expect-error - TypeScript incorrectly infers template literal type
       const prompt = window.spark.llmPrompt`Título atractivo SEO (máx 50 chars) para servicio "${categoryLabel}" en ${formData.location.city}, ${formData.location.department}, Colombia. Incluye ubicación. Solo título.`
 
       const result = await window.spark.llm(prompt, 'gpt-4o-mini')

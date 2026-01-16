@@ -2,10 +2,12 @@
 declare const GITHUB_RUNTIME_PERMANENT_NAME: string
 declare const BASE_KV_SERVICE_URL: string
 
+type TaggedTemplateFn = (strings: TemplateStringsArray, ...values: any[]) => string
+
 declare global {
   interface Window {
     spark: {
-      llmPrompt(strings: TemplateStringsArray | readonly string[], ...values: any[]): string
+      llmPrompt: TaggedTemplateFn
       llm(prompt: string, modelName?: string, jsonMode?: boolean): Promise<string>
       user(): Promise<{
         avatarUrl: string
@@ -23,3 +25,5 @@ declare global {
     }
   }
 }
+
+export {}

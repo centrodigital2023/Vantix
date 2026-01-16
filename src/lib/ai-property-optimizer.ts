@@ -167,7 +167,7 @@ export async function generateTitleSuggestions(data: PropertyData): Promise<stri
   const locationStr = ciudad || region || 'la región'
   const propertyType = tipo === 'casa-campestre' ? 'Casa Campestre' :
                        tipo === 'hotel-boutique' ? 'Hotel Boutique' :
-                       tipo?.charAt(0).toUpperCase() + tipo?.slice(1) || 'Alojamiento'
+                       (tipo?.charAt(0).toUpperCase() ?? '') + (tipo?.slice(1) ?? '') || 'Alojamiento'
   
   const highlights = amenidades?.slice(0, 3) || []
   
@@ -258,13 +258,13 @@ export async function analyzeProperty(data: PropertyData): Promise<AIOptimizatio
     score += 10
     
     const pricing = await suggestOptimalPricing(data)
-    if (data.precioPorNoche < pricing.min * 0.7) {
+    if (pricing && data.precioPorNoche < pricing.min * 0.7) {
       suggestions.push({
         category: 'medium',
         message: 'Tu precio podría estar muy bajo',
         impact: 'Aumentarlo podría incrementar tus ingresos sin afectar ocupación'
       })
-    } else if (data.precioPorNoche > pricing.max * 1.3) {
+    } else if (pricing && data.precioPorNoche > pricing.max * 1.3) {
       suggestions.push({
         category: 'medium',
         message: 'Tu precio podría estar muy alto',
@@ -297,8 +297,8 @@ export async function analyzeProperty(data: PropertyData): Promise<AIOptimizatio
     titleSuggestions: titles,
     improvementSuggestions: suggestions,
     competitorAnalysis: {
-      averagePrice: pricing.recommended,
-      pricePercentile: data.precioPorNoche 
+      averagePrice: pricing?.recommended || 0,
+      pricePercentile: data.precioPorNoche && pricing
         ? Math.round((data.precioPorNoche / pricing.recommended) * 100)
         : 0,
       competitiveAdvantages: amenityCount >= 10 

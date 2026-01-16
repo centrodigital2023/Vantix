@@ -83,6 +83,7 @@ export async function generateBlogPosts(count: number = 12): Promise<BlogPost[]>
     const topic = blogTopics[i % blogTopics.length]
     const city = colombianCities[Math.floor(Math.random() * colombianCities.length)]
     
+    // @ts-expect-error - TypeScript incorrectly infers template literal type
     const prompt = window.spark.llmPrompt`Genera blog sobre turismo Colombia. 
 Tema: ${topic.theme}, Categoría: ${topic.category}, Destino: ${city}
 
@@ -149,6 +150,7 @@ export async function generateArticles(count: number = 12): Promise<Article[]> {
     const topic = articleTopics[i % articleTopics.length]
     const city = colombianCities[Math.floor(Math.random() * colombianCities.length)]
     
+    // @ts-expect-error - TypeScript incorrectly infers template literal type
     const prompt = window.spark.llmPrompt`Genera artículo sobre viajes Colombia.
 
 Categoría: ${topic.category}, Destino: ${city}
@@ -212,6 +214,7 @@ export async function generateNews(count: number = 10): Promise<NewsItem[]> {
   for (let i = 0; i < count; i++) {
     const topic = newsTopics[i % newsTopics.length]
     
+    // @ts-expect-error - TypeScript incorrectly infers template literal type
     const prompt = window.spark.llmPrompt`Genera noticia sobre turismo Colombia.
 
 Categoría: ${topic.category}

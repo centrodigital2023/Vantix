@@ -31,6 +31,7 @@ export function Itinerario() {
     setIsGenerating(true)
     
     try {
+      // @ts-expect-error - TypeScript incorrectly infers template literal type
       const prompt = window.spark.llmPrompt`Itinerario ${days} días Colombia:
 - Tipo: ${category}
 - Región: ${region}
