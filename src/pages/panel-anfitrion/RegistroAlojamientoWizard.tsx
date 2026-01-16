@@ -154,12 +154,10 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
     try {
       toast.loading('Analizando precios del mercado...')
       const pricing = await suggestOptimalPricing(formData as PropertyData)
-      if (pricing) {
-        actualizarFormData('precioPorNoche', pricing.recommended)
-        toast.success('¡Precio optimizado aplicado!', {
-          description: `Precio sugerido: $${pricing.recommended.toLocaleString('es-CO')}`
-        })
-      }
+      actualizarFormData('precioPorNoche', pricing.recommended)
+      toast.success('¡Precio optimizado aplicado!', {
+        description: `Precio sugerido: $${pricing.recommended.toLocaleString('es-CO')}`
+      })
     } catch (error) {
       toast.error('Error al analizar precios')
     }
@@ -644,90 +642,6 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
                   </>
                 )}
 
-                {pasoActual === 4 && (
-                  <div className="space-y-6">
-                    {/* Zona de carga */}
-                    <PhotoUploadZone
-                      onFileSelect={(files) => photoUpload.handleFileSelect(files)}
-                      isUploading={photoUpload.isUploading}
-                      maxFiles={20}
-                      currentCount={photoUpload.photos.length}
-                    />
-
-                    {/* Grid de fotos */}
-                    {photoUpload.photos.length > 0 && (
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="font-semibold">
-                            Fotos Cargadas ({photoUpload.photos.filter(p => p.status === 'completed').length}/{photoUpload.photos.length})
-                          </h3>
-                          {photoUpload.photos.length > 0 && (
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={photoUpload.clearAll}
-                            >
-                              Limpiar todas
-                            </Button>
-                          )}
-                        </div>
-                        
-                        <PhotoGrid
-                          photos={photoUpload.photos}
-                          onRemove={photoUpload.removePhoto}
-                          onReorder={photoUpload.reorderPhotos}
-                        />
-                      </div>
-                    )}
-
-                    {/* Alertas de calidad */}
-                    {photoUpload.photos.length > 0 && !photoUpload.hasMinimumPhotos && (
-                      <Alert className="border-orange-600/20 bg-orange-50/50 dark:bg-orange-950/20">
-                        <Warning size={18} weight="fill" className="text-orange-600" />
-                        <AlertDescription className="text-orange-700 dark:text-orange-400">
-                          Necesitas al menos 5 fotos de calidad para publicar tu anuncio
-                        </AlertDescription>
-                      </Alert>
-                    )}
-
-                    {photoUpload.hasMinimumPhotos && (
-                      <Alert className="border-green-600/20 bg-green-50/50 dark:bg-green-950/20">
-                        <CheckCircle size={18} weight="fill" className="text-green-600" />
-                        <AlertDescription className="text-green-700 dark:text-green-400">
-                          ¡Perfecto! Tienes suficientes fotos de calidad
-                        </AlertDescription>
-                      </Alert>
-                    )}
-
-                    <Separator />
-
-                    {/* Consejos profesionales */}
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <Lightbulb size={20} weight="duotone" className="text-primary" />
-                        <h3 className="font-semibold">Consejos de Fotografía Profesional</h3>
-                      </div>
-                      <div className="grid md:grid-cols-2 gap-3">
-                        {[
-                          {
-                            title: 'Iluminación Natural',
-                            desc: 'Fotografía durante el día con luz natural. Mejora 60% la conversión',
-                            icon: '☀️'
-                          },
-                          {
-                            title: 'Portada Impactante',
-                            desc: 'Primera foto debe mostrar la mejor vista de la propiedad',
-                            icon: '🏠'
-                          },
-                          {
-                            title: 'Todas las Áreas',
-                            desc: 'Incluye habitaciones, baños, cocina, espacios comunes y exteriores',
-                            icon: '📸'
-                          },
-                          {
-                            title: 'Orden y Limpieza',
-                            desc: 'Espacios ordenados transmiten confianza y profesionalismo',
                             icon: '✨'
                           },
                           {
@@ -795,263 +709,101 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
 
                 {pasoActual === 5 && (
                   <>
-                    {/* Botón de análisis IA */}
-                    {!aiAnalysis && (
-                      <Alert className="border-primary/20 bg-primary/5">
-                        <Sparkle size={18} weight="duotone" className="text-primary" />
-                        <AlertDescription>
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm">
-                              Obtén recomendaciones personalizadas de precio basadas en IA
-                            </span>
-                            <Button
-                              type="button"
-                              size="sm"
-                              onClick={runAIAnalysis}
-                              disabled={isAnalyzing}
-                              className="gap-2 ml-4"
-                            >
-                              {isAnalyzing ? (
-                                <>Analizando...</>
-                              ) : (
-                                <>
-                                  <TrendUp size={16} weight="bold" />
-                                  Analizar con IA
-                                </>
-                              )}
-                            </Button>
-                          </div>
-                        </AlertDescription>
-                      </Alert>
-                    )}
+                    <div className="space-y-2">
+                      <Label htmlFor="precio">Precio por Noche (COP) *</Label>
+                      <Input
+                        id="precio"
+                        type="number"
+                        min="0"
+                        step="1000"
+                        placeholder="Ej: 150000"
+                        value={formData.precioPorNoche || ''}
+                        onChange={(e) => actualizarFormData('precioPorNoche', parseInt(e.target.value) || 0)}
+                      />
+                    </div>
 
-                    {/* Resultados del análisis IA */}
-                    {aiAnalysis && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="space-y-4"
-                      >
-                        {/* Score general */}
-                        <div className="p-4 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border border-primary/20">
-                          <div className="flex items-center justify-between mb-3">
-                            <h3 className="font-semibold">Análisis de tu Anuncio</h3>
-                            <Badge 
-                              variant={aiAnalysis.score >= 80 ? 'default' : aiAnalysis.score >= 60 ? 'secondary' : 'destructive'}
-                              className="text-lg px-3 py-1"
-                            >
-                              {aiAnalysis.score}/100
-                            </Badge>
-                          </div>
-                          <Progress value={aiAnalysis.score} className="h-2 mb-2" />
-                          <p className="text-sm text-muted-foreground">
-                            {aiAnalysis.score >= 80 ? '¡Excelente! Tu anuncio está muy bien optimizado' :
-                             aiAnalysis.score >= 60 ? 'Buen progreso. Algunas mejoras podrían aumentar tus reservas' :
-                             'Tu anuncio necesita optimización para atraer más huéspedes'}
-                          </p>
-                        </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="limpieza">Gastos de Limpieza (COP)</Label>
+                      <Input
+                        id="limpieza"
+                        type="number"
+                        min="0"
+                        step="1000"
+                        placeholder="Ej: 30000"
+                        value={formData.gastosLimpieza || ''}
+                        onChange={(e) => actualizarFormData('gastosLimpieza', parseInt(e.target.value) || 0)}
+                      />
+                    </div>
 
-                        {/* Sugerencias de precio */}
-                        {aiAnalysis.suggestedPrice && (
-                          <div className="p-4 bg-muted/50 rounded-lg border">
-                            <div className="flex items-center justify-between mb-3">
-                              <h4 className="font-semibold">Precio Sugerido por IA</h4>
-                              <Button
-                                type="button"
-                                size="sm"
-                                variant="outline"
-                                onClick={applyAIPricing}
-                                className="gap-2"
-                              >
-                                <Sparkle size={14} weight="duotone" />
-                                Aplicar
-                              </Button>
-                            </div>
-                            
-                            <div className="grid grid-cols-3 gap-3 mb-3">
-                              <div className="text-center p-2 bg-background rounded">
-                                <p className="text-xs text-muted-foreground">Mínimo</p>
-                                <p className="text-lg font-bold">
-                                  ${aiAnalysis.suggestedPrice.min.toLocaleString('es-CO')}
-                                </p>
-                              </div>
-                              <div className="text-center p-2 bg-primary/10 rounded border-2 border-primary">
-                                <p className="text-xs text-primary font-medium">Recomendado</p>
-                                <p className="text-xl font-bold text-primary">
-                                  ${aiAnalysis.suggestedPrice.recommended.toLocaleString('es-CO')}
-                                </p>
-                              </div>
-                              <div className="text-center p-2 bg-background rounded">
-                                <p className="text-xs text-muted-foreground">Máximo</p>
-                                <p className="text-lg font-bold">
-                                  ${aiAnalysis.suggestedPrice.max.toLocaleString('es-CO')}
-                                </p>
-                              </div>
-                            </div>
-                            
-                            <p className="text-xs text-muted-foreground">
-                              {aiAnalysis.suggestedPrice.reasoning}
-                            </p>
-                          </div>
-                        )}
+                    <div className="space-y-2">
+                      <Label htmlFor="estanciaMinima">Estancia Mínima (noches)</Label>
+                      <Input
+                        id="estanciaMinima"
+                        type="number"
+                        min="1"
+                        max="30"
+                        placeholder="Ej: 2"
+                        value={formData.estanciaMinima || ''}
+                        onChange={(e) => actualizarFormData('estanciaMinima', parseInt(e.target.value) || 1)}
+                      />
+                    </div>
 
-                        {/* Sugerencias de mejora */}
-                        {aiAnalysis.improvementSuggestions.length > 0 && (
-                          <div className="space-y-2">
-                            <h4 className="font-semibold text-sm">Sugerencias de Mejora</h4>
-                            {aiAnalysis.improvementSuggestions.map((suggestion, index) => (
-                              <Alert
-                                key={index}
-                                className={
-                                  suggestion.category === 'critical'
-                                    ? 'border-red-600/20 bg-red-50/50 dark:bg-red-950/20'
-                                    : suggestion.category === 'high'
-                                    ? 'border-orange-600/20 bg-orange-50/50 dark:bg-orange-950/20'
-                                    : suggestion.category === 'medium'
-                                    ? 'border-yellow-600/20 bg-yellow-50/50 dark:bg-yellow-950/20'
-                                    : 'border-blue-600/20 bg-blue-50/50 dark:bg-blue-950/20'
-                                }
-                              >
-                                <Lightbulb size={16} weight="fill" />
-                                <AlertDescription>
-                                  <p className="text-sm font-medium mb-1">{suggestion.message}</p>
-                                  <p className="text-xs text-muted-foreground">{suggestion.impact}</p>
-                                </AlertDescription>
-                              </Alert>
-                            ))}
-                          </div>
-                        )}
-                      </motion.div>
-                    )}
+                    <div className="space-y-2">
+                      <Label htmlFor="politica">Política de Cancelación</Label>
+                      <Select value={formData.politicaCancelacion} onValueChange={(val) => actualizarFormData('politicaCancelacion', val)}>
+                        <SelectTrigger id="politica">
+                          <SelectValue placeholder="Selecciona" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="flexible">Flexible - Reembolso hasta 24h antes</SelectItem>
+                          <SelectItem value="moderada">Moderada - Reembolso hasta 5 días antes</SelectItem>
+                          <SelectItem value="estricta">Estricta - Reembolso hasta 14 días antes</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                    <Separator className="my-6" />
-
-                    {/* Formulario de precios */}
-                    <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="precio">Precio por Noche (COP) *</Label>
+                        <Label htmlFor="checkIn">Check-in</Label>
                         <Input
-                          id="precio"
-                          type="number"
-                          min="10000"
-                          step="5000"
-                          placeholder="Ej: 150000"
-                          value={formData.precioPorNoche || ''}
-                          onChange={(e) => actualizarFormData('precioPorNoche', parseInt(e.target.value) || 0)}
+                          id="checkIn"
+                          type="time"
+                          value={formData.checkIn || ''}
+                          onChange={(e) => actualizarFormData('checkIn', e.target.value)}
                         />
-                        {formData.precioPorNoche && formData.precioPorNoche < 10000 && (
-                          <p className="text-xs text-orange-600">
-                            El precio mínimo recomendado es $10,000 COP
-                          </p>
-                        )}
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="limpieza">Gastos de Limpieza (COP)</Label>
+                        <Label htmlFor="checkOut">Check-out</Label>
                         <Input
-                          id="limpieza"
-                          type="number"
-                          min="0"
-                          step="5000"
-                          placeholder="Ej: 30000"
-                          value={formData.gastosLimpieza || ''}
-                          onChange={(e) => actualizarFormData('gastosLimpieza', parseInt(e.target.value) || 0)}
+                          id="checkOut"
+                          type="time"
+                          value={formData.checkOut || ''}
+                          onChange={(e) => actualizarFormData('checkOut', e.target.value)}
                         />
-                        <p className="text-xs text-muted-foreground">
-                          Cubre costos de limpieza profunda entre huéspedes
-                        </p>
-                      </div>
-
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="estanciaMinima">Estancia Mínima (noches)</Label>
-                          <Input
-                            id="estanciaMinima"
-                            type="number"
-                            min="1"
-                            max="30"
-                            placeholder="Ej: 2"
-                            value={formData.estanciaMinima || ''}
-                            onChange={(e) => actualizarFormData('estanciaMinima', parseInt(e.target.value) || 1)}
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="politica">Política de Cancelación</Label>
-                          <Select 
-                            value={formData.politicaCancelacion} 
-                            onValueChange={(val) => actualizarFormData('politicaCancelacion', val)}
-                          >
-                            <SelectTrigger id="politica">
-                              <SelectValue placeholder="Selecciona" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="flexible">Flexible - Reembolso hasta 24h antes</SelectItem>
-                              <SelectItem value="moderada">Moderada - Reembolso hasta 5 días antes</SelectItem>
-                              <SelectItem value="estricta">Estricta - Reembolso hasta 14 días antes</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="checkIn">Check-in</Label>
-                          <Input
-                            id="checkIn"
-                            type="time"
-                            value={formData.checkIn || ''}
-                            onChange={(e) => actualizarFormData('checkIn', e.target.value)}
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="checkOut">Check-out</Label>
-                          <Input
-                            id="checkOut"
-                            type="time"
-                            value={formData.checkOut || ''}
-                            onChange={(e) => actualizarFormData('checkOut', e.target.value)}
-                          />
-                        </div>
                       </div>
                     </div>
 
-                    {/* Simulación de ganancias */}
-                    {formData.precioPorNoche && formData.precioPorNoche >= 10000 && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="p-4 bg-gradient-to-br from-accent/10 to-primary/5 rounded-lg border border-accent/20"
-                      >
-                        <h3 className="font-semibold mb-3 flex items-center gap-2">
-                          <TrendUp size={20} weight="duotone" className="text-accent" />
-                          Simulación de Ingresos
-                        </h3>
-                        <div className="grid md:grid-cols-3 gap-4 text-sm">
-                          <div className="p-3 bg-background rounded">
-                            <p className="text-muted-foreground mb-1">1 noche</p>
-                            <p className="text-xl font-bold">
-                              ${formData.precioPorNoche.toLocaleString('es-CO')}
-                            </p>
+                    {formData.precioPorNoche && (
+                      <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
+                        <h3 className="font-semibold mb-3">Simulación de Ganancia</h3>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">1 noche:</span>
+                            <span className="font-medium">${formData.precioPorNoche.toLocaleString('es-CO')}</span>
                           </div>
-                          <div className="p-3 bg-background rounded">
-                            <p className="text-muted-foreground mb-1">7 noches</p>
-                            <p className="text-xl font-bold">
-                              ${(formData.precioPorNoche * 7).toLocaleString('es-CO')}
-                            </p>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">7 noches:</span>
+                            <span className="font-medium">${(formData.precioPorNoche * 7).toLocaleString('es-CO')}</span>
                           </div>
-                          <div className="p-3 bg-accent/10 rounded border border-accent/30">
-                            <p className="text-muted-foreground mb-1">Mes (70% ocupación)</p>
-                            <p className="text-xl font-bold text-accent">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">30 noches (ocupación 70%):</span>
+                            <span className="font-medium text-accent">
                               ${(formData.precioPorNoche * 21).toLocaleString('es-CO')}
-                            </p>
+                            </span>
                           </div>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-3">
-                          * Cálculo estimado. Los ingresos reales dependen de ocupación, temporada y demanda.
-                        </p>
-                      </motion.div>
+                      </div>
                     )}
                   </>
                 )}
@@ -1065,161 +817,69 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
                         placeholder="Número de RNT (si aplica)"
                       />
                       <p className="text-xs text-muted-foreground">
-                        Obligatorio para establecimientos comerciales en Colombia. Si es alojamiento particular, puede dejarse en blanco.
+                        Obligatorio para establecimientos comerciales en Colombia
                       </p>
                     </div>
 
-                    <Separator />
-
-                    <div className="space-y-4">
-                      <h3 className="font-semibold">Términos y Condiciones</h3>
-                      
-                      <div className="flex items-start space-x-3 p-4 bg-muted/50 rounded-lg">
-                        <Checkbox 
-                          id="terminos"
-                          checked={acceptedTerms}
-                          onCheckedChange={(checked) => setAcceptedTerms(checked as boolean)}
-                        />
-                        <div className="grid gap-1.5 leading-none">
-                          <label
-                            htmlFor="terminos"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                          >
-                            Acepto los términos y condiciones de SendAI *
-                          </label>
-                          <p className="text-xs text-muted-foreground">
-                            He leído y acepto las políticas de uso, comisiones (15% por reserva) y normas para anfitriones de la plataforma SendAI
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start space-x-3 p-4 bg-muted/50 rounded-lg">
-                        <Checkbox 
-                          id="veracidad"
-                          checked={acceptedVeracity}
-                          onCheckedChange={(checked) => setAcceptedVeracity(checked as boolean)}
-                        />
-                        <div className="grid gap-1.5 leading-none">
-                          <label
-                            htmlFor="veracidad"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                          >
-                            Declaro que toda la información proporcionada es veraz *
-                          </label>
-                          <p className="text-xs text-muted-foreground">
-                            Confirmo que las fotos, descripción, amenidades y demás información son precisas y actualizadas. La información falsa puede resultar en suspensión de la cuenta.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start space-x-3 p-4 bg-muted/50 rounded-lg">
-                        <Checkbox id="camaras" />
-                        <div className="grid gap-1.5 leading-none">
-                          <label
-                            htmlFor="camaras"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                          >
-                            Mi propiedad tiene cámaras de seguridad o dispositivos de grabación
-                          </label>
-                          <p className="text-xs text-muted-foreground">
-                            Marcar solo si aplica. Debes indicar su ubicación exacta en la descripción y notificar a los huéspedes según normativas de privacidad.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start space-x-3 p-4 bg-muted/50 rounded-lg">
-                        <Checkbox id="proteccionDatos" defaultChecked />
-                        <div className="grid gap-1.5 leading-none">
-                          <label
-                            htmlFor="proteccionDatos"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                          >
-                            Acepto la política de protección de datos personales
-                          </label>
-                          <p className="text-xs text-muted-foreground">
-                            Entiendo que SendAI procesará mis datos según la Ley de Protección de Datos vigente
-                          </p>
-                        </div>
+                    <div className="flex items-start space-x-2">
+                      <Checkbox id="terminos" />
+                      <div className="grid gap-1.5 leading-none">
+                        <label
+                          htmlFor="terminos"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                        >
+                          Acepto los términos y condiciones *
+                        </label>
+                        <p className="text-xs text-muted-foreground">
+                          He leído y acepto las políticas de SendAI para anfitriones
+                        </p>
                       </div>
                     </div>
 
-                    <Separator />
+                    <div className="flex items-start space-x-2">
+                      <Checkbox id="veracidad" />
+                      <div className="grid gap-1.5 leading-none">
+                        <label
+                          htmlFor="veracidad"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                        >
+                          Declaro que la información es veraz *
+                        </label>
+                        <p className="text-xs text-muted-foreground">
+                          Toda la información proporcionada es precisa y actualizada
+                        </p>
+                      </div>
+                    </div>
 
-                    {/* Resumen final */}
-                    <div className="p-6 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border-2 border-primary/20">
-                      <div className="flex items-start gap-3 mb-4">
-                        <CheckCircle size={32} weight="duotone" className="text-primary flex-shrink-0" />
+                    <div className="flex items-start space-x-2">
+                      <Checkbox id="camaras" />
+                      <div className="grid gap-1.5 leading-none">
+                        <label
+                          htmlFor="camaras"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                        >
+                          Declaración de cámaras de seguridad
+                        </label>
+                        <p className="text-xs text-muted-foreground">
+                          Si existen, marcar ubicación y notificar a huéspedes
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-6 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg border border-primary/20">
+                      <div className="flex items-center gap-3 mb-3">
+                        <CheckCircle size={32} weight="duotone" className="text-primary" />
                         <div>
-                          <h3 className="font-bold text-lg mb-1">¡Casi listo para publicar!</h3>
+                          <h3 className="font-bold text-lg">¡Casi listo!</h3>
                           <p className="text-sm text-muted-foreground">
-                            Tu alojamiento será revisado por nuestro equipo en 24-48 horas
+                            Tu alojamiento será revisado en 24-48 horas
                           </p>
                         </div>
                       </div>
-
-                      <div className="space-y-3 mb-4">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Información básica:</span>
-                          <Badge variant="secondary">
-                            <CheckCircle size={14} weight="fill" className="mr-1" />
-                            Completo
-                          </Badge>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Capacidad y amenidades:</span>
-                          <Badge variant="secondary">
-                            <CheckCircle size={14} weight="fill" className="mr-1" />
-                            {formData.amenidades?.length || 0} amenidades
-                          </Badge>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Fotos:</span>
-                          <Badge variant={photoUpload.hasMinimumPhotos ? 'default' : 'destructive'}>
-                            {photoUpload.photos.filter(p => p.status === 'completed').length} fotos
-                          </Badge>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Precio configurado:</span>
-                          <Badge variant="secondary">
-                            ${formData.precioPorNoche?.toLocaleString('es-CO') || '0'} COP/noche
-                          </Badge>
-                        </div>
-                        {aiAnalysis && (
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="text-muted-foreground">Calidad del anuncio:</span>
-                            <Badge 
-                              variant={aiAnalysis.score >= 80 ? 'default' : aiAnalysis.score >= 60 ? 'secondary' : 'outline'}
-                            >
-                              {aiAnalysis.score}/100 puntos
-                            </Badge>
-                          </div>
-                        )}
-                      </div>
-
-                      <Alert className="bg-background">
-                        <Lightbulb size={16} weight="fill" />
-                        <AlertDescription className="text-xs">
-                          <strong>Próximos pasos:</strong> Revisaremos fotos, descripción y documentación. 
-                          Recibirás un email con el resultado. Una vez aprobado, tu propiedad aparecerá en búsquedas 
-                          y podrás comenzar a recibir reservas inmediatamente.
-                        </AlertDescription>
-                      </Alert>
+                      <p className="text-sm">
+                        Después de la aprobación, tu propiedad aparecerá en búsquedas y podrás comenzar a recibir reservas.
+                      </p>
                     </div>
-
-                    {/* Validación de requisitos */}
-                    {(!acceptedTerms || !acceptedVeracity || !photoUpload.hasMinimumPhotos) && (
-                      <Alert className="border-orange-600/20 bg-orange-50/50 dark:bg-orange-950/20">
-                        <Warning size={18} weight="fill" className="text-orange-600" />
-                        <AlertDescription className="text-orange-700 dark:text-orange-400">
-                          <p className="font-medium mb-2">Requisitos pendientes:</p>
-                          <ul className="text-sm space-y-1 ml-4">
-                            {!acceptedTerms && <li>• Debes aceptar los términos y condiciones</li>}
-                            {!acceptedVeracity && <li>• Debes declarar que la información es veraz</li>}
-                            {!photoUpload.hasMinimumPhotos && <li>• Debes subir al menos 5 fotos de calidad</li>}
-                          </ul>
-                        </AlertDescription>
-                      </Alert>
-                    )}
                   </div>
                 )}
               </CardContent>
