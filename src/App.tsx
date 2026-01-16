@@ -1,44 +1,112 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { Toaster } from '@/components/ui/sonner'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+
+// Páginas principales - carga directa para mejor UX
 import { Home } from '@/pages/Home'
 import { Explorar } from '@/pages/Explorar'
-import { Itinerario } from '@/pages/Itinerario'
-import { Blog } from '@/pages/Blog'
-import { Contacto } from '@/pages/Contacto'
-import { Propietarios } from '@/pages/Propietarios'
-import { RegistroAlojamiento } from '@/pages/RegistroAlojamiento'
-import { DestinoResultados } from '@/pages/DestinoResultados'
-import { DetalleAlojamiento } from '@/pages/DetalleAlojamiento'
-import { ReservaConfirmacion } from '@/pages/ReservaConfirmacion'
-import { ReservaExitosa } from '@/pages/ReservaExitosa'
-import { MisReservas } from '@/pages/MisReservas'
-import { Aventura } from '@/pages/categorias/Aventura'
-import { Bienestar } from '@/pages/categorias/Bienestar'
-import { Cultural } from '@/pages/categorias/Cultural'
-import { Familiar } from '@/pages/categorias/Familiar'
-import { Gastronomia } from '@/pages/categorias/Gastronomia'
-import { Naturaleza } from '@/pages/categorias/Naturaleza'
-import { Negocios } from '@/pages/categorias/Negocios'
-import { Playa } from '@/pages/categorias/Playa'
-import { Religioso } from '@/pages/categorias/Religioso'
-import { Rural } from '@/pages/categorias/Rural'
-import { FeedPersonalizado } from '@/pages/FeedPersonalizado'
-import { FAQ, CentroDeSeguridad, SoporteTurista, ComoReservar, EstadoDeReserva } from '@/pages'
-import { Destinos, Tours, Alojamientos, Transportes, ComidaTipica, MapaTuristicoPage } from '@/pages'
-import { SobreNosotros, MisionVision, PorQueElegirnos, TestimoniosPage } from '@/pages'
-import { Terminos, Privacidad, CookiesPage, ReembolsosPage, CancelacionPage } from '@/pages'
-import { TurismosPasto, ToursNarino, QueHacerPasto, LugaresImperdibles } from '@/pages'
-import { AventuraPage, NaturalezaPage, CulturaPage, GastronomiaPage, SenderismoPage, FestivalesPage } from '@/pages'
-import { GuiaDelViajero, ArticulosPage, NoticiasTurismoPage, AgenciasPage, ColaboradoresPage, AfiliadosPage, GuiasTuristicosPage } from '@/pages'
-import { Ofertas, PlanesFinDeSemanaPage, ViajesBaratosPage } from '@/pages'
-import { SuperAdminDashboard, SuperAdminUsers, SuperAdminComplaints, SuperAdminProviders, SuperAdminAnalytics, SuperAdminConfig } from '@/pages/superadmin'
-import { TouristAuth, HostAuth, AdminAuth } from '@/pages'
-import { HostPanelMain } from '@/pages/panel-anfitrion/HostPanelMain'
-import { RegistroServicio } from '@/pages/RegistroServicio'
-import { PanelPrestador } from '@/pages/PanelPrestador'
-import { NotFoundPage } from '@/pages/NotFound'
+
+// Lazy loading para el resto de páginas
+const Itinerario = lazy(() => import('@/pages/Itinerario').then(m => ({ default: m.Itinerario })))
+const Blog = lazy(() => import('@/pages/Blog').then(m => ({ default: m.Blog })))
+const Contacto = lazy(() => import('@/pages/Contacto').then(m => ({ default: m.Contacto })))
+const Propietarios = lazy(() => import('@/pages/Propietarios').then(m => ({ default: m.Propietarios })))
+const RegistroAlojamiento = lazy(() => import('@/pages/RegistroAlojamiento').then(m => ({ default: m.RegistroAlojamiento })))
+const DestinoResultados = lazy(() => import('@/pages/DestinoResultados').then(m => ({ default: m.DestinoResultados })))
+const DetalleAlojamiento = lazy(() => import('@/pages/DetalleAlojamiento').then(m => ({ default: m.DetalleAlojamiento })))
+const ReservaConfirmacion = lazy(() => import('@/pages/ReservaConfirmacion').then(m => ({ default: m.ReservaConfirmacion })))
+const ReservaExitosa = lazy(() => import('@/pages/ReservaExitosa').then(m => ({ default: m.ReservaExitosa })))
+const MisReservas = lazy(() => import('@/pages/MisReservas').then(m => ({ default: m.MisReservas })))
+const FeedPersonalizado = lazy(() => import('@/pages/FeedPersonalizado').then(m => ({ default: m.FeedPersonalizado })))
+const RegistroServicio = lazy(() => import('@/pages/RegistroServicio').then(m => ({ default: m.RegistroServicio })))
+const PanelPrestador = lazy(() => import('@/pages/PanelPrestador').then(m => ({ default: m.PanelPrestador })))
+const NotFoundPage = lazy(() => import('@/pages/NotFound').then(m => ({ default: m.NotFoundPage })))
+
+// Categorías
+const Aventura = lazy(() => import('@/pages/categorias/Aventura').then(m => ({ default: m.Aventura })))
+const Bienestar = lazy(() => import('@/pages/categorias/Bienestar').then(m => ({ default: m.Bienestar })))
+const Cultural = lazy(() => import('@/pages/categorias/Cultural').then(m => ({ default: m.Cultural })))
+const Familiar = lazy(() => import('@/pages/categorias/Familiar').then(m => ({ default: m.Familiar })))
+const Gastronomia = lazy(() => import('@/pages/categorias/Gastronomia').then(m => ({ default: m.Gastronomia })))
+const Naturaleza = lazy(() => import('@/pages/categorias/Naturaleza').then(m => ({ default: m.Naturaleza })))
+const Negocios = lazy(() => import('@/pages/categorias/Negocios').then(m => ({ default: m.Negocios })))
+const Playa = lazy(() => import('@/pages/categorias/Playa').then(m => ({ default: m.Playa })))
+const Religioso = lazy(() => import('@/pages/categorias/Religioso').then(m => ({ default: m.Religioso })))
+const Rural = lazy(() => import('@/pages/categorias/Rural').then(m => ({ default: m.Rural })))
+
+// Auth
+const TouristAuth = lazy(() => import('@/pages').then(m => ({ default: m.TouristAuth })))
+const HostAuth = lazy(() => import('@/pages').then(m => ({ default: m.HostAuth })))
+const AdminAuth = lazy(() => import('@/pages').then(m => ({ default: m.AdminAuth })))
+
+// Páginas de ayuda
+const FAQ = lazy(() => import('@/pages').then(m => ({ default: m.FAQ })))
+const CentroDeSeguridad = lazy(() => import('@/pages').then(m => ({ default: m.CentroDeSeguridad })))
+const SoporteTurista = lazy(() => import('@/pages').then(m => ({ default: m.SoporteTurista })))
+const ComoReservar = lazy(() => import('@/pages').then(m => ({ default: m.ComoReservar })))
+const EstadoDeReserva = lazy(() => import('@/pages').then(m => ({ default: m.EstadoDeReserva })))
+
+// Páginas de descubre
+const Destinos = lazy(() => import('@/pages').then(m => ({ default: m.Destinos })))
+const Tours = lazy(() => import('@/pages').then(m => ({ default: m.Tours })))
+const Alojamientos = lazy(() => import('@/pages').then(m => ({ default: m.Alojamientos })))
+const Transportes = lazy(() => import('@/pages').then(m => ({ default: m.Transportes })))
+const ComidaTipica = lazy(() => import('@/pages').then(m => ({ default: m.ComidaTipica })))
+const MapaTuristicoPage = lazy(() => import('@/pages').then(m => ({ default: m.MapaTuristicoPage })))
+
+// Páginas de empresa
+const SobreNosotros = lazy(() => import('@/pages').then(m => ({ default: m.SobreNosotros })))
+const MisionVision = lazy(() => import('@/pages').then(m => ({ default: m.MisionVision })))
+const PorQueElegirnos = lazy(() => import('@/pages').then(m => ({ default: m.PorQueElegirnos })))
+const TestimoniosPage = lazy(() => import('@/pages').then(m => ({ default: m.TestimoniosPage })))
+
+// Páginas legales
+const Terminos = lazy(() => import('@/pages').then(m => ({ default: m.Terminos })))
+const Privacidad = lazy(() => import('@/pages').then(m => ({ default: m.Privacidad })))
+const CookiesPage = lazy(() => import('@/pages').then(m => ({ default: m.CookiesPage })))
+const ReembolsosPage = lazy(() => import('@/pages').then(m => ({ default: m.ReembolsosPage })))
+const CancelacionPage = lazy(() => import('@/pages').then(m => ({ default: m.CancelacionPage })))
+
+// Páginas de Nariño
+const TurismosPasto = lazy(() => import('@/pages').then(m => ({ default: m.TurismosPasto })))
+const ToursNarino = lazy(() => import('@/pages').then(m => ({ default: m.ToursNarino })))
+const QueHacerPasto = lazy(() => import('@/pages').then(m => ({ default: m.QueHacerPasto })))
+const LugaresImperdibles = lazy(() => import('@/pages').then(m => ({ default: m.LugaresImperdibles })))
+
+// Páginas de experiencias
+const AventuraPage = lazy(() => import('@/pages').then(m => ({ default: m.AventuraPage })))
+const NaturalezaPage = lazy(() => import('@/pages').then(m => ({ default: m.NaturalezaPage })))
+const CulturaPage = lazy(() => import('@/pages').then(m => ({ default: m.CulturaPage })))
+const GastronomiaPage = lazy(() => import('@/pages').then(m => ({ default: m.GastronomiaPage })))
+const SenderismoPage = lazy(() => import('@/pages').then(m => ({ default: m.SenderismoPage })))
+const FestivalesPage = lazy(() => import('@/pages').then(m => ({ default: m.FestivalesPage })))
+
+// Páginas de recursos
+const GuiaDelViajero = lazy(() => import('@/pages').then(m => ({ default: m.GuiaDelViajero })))
+const ArticulosPage = lazy(() => import('@/pages').then(m => ({ default: m.ArticulosPage })))
+const NoticiasTurismoPage = lazy(() => import('@/pages').then(m => ({ default: m.NoticiasTurismoPage })))
+const AgenciasPage = lazy(() => import('@/pages').then(m => ({ default: m.AgenciasPage })))
+const ColaboradoresPage = lazy(() => import('@/pages').then(m => ({ default: m.ColaboradoresPage })))
+const AfiliadosPage = lazy(() => import('@/pages').then(m => ({ default: m.AfiliadosPage })))
+const GuiasTuristicosPage = lazy(() => import('@/pages').then(m => ({ default: m.GuiasTuristicosPage })))
+
+// Promociones
+const Ofertas = lazy(() => import('@/pages').then(m => ({ default: m.Ofertas })))
+const PlanesFinDeSemanaPage = lazy(() => import('@/pages').then(m => ({ default: m.PlanesFinDeSemanaPage })))
+const ViajesBaratosPage = lazy(() => import('@/pages').then(m => ({ default: m.ViajesBaratosPage })))
+
+// SuperAdmin
+const SuperAdminDashboard = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminDashboard })))
+const SuperAdminUsers = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminUsers })))
+const SuperAdminComplaints = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminComplaints })))
+const SuperAdminProviders = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminProviders })))
+const SuperAdminAnalytics = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminAnalytics })))
+const SuperAdminConfig = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminConfig })))
+
+// Host Panel
+const HostPanelMain = lazy(() => import('@/pages/panel-anfitrion/HostPanelMain').then(m => ({ default: m.HostPanelMain })))
+
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider } from '@/contexts/AuthContext'
@@ -272,7 +340,13 @@ function App() {
     <AuthProvider>
       {!isAuthPage && !isHostPanel && !isSuperAdminPanel && <Navbar currentPage={activePage} onNavigate={handleNavigate} />}
       <main>
-        {renderPage()}
+        <Suspense fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          </div>
+        }>
+          {renderPage()}
+        </Suspense>
       </main>
       {!isAuthPage && !isHostPanel && !isSuperAdminPanel && <Footer onNavigate={handleNavigate} />}
       <Toaster />
