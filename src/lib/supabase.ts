@@ -1,26 +1,43 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-    storage: {
-      getItem: (key: string) => {
-        return window.spark.kv.get<string>(key).then(value => value || null)
-      },
-      setItem: (key: string, value: string) => {
-        return window.spark.kv.set(key, value)
-      },
-      removeItem: (key: string) => {
-        return window.spark.kv.delete(key)
+const createSupabaseClient = (): SupabaseClient => {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return createClient('https://placeholder.supabase.co', 'placeholder-key', {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      }
+    })
+  }
+
+  return createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      storage: {
+        getItem: (key: string) => {
+          return window.spark.kv.get<string>(key).then(value => value || null)
+        },
+        setItem: (key: string, value: string) => {
+          return window.spark.kv.set(key, value)
+        },
+        removeItem: (key: string) => {
+          return window.spark.kv.delete(key)
+        }
       }
     }
-  }
-})
+  })
+}
+
+export const supabase = createSupabaseClient()
+
+export const isSupabaseConfigured = () => {
+  return !!(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY)
+}
 
 export type Database = {
   public: {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import { User, Session, AuthError } from '@supabase/supabase-js'
 import { toast } from 'sonner'
 
@@ -9,6 +9,11 @@ export function useSupabaseAuth() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (!isSupabaseConfigured()) {
+      setLoading(false)
+      return
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
@@ -27,6 +32,11 @@ export function useSupabaseAuth() {
   }, [])
 
   const signUp = async (email: string, password: string, metadata?: Record<string, any>) => {
+    if (!isSupabaseConfigured()) {
+      toast.error('Supabase no está configurado')
+      return { user: null, session: null, error: { message: 'Supabase not configured' } as AuthError }
+    }
+
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -53,6 +63,11 @@ export function useSupabaseAuth() {
   }
 
   const signIn = async (email: string, password: string) => {
+    if (!isSupabaseConfigured()) {
+      toast.error('Supabase no está configurado')
+      return { user: null, session: null, error: { message: 'Supabase not configured' } as AuthError }
+    }
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -71,6 +86,11 @@ export function useSupabaseAuth() {
   }
 
   const signOut = async () => {
+    if (!isSupabaseConfigured()) {
+      toast.error('Supabase no está configurado')
+      return { error: { message: 'Supabase not configured' } as AuthError }
+    }
+
     try {
       const { error } = await supabase.auth.signOut()
       if (error) throw error
@@ -85,6 +105,11 @@ export function useSupabaseAuth() {
   }
 
   const resetPassword = async (email: string) => {
+    if (!isSupabaseConfigured()) {
+      toast.error('Supabase no está configurado')
+      return { error: { message: 'Supabase not configured' } as AuthError }
+    }
+
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/reset-password`,
@@ -102,6 +127,11 @@ export function useSupabaseAuth() {
   }
 
   const updatePassword = async (newPassword: string) => {
+    if (!isSupabaseConfigured()) {
+      toast.error('Supabase no está configurado')
+      return { error: { message: 'Supabase not configured' } as AuthError }
+    }
+
     try {
       const { error } = await supabase.auth.updateUser({
         password: newPassword
