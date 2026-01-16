@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox'
 import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Separator } from '@/components/ui/separator'
 import {
   ArrowLeft,
   ArrowRight,
@@ -20,10 +22,25 @@ import {
   Images,
   CurrencyDollar,
   FileText,
-  CheckCircle
+  CheckCircle,
+  Sparkle,
+  Warning,
+  Lightbulb,
+  TrendUp
 } from '@phosphor-icons/react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
+import { usePhotoUpload } from '@/hooks/use-photo-upload'
+import { PhotoGrid, PhotoUploadZone } from '@/components/PhotoUploadComponents'
+import { 
+  analyzeProperty, 
+  optimizeDescription, 
+  suggestOptimalPricing,
+  generateTitleSuggestions,
+  validateStep,
+  type PropertyData,
+  type AIOptimizationResult
+} from '@/lib/ai-property-optimizer'
 
 interface FormData {
   tipo: string
