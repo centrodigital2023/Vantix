@@ -5,11 +5,13 @@ import { Label } from '@/components/ui/label'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { CalendarBlank, Users } from '@phosphor-icons/react'
+import { CalendarBlank, Users, SignIn } from '@phosphor-icons/react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { cn } from '@/lib/utils'
 import { useKV } from '@github/spark/hooks'
+import { useAuth } from '@/contexts/AuthContext'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 interface BookingDialogProps {
   open: boolean
@@ -17,6 +19,7 @@ interface BookingDialogProps {
   accommodationId: string
   roomTypeId: string
   onConfirm: () => void
+  onLoginRequired?: () => void
 }
 
 export function BookingDialog({ 
@@ -24,13 +27,22 @@ export function BookingDialog({
   onOpenChange, 
   accommodationId, 
   roomTypeId,
-  onConfirm 
+  onConfirm,
+  onLoginRequired
 }: BookingDialogProps) {
+  const { isAuthenticated, user } = useAuth()
   const [checkIn, setCheckIn] = useState<Date>()
   const [checkOut, setCheckOut] = useState<Date>()
   const [guests, setGuests] = useState('2')
 
   const handleContinue = async () => {
+    if (!isAuthenticated) {
+      if (onLoginRequired) {
+        onLoginRequired()
+      }
+      return
+    }
+
     if (!checkIn || !checkOut) {
       return
     }
@@ -40,7 +52,8 @@ export function BookingDialog({
       roomTypeId,
       checkIn: checkIn.toISOString(),
       checkOut: checkOut.toISOString(),
-      guests: parseInt(guests)
+      guests: parseInt(guests),
+      userId: user?.id
     }
 
     await window.spark.kv.set('temp-booking-data', bookingData)
@@ -133,14 +146,30 @@ export function BookingDialog({
               </SelectContent>
             </Select>
           </div>
+
+          {!isAuthenticated && (
+            <Alert className="bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-800">
+              <SignIn size={20} className="text-amber-600 dark:text-amber-400" />
+              <AlertDescription className="text-sm text-amber-800 dark:text-amber-200">
+                <strong>Inicia sesión</strong> para continuar con tu reserva
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
 
         <div className="flex gap-3">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
             Cancelar
           </Button>
-          <Button onClick={handleContinue} disabled={!isValid} className="flex-1">
-            Continuar
+          <Button onClick={handleContinue} disabled={!isValid} className="flex-1 gap-2">
+            {!isAuthenticated ? (
+              <>
+                <SignIn size={18} />
+                Iniciar Sesión para Reservar
+              </>
+            ) : (
+              'Continuar'
+            )}
           </Button>
         </div>
       </DialogContent>

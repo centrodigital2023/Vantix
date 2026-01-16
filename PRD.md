@@ -54,27 +54,30 @@ This platform requires multiple interconnected features: AI-powered itinerary ge
 - Progression: User clicks link/button → URL updates in address bar → Route parsed → Correct page rendered → Browser history updated → Back/forward buttons work naturally
 - Success criteria: All pages accessible via clean URLs (no hashes), URLs shareable and work on refresh, browser navigation works correctly, query parameters preserved for filters, route params work for dynamic content (accommodation IDs, etc.), 404 page shown for invalid routes
 
-**User Authentication**
-- Functionality: Secure login and signup system with role-based access control (Tourist, Host, Service Provider, Admin, SuperAdmin) and persistent sessions
-- Purpose: Protect role-specific features, associate listings with owners, enable booking history for tourists, and provide secure administrative access
+**User Authentication with Email & Google OAuth**
+- Functionality: Complete authentication system with role-based access control (Tourist, Host, Service Provider, Admin, SuperAdmin), email/password authentication, Google OAuth integration, and persistent sessions
+- Purpose: Protect role-specific features, enable bookings for tourists only after authentication, allow hosts/service providers to register and manage their offerings, and provide secure administrative access
 - Trigger: 
-  - Tourists: Clicking "Iniciar Sesión" button in navbar (top right) or attempting to book/save itineraries
-  - Hosts/Service Providers: Clicking "Acceso Anfitriones" link in footer (discrete placement) or accessing property management features
+  - Tourists: Clicking "Iniciar Sesión" button in navbar (top right) or attempting to book accommodations/save itineraries
+  - Hosts/Service Providers: Clicking "Acceso Anfitriones" link in footer (discrete placement) to register/manage properties
   - SuperAdmin: Clicking "Acceso Administrativo" link in footer (discrete placement)
 - Progression: 
-  - **Tourist Flow**: View tourist auth page → Choose login/signup tabs → Optional Google OAuth → Authenticate as 'tourist' role → Access booking and itinerary features
-  - **Host/Service Provider Flow**: View host auth page → Select account type (Anfitrión or Prestador) → Register with business info → Verification notice (24-48 hours) → Authenticate → Access property/service management panel → Await SuperAdmin approval
-  - **SuperAdmin Flow**: View admin auth page → Enter predefined credentials → Complete 2FA verification (mandatory) → IP logging → Authenticate as 'superadmin' role → Access full system administration
+  - **Tourist Flow**: Browse freely without auth → Click book/reserve → Redirected to tourist auth page → Choose login/signup tabs → Enter email/password OR click Google OAuth button → Authenticate as 'tourist' role → Return to booking flow or saved itineraries
+  - **Host/Service Provider Flow**: View host auth page → Select account type (Anfitrión or Prestador de Servicios) → Register with business info (name, email, password, phone) → Verification notice (24-48 hours) → Email authentication required → Authenticate → Access property/service management panel → Await SuperAdmin approval before listings go live
+  - **SuperAdmin Flow**: View admin auth page → Enter predefined credentials (superadmin@sendai.com) → Complete 2FA verification (mandatory code: 123456) → IP logging → Authenticate as 'superadmin' role → Access full system administration
 - Success criteria: 
-  - Authentication persists across sessions
-  - Secure credential handling
-  - Graceful handling of auth states
-  - Role-based UI rendering (tourists see booking options, hosts see property management, superadmin sees all controls)
-  - Google OAuth integration for tourists only
-  - 2FA mandatory for SuperAdmin with max 3 attempts
-  - Discrete footer placement for host and admin access links
-  - Clear separation of authentication interfaces by role
-  - Verification workflow for new hosts/service providers with SuperAdmin approval gate
+  - Tourists can browse all content without authentication
+  - Authentication required only for bookings, reviews, and saving itineraries
+  - Email/password authentication works for all user types
+  - Google OAuth button functional for tourists only (simulated with mock flow)
+  - Authentication state persists across sessions using useKV
+  - Secure password validation (min 6 chars for tourists, 8 for hosts/providers)
+  - Role-based UI rendering after login (tourists see booking options, hosts see property management dashboard, superadmin sees all controls)
+  - 2FA mandatory for SuperAdmin with max 3 attempts before lockout
+  - Discrete footer placement for host and admin access links (not prominent)
+  - Clear visual separation of authentication interfaces by role
+  - Verification workflow for new hosts/service providers with SuperAdmin approval gate before properties go live
+  - Proper error handling and user feedback via toast notifications
 
 **Smart Accommodation Cards with Integrated Booking**
 - Functionality: Enhanced accommodation cards with hover effects revealing quick booking options, detailed view dialogs, and direct integration with booking and payment systems without leaving the card interface

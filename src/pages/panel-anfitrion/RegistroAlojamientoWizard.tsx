@@ -728,36 +728,150 @@ export function RegistroAlojamientoWizard({ onComplete }: { onComplete?: () => v
 
                 {pasoActual === 4 && (
                   <div className="space-y-6">
-                    <div className="border-2 border-dashed rounded-lg p-8 text-center">
-                      <Images size={48} weight="duotone" className="mx-auto mb-4 text-muted-foreground" />
-                      <h3 className="font-semibold mb-2">Sube Fotos de tu Alojamiento</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Mínimo 5 fotos. Calidad mínima: 1080px
-                      </p>
-                      <Button>Seleccionar Fotos</Button>
+                    {/* Zona de carga */}
+                    <PhotoUploadZone
+                      onFileSelect={(files) => photoUpload.handleFileSelect(files)}
+                      isUploading={photoUpload.isUploading}
+                      maxFiles={20}
+                      currentCount={photoUpload.photos.length}
+                    />
+
+                    {/* Grid de fotos */}
+                    {photoUpload.photos.length > 0 && (
+                      <div>
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="font-semibold">
+                            Fotos Cargadas ({photoUpload.photos.filter(p => p.status === 'completed').length}/{photoUpload.photos.length})
+                          </h3>
+                          {photoUpload.photos.length > 0 && (
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={photoUpload.clearAll}
+                            >
+                              Limpiar todas
+                            </Button>
+                          )}
+                        </div>
+                        
+                        <PhotoGrid
+                          photos={photoUpload.photos}
+                          onRemove={photoUpload.removePhoto}
+                          onReorder={photoUpload.reorderPhotos}
+                        />
+                      </div>
+                    )}
+
+                    {/* Alertas de calidad */}
+                    {photoUpload.photos.length > 0 && !photoUpload.hasMinimumPhotos && (
+                      <Alert className="border-orange-600/20 bg-orange-50/50 dark:bg-orange-950/20">
+                        <Warning size={18} weight="fill" className="text-orange-600" />
+                        <AlertDescription className="text-orange-700 dark:text-orange-400">
+                          Necesitas al menos 5 fotos de calidad para publicar tu anuncio
+                        </AlertDescription>
+                      </Alert>
+                    )}
+
+                    {photoUpload.hasMinimumPhotos && (
+                      <Alert className="border-green-600/20 bg-green-50/50 dark:bg-green-950/20">
+                        <CheckCircle size={18} weight="fill" className="text-green-600" />
+                        <AlertDescription className="text-green-700 dark:text-green-400">
+                          ¡Perfecto! Tienes suficientes fotos de calidad
+                        </AlertDescription>
+                      </Alert>
+                    )}
+
+                    <Separator />
+
+                    {/* Consejos profesionales */}
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <Lightbulb size={20} weight="duotone" className="text-primary" />
+                        <h3 className="font-semibold">Consejos de Fotografía Profesional</h3>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-3">
+                        {[
+                          {
+                            title: 'Iluminación Natural',
+                            desc: 'Fotografía durante el día con luz natural. Mejora 60% la conversión',
+                            icon: '☀️'
+                          },
+                          {
+                            title: 'Portada Impactante',
+                            desc: 'Primera foto debe mostrar la mejor vista de la propiedad',
+                            icon: '🏠'
+                          },
+                          {
+                            title: 'Todas las Áreas',
+                            desc: 'Incluye habitaciones, baños, cocina, espacios comunes y exteriores',
+                            icon: '📸'
+                          },
+                          {
+                            title: 'Orden y Limpieza',
+                            desc: 'Espacios ordenados transmiten confianza y profesionalismo',
+                            icon: '✨'
+                          },
+                          {
+                            title: 'Ángulos Amplios',
+                            desc: 'Usa lente gran angular para mostrar más espacio',
+                            icon: '📐'
+                          },
+                          {
+                            title: 'Detalles Especiales',
+                            desc: 'Captura amenidades únicas y detalles que te diferencian',
+                            icon: '⭐'
+                          }
+                        ].map((tip, index) => (
+                          <div key={index} className="flex gap-3 p-3 bg-muted/50 rounded-lg">
+                            <span className="text-2xl">{tip.icon}</span>
+                            <div>
+                              <p className="font-medium text-sm">{tip.title}</p>
+                              <p className="text-xs text-muted-foreground">{tip.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
-                    <div className="space-y-3">
-                      <h3 className="font-semibold">Consejos para Mejores Fotos</h3>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        <li className="flex items-start gap-2">
-                          <CheckCircle size={16} className="text-primary mt-0.5 flex-shrink-0" weight="fill" />
-                          <span>Iluminación natural en el día mejora 60% la conversión</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle size={16} className="text-primary mt-0.5 flex-shrink-0" weight="fill" />
-                          <span>Incluye foto de portada con la mejor vista de la propiedad</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle size={16} className="text-primary mt-0.5 flex-shrink-0" weight="fill" />
-                          <span>Muestra todas las áreas: habitaciones, baños, cocina, exteriores</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle size={16} className="text-primary mt-0.5 flex-shrink-0" weight="fill" />
-                          <span>Espacios ordenados y limpios transmiten confianza</span>
-                        </li>
-                      </ul>
-                    </div>
+                    {/* Estadísticas de fotos con IA */}
+                    {photoUpload.photos.length > 0 && (
+                      <div className="p-4 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg border">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Sparkle size={20} weight="duotone" className="text-primary" />
+                          <h4 className="font-semibold">Análisis IA de tus Fotos</h4>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                          <div>
+                            <p className="text-muted-foreground">Total</p>
+                            <p className="text-2xl font-bold">{photoUpload.photos.length}</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Completadas</p>
+                            <p className="text-2xl font-bold text-green-600">
+                              {photoUpload.photos.filter(p => p.status === 'completed').length}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Calidad Promedio</p>
+                            <p className="text-2xl font-bold text-primary">
+                              {Math.round(
+                                photoUpload.photos
+                                  .filter(p => p.aiAnalysis)
+                                  .reduce((acc, p) => acc + (p.aiAnalysis?.quality || 0), 0) /
+                                  photoUpload.photos.filter(p => p.aiAnalysis).length || 0
+                              )}%
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Con Sugerencias</p>
+                            <p className="text-2xl font-bold text-orange-600">
+                              {photoUpload.photos.filter(p => p.aiAnalysis?.suggestions && p.aiAnalysis.suggestions.length > 0).length}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 

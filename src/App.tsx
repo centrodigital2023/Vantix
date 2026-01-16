@@ -109,14 +109,16 @@ const HostPanelMain = lazy(() => import('@/pages/panel-anfitrion/HostPanelMain')
 
 import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
-import { AuthProvider } from '@/contexts/AuthContext'
+import { AuthProvider, useAuth } from '@/contexts/AuthContext'
 import { useInitializeSync } from '@/hooks/use-category-data'
 import { generateSampleAccommodations } from '@/lib/sample-data'
 import { BookingDialog } from '@/components/BookingDialog'
 import { useRouter } from '@/hooks/use-router'
+import { toast } from 'sonner'
 
 function App() {
   const { currentPage, params, navigateTo: routerNavigate } = useRouter()
+  const { isAuthenticated } = useAuth()
   const [accommodations, setAccommodations] = useKV<any[]>('accommodations-data', [])
   const [showBookingDialog, setShowBookingDialog] = useState(false)
   const [pendingRoomId, setPendingRoomId] = useState<string>('')
@@ -139,6 +141,12 @@ function App() {
   }
 
   const handleBookRoom = (roomId: string) => {
+    if (!isAuthenticated) {
+      toast.info('Inicia sesión para realizar una reserva')
+      handleNavigate('tourist-auth')
+      return
+    }
+    
     setPendingRoomId(roomId)
     setShowBookingDialog(true)
   }
@@ -146,6 +154,12 @@ function App() {
   const handleBookingConfirmed = () => {
     setShowBookingDialog(false)
     handleNavigate('reserva-confirmacion')
+  }
+  
+  const handleLoginRequired = () => {
+    setShowBookingDialog(false)
+    toast.info('Inicia sesión para completar tu reserva')
+    handleNavigate('tourist-auth')
   }
 
   const activePage = currentPage
@@ -356,6 +370,7 @@ function App() {
         accommodationId={selectedAccommodationId || ''}
         roomTypeId={pendingRoomId}
         onConfirm={handleBookingConfirmed}
+        onLoginRequired={handleLoginRequired}
       />
     </AuthProvider>
   )
