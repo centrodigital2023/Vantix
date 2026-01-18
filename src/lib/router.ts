@@ -14,6 +14,7 @@ export interface RouteMatch {
 
 const routes: Array<{ pattern: RegExp; page: PageRoute; keys: string[] }> = [
   { pattern: /^\/$/, page: 'home', keys: [] },
+  { pattern: /^\/marketplace$/, page: 'marketplace', keys: [] },
   { pattern: /^\/explorar$/, page: 'explorar', keys: [] },
   { pattern: /^\/supabase-testing$/, page: 'supabase-testing', keys: [] },
   { pattern: /^\/itinerario$/, page: 'itinerario', keys: [] },
@@ -113,6 +114,7 @@ const routes: Array<{ pattern: RegExp; page: PageRoute; keys: string[] }> = [
 
 const pageToPath: Record<PageRoute, string> = {
   'home': '/',
+  'marketplace': '/marketplace',
   'explorar': '/explorar',
   'supabase-testing': '/supabase-testing',
   'itinerario': '/itinerario',

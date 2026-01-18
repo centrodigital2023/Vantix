@@ -317,6 +317,7 @@ export interface AuditLog {
 
 export type PageRoute = 
   | 'home'
+  | 'marketplace'
   | 'explorar'
   | 'itinerario'
   | 'blog'

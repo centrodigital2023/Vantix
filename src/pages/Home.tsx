@@ -7,7 +7,8 @@ import { PageRoute, Testimonial } from '@/lib/types'
 import { useUserPreferences } from '@/hooks/use-user-preferences'
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { Sparkle, TrendUp, ArrowRight } from '@phosphor-icons/react'
+import { Badge } from '@/components/ui/badge'
+import { Sparkle, TrendUp, ArrowRight, Storefront, ChartLine, Heart, Lightning } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 
 interface HomeProps {
@@ -67,6 +68,93 @@ export function Home({ onNavigate }: HomeProps) {
     <div className="min-h-screen">
       <FuturisticHero onExplore={handleExplore} onAI={handleAI} />
       
+      <div className="py-12 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <Badge className="mb-4 gap-2 bg-accent text-white px-4 py-2 text-sm">
+              <Lightning size={16} weight="fill" />
+              Nuevo Marketplace
+            </Badge>
+            <h2 className="text-4xl font-bold mb-4">
+              El Mejor Marketplace de Turismo
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Compara precios, encuentra ofertas exclusivas y reserva con confianza. 
+              Combinamos lo mejor de Booking.com, Airbnb y Trivago.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <GlassCard className="p-6 h-full">
+                <div className="p-3 bg-primary/10 rounded-xl w-fit mb-4">
+                  <ChartLine size={32} className="text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Comparación de Precios</h3>
+                <p className="text-muted-foreground">
+                  Ve el historial de precios y encuentra las mejores ofertas. 
+                  Configura alertas para cuando bajen los precios.
+                </p>
+              </GlassCard>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <GlassCard className="p-6 h-full">
+                <div className="p-3 bg-secondary/10 rounded-xl w-fit mb-4">
+                  <Sparkle size={32} className="text-secondary" weight="fill" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Anfitriones Verificados</h3>
+                <p className="text-muted-foreground">
+                  SuperAnfitriones con excelentes calificaciones, tiempos de respuesta 
+                  rápidos y propiedades verificadas.
+                </p>
+              </GlassCard>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <GlassCard className="p-6 h-full">
+                <div className="p-3 bg-accent/10 rounded-xl w-fit mb-4">
+                  <Heart size={32} className="text-accent" weight="fill" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Listas de Deseos</h3>
+                <p className="text-muted-foreground">
+                  Guarda tus alojamientos favoritos en listas organizadas. 
+                  Recibe notificaciones cuando bajen de precio.
+                </p>
+              </GlassCard>
+            </motion.div>
+          </div>
+
+          <div className="text-center">
+            <Button 
+              size="lg" 
+              onClick={() => onNavigate('marketplace')}
+              className="gap-2 px-8"
+            >
+              <Storefront size={24} />
+              Explorar Marketplace
+              <ArrowRight size={20} />
+            </Button>
+          </div>
+        </div>
+      </div>
+      
       {interactionCount > 5 && (
         <div className="py-12 relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,7 +176,7 @@ export function Home({ onNavigate }: HomeProps) {
                           Tu feed personalizado está listo
                         </h3>
                         <p className="text-muted-foreground mb-4 max-w-2xl">
-                          Hemos aprendido tus preferencias y preparamos recomendaciones únicas para ti. 
+                          Hemos aprendido tus preferencias y preparado recomendaciones únicas para ti. 
                           Descubre destinos y alojamientos que se ajustan perfectamente a tus intereses.
                         </p>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">

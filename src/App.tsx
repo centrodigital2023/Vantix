@@ -7,6 +7,7 @@ import { Footer } from '@/components/Footer'
 import { Home } from '@/pages/Home'
 import { Explorar } from '@/pages/Explorar'
 import { SupabaseTestingPage } from '@/pages/SupabaseTestingPage'
+import { MarketplacePage } from '@/pages/MarketplacePage'
 
 // Lazy loading para el resto de páginas
 const Itinerario = lazy(() => import('@/pages/Itinerario').then(m => ({ default: m.Itinerario })))
@@ -174,6 +175,8 @@ function AppContent() {
     switch (activePage) {
       case 'home':
         return <Home onNavigate={handleNavigate} />
+      case 'marketplace':
+        return <MarketplacePage onNavigate={handleNavigate} />
       case 'supabase-testing':
         return <SupabaseTestingPage />
       case 'explorar':
