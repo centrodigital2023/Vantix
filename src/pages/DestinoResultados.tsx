@@ -124,7 +124,7 @@ export function DestinoResultados() {
                 <Badge variant="default" className="ml-2">{activeFiltersCount}</Badge>
               )}
             </Button>
-            <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+            <Select value={sortBy || "popular"} onValueChange={(value: any) => setSortBy(value)}>
               <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder="Ordenar por" />
               </SelectTrigger>

@@ -259,7 +259,7 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
                   />
                 </div>
               </div>
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <Select value={categoryFilter || "all-categories"} onValueChange={setCategoryFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Categoría" />
                 </SelectTrigger>
@@ -273,7 +273,7 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
                   <SelectItem value="other">Otro</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+              <Select value={priorityFilter || "all-priorities"} onValueChange={setPriorityFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Prioridad" />
                 </SelectTrigger>
@@ -285,7 +285,7 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
                   <SelectItem value="critical">Crítica</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <Select value={statusFilter || "all-statuses"} onValueChange={setStatusFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>

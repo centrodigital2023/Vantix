@@ -182,7 +182,7 @@ export function SuperAdminUsers({ onNavigate }: SuperAdminUsersProps) {
                   />
                 </div>
               </div>
-              <Select value={roleFilter} onValueChange={setRoleFilter}>
+              <Select value={roleFilter || "all-roles"} onValueChange={setRoleFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Rol" />
                 </SelectTrigger>
@@ -195,7 +195,7 @@ export function SuperAdminUsers({ onNavigate }: SuperAdminUsersProps) {
                   <SelectItem value="superadmin">Superadmins</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <Select value={statusFilter || "all-statuses"} onValueChange={setStatusFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>

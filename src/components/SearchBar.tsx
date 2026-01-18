@@ -57,7 +57,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
 
       {showFilters && (
         <div className="flex gap-4 flex-wrap">
-          <Select value={region} onValueChange={setRegion}>
+          <Select value={region || undefined} onValueChange={setRegion}>
             <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Región" />
             </SelectTrigger>
@@ -68,7 +68,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
             </SelectContent>
           </Select>
 
-          <Select value={priceRange} onValueChange={setPriceRange}>
+          <Select value={priceRange || undefined} onValueChange={setPriceRange}>
             <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Rango de precio" />
             </SelectTrigger>

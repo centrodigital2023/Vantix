@@ -280,7 +280,7 @@ export function AccommodationRegistrationWizard() {
               <div>
                 <Label htmlFor="country">País *</Label>
                 <Select
-                  value={formData.country}
+                  value={formData.country || "colombia"}
                   onValueChange={(value) => setValue('country', value)}
                 >
                   <SelectTrigger className="mt-1.5">
@@ -295,7 +295,7 @@ export function AccommodationRegistrationWizard() {
               <div>
                 <Label htmlFor="region">Departamento *</Label>
                 <Select
-                  value={formData.region}
+                  value={formData.region || "narino"}
                   onValueChange={(value) => setValue('region', value)}
                 >
                   <SelectTrigger className="mt-1.5">
@@ -358,7 +358,7 @@ export function AccommodationRegistrationWizard() {
               <div>
                 <Label htmlFor="category">Categoría</Label>
                 <Select
-                  value={formData.category}
+                  value={formData.category || "naturaleza"}
                   onValueChange={(value) => setValue('category', value)}
                 >
                   <SelectTrigger className="mt-1.5">

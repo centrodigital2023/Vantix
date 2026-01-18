@@ -265,7 +265,7 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
                   />
                 </div>
               </div>
-              <Select value={typeFilter} onValueChange={setTypeFilter}>
+              <Select value={typeFilter || "all-types"} onValueChange={setTypeFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
@@ -278,7 +278,7 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
                   <SelectItem value="gastronomy">Gastronomía</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <Select value={statusFilter || "all-statuses"} onValueChange={setStatusFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>
