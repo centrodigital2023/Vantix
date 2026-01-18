@@ -16,76 +16,65 @@
 }
 
 :root {
-  --background: oklch(0.98 0.01 180);
-  --foreground: oklch(0.15 0.02 240);
+  /* VANTIX Dark Elegant Theme - Amber Accents */
+  --vantix-black: oklch(0.12 0.01 240);
+  --vantix-charcoal: oklch(0.18 0.01 240);
+  --vantix-amber: oklch(0.75 0.15 70);
+  --vantix-bone: oklch(0.95 0.01 70);
+  --vantix-dust: oklch(0.50 0.02 240);
   
-  --card: oklch(0.99 0.005 180);
-  --card-foreground: oklch(0.15 0.02 240);
-  --popover: oklch(1.00 0 0);
-  --popover-foreground: oklch(0.15 0.02 240);
+  --background: var(--vantix-black);
+  --foreground: var(--vantix-bone);
   
-  --primary: oklch(0.65 0.20 160);
-  --primary-foreground: oklch(0.98 0.01 180);
-  --secondary: oklch(0.92 0.08 200);
-  --secondary-foreground: oklch(0.20 0.05 240);
-  --muted: oklch(0.94 0.02 180);
-  --muted-foreground: oklch(0.45 0.02 240);
-  --accent: oklch(0.75 0.15 280);
-  --accent-foreground: oklch(0.15 0.02 240);
-  --destructive: oklch(0.65 0.20 25);
-  --destructive-foreground: oklch(0.98 0.01 180);
+  --card: var(--vantix-charcoal);
+  --card-foreground: var(--vantix-bone);
+  --popover: var(--vantix-charcoal);
+  --popover-foreground: var(--vantix-bone);
   
-  --turquoise: oklch(0.70 0.12 210);
-  --turquoise-foreground: oklch(0.25 0 0);
+  --primary: var(--vantix-amber);
+  --primary-foreground: var(--vantix-black);
+  --secondary: oklch(0.25 0.02 240);
+  --secondary-foreground: var(--vantix-bone);
+  --muted: oklch(0.22 0.01 240);
+  --muted-foreground: var(--vantix-dust);
+  --accent: var(--vantix-amber);
+  --accent-foreground: var(--vantix-black);
+  --destructive: oklch(0.55 0.20 25);
+  --destructive-foreground: var(--vantix-bone);
   
-  --border: oklch(0.88 0.02 180);
-  --input: oklch(0.88 0.02 180);
-  --ring: oklch(0.65 0.20 160);
+  --turquoise: oklch(0.60 0.12 210);
+  --turquoise-foreground: var(--vantix-black);
+  
+  --border: oklch(0.30 0.01 240);
+  --input: oklch(0.25 0.01 240);
+  --ring: var(--vantix-amber);
   
   --radius: 0.75rem;
   
-  --chart-1: oklch(0.65 0.20 160);
-  
-  --chart-2: oklch(0.75 0.15 280);
-  
-  --chart-3: oklch(0.55 0.18 120);
-  
-  --chart-4: oklch(0.70 0.12 320);
-  
+  --chart-1: var(--vantix-amber);
+  --chart-2: oklch(0.65 0.12 210);
+  --chart-3: oklch(0.55 0.15 120);
+  --chart-4: oklch(0.60 0.12 280);
   --chart-5: oklch(0.60 0.15 40);
   
-  --sidebar: oklch(0.96 0.01 180);
+  --sidebar: var(--vantix-charcoal);
+  --sidebar-foreground: var(--vantix-bone);
+  --sidebar-primary: var(--vantix-amber);
+  --sidebar-primary-foreground: var(--vantix-black);
+  --sidebar-accent: oklch(0.25 0.02 240);
+  --sidebar-accent-foreground: var(--vantix-bone);
+  --sidebar-border: oklch(0.30 0.01 240);
+  --sidebar-ring: var(--vantix-amber);
   
-  --sidebar-foreground: oklch(0.15 0.02 240);
-  
-  --sidebar-primary: oklch(0.65 0.20 160);
-  
-  --sidebar-primary-foreground: oklch(0.98 0.01 180);
-  
-  --sidebar-accent: oklch(0.92 0.08 200);
-  
-  --sidebar-accent-foreground: oklch(0.20 0.05 240);
-  
-  --sidebar-border: oklch(0.88 0.02 180);
-  
-  --sidebar-ring: oklch(0.65 0.20 160);
-  
-  --shadow-color: oklch(0.65 0.20 160);
-  
-  --shadow-opacity: 0.15;
-  
-  --shadow-blur: 8px;
-  
+  --shadow-color: var(--vantix-amber);
+  --shadow-opacity: 0.25;
+  --shadow-blur: 12px;
   --shadow-spread: 0px;
-  
   --shadow-offset-x: 0px;
-  
   --shadow-offset-y: 4px;
   
   --font-sans: "Inter";
-  
   --font-serif: "Lora";
-  
   --font-mono: "JetBrains Mono";
 }
 
@@ -111,6 +100,13 @@
   --color-ring: var(--ring);
   --color-turquoise: var(--turquoise);
   --color-turquoise-foreground: var(--turquoise-foreground);
+  
+  /* VANTIX Branded Colors */
+  --color-vantix-black: var(--vantix-black);
+  --color-vantix-charcoal: var(--vantix-charcoal);
+  --color-vantix-amber: var(--vantix-amber);
+  --color-vantix-bone: var(--vantix-bone);
+  --color-vantix-dust: var(--vantix-dust);
 
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-md: var(--radius);
