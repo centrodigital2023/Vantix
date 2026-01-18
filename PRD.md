@@ -1,272 +1,150 @@
-# Planning Guide
+# Vantix Tourism Marketplace - Product Requirements Document
 
-Vantix is a comprehensive tourism booking platform for Colombia (similar to Booking.com but specialized for Colombian tourism) that combines AI-powered itinerary generation with real-time accommodation booking, reviews, price comparison, and authentic local experiences across all tourism categories. **Now powered by Supabase for scalable data management, authentication, and real-time features.**
+A sophisticated tourism marketplace platform that connects travelers with authentic Colombian experiences through an elegant, futuristic interface.
 
 **Experience Qualities**:
-1. **Inspiring** - Showcases Colombia's diverse beauty through vivid imagery and compelling stories that ignite wanderlust
-2. **Intelligent** - Leverages AI (Gemini, SerpApi) to create personalized itineraries based on real-time data and user preferences
-3. **Trustworthy** - Provides verified accommodations and genuine reviews to build confidence in travel decisions, backed by secure Supabase infrastructure
+1. **Futuristic Elegance** - The interface feels cutting-edge yet refined, combining advanced digital aesthetics with sophisticated visual language
+2. **Immersive Discovery** - Users experience a sense of exploration and wonder as they navigate through destinations and experiences
+3. **Seamless Sophistication** - Every interaction flows naturally with polished animations and intuitive navigation that feels effortless
 
 **Complexity Level**: Complex Application (advanced functionality, likely with multiple views)
-This platform requires multiple interconnected features: AI-powered itinerary generation, category-based browsing, property owner dashboards, search functionality, blog content, booking management across 10 distinct tourism categories, and full Supabase integration for data persistence, authentication, and real-time updates.
+This is a full-featured tourism marketplace with user authentication, booking systems, host management panels, admin dashboards, destination browsing, search functionality, and payment processing integration.
 
 ## Essential Features
 
-**AI Itinerary Generator**
-- Functionality: Uses Gemini AI and SerpApi to create personalized multi-day travel plans with accommodations, dining, and activities
-- Purpose: Eliminates trip planning friction by providing intelligent, data-driven recommendations
-- Trigger: User selects preferences (category, dates, budget, interests) on Itinerary page
-- Progression: Select preferences → AI analyzes → Generate itinerary → Display day-by-day plan → Save/modify → Export
-- Success criteria: Generates coherent 3-7 day itinerary in <10 seconds with real accommodation and restaurant data
+### Multi-Destination Search & Discovery
+- **Functionality**: Users can search and filter accommodations, tours, and experiences across Colombian destinations
+- **Purpose**: Enables travelers to find exactly what they're looking for through intelligent filtering
+- **Trigger**: User enters search criteria or browses categories
+- **Progression**: Landing page → Category selection → Results grid → Filter refinement → Detail view
+- **Success criteria**: Users find relevant results within 3 interactions; search returns accurate matches
 
-**Category Exploration**
-- Functionality: Browse 10 tourism categories (Adventure, Wellness, Cultural, Family, Gastronomy, Nature, Business, Beach, Religious, Rural) with dedicated landing pages
-- Purpose: Helps travelers discover destinations aligned with their interests
-- Trigger: Click category card on homepage or navigation menu
-- Progression: View category → See featured destinations → Filter by region/price → View details → Add to itinerary
-- Success criteria: Each category displays 20+ relevant destinations with filtering options
+### Accommodation Booking System
+- **Functionality**: Complete booking flow with date selection, room selection, and payment processing
+- **Purpose**: Allows travelers to secure their accommodations with confidence
+- **Trigger**: User clicks "Book" on accommodation detail page
+- **Progression**: Detail view → Date selection → Room type selection → Guest info → Payment → Confirmation
+- **Success criteria**: Booking completion rate >70%; payment processing without errors; confirmation delivered instantly
 
-**Property Owner Dashboard**
-- Functionality: SaaS portal for accommodation owners to manage listings, view analytics, and update availability with user authentication
-- Purpose: Enables property owners to maintain current information and track performance securely
-- Trigger: Login via /propietarios route (redirects to authentication if not logged in)
-- Progression: Login/Signup → View dashboard → Manage listings → Add/Edit/Delete properties → View statistics
-- Success criteria: Owners can authenticate, update listings in <2 minutes, view booking analytics, and manage properties securely
+### Host Management Panel
+- **Functionality**: Property owners can register accommodations, manage bookings, update pricing and availability
+- **Purpose**: Empowers hosts to independently manage their tourism offerings
+- **Trigger**: Host logs in and accesses their dashboard
+- **Progression**: Login → Dashboard overview → Property management → Booking calendar → Analytics
+- **Success criteria**: Hosts can add/edit listings in <5 minutes; real-time booking notifications; analytics provide actionable insights
 
-**Intelligent Host Panel - Full Management System**
-- Functionality: Complete SaaS platform for accommodation hosts inspired by Booking/Airbnb but optimized for Latin America (Colombia, Mexico, Peru, Ecuador) with step-by-step registration wizard, intelligent dashboard, booking management, AI-powered recommendations, calendar sync, messaging, reviews, analytics, and legal compliance
-- Purpose: Provide professional tools for property owners to register, manage, optimize and monetize their tourism accommodations with maximum efficiency and revenue
-- Trigger: Authenticated users access /propietarios route
-- Progression: Login → Dashboard overview (metrics, properties, notifications) → Register new property (6-step wizard) → Manage existing properties → View/manage reservas → Check analytics → Configure settings
-- Success criteria: Complete property registration in 5-7 minutes, clear visualization of all metrics, intelligent AI recommendations displayed, all LATAM legal requirements integrated, mobile-responsive design, seamless navigation between modules
+### Personalized Feed & Recommendations
+- **Functionality**: AI-powered recommendations based on user preferences and browsing history
+- **Purpose**: Creates a tailored experience that helps users discover unexpected destinations
+- **Trigger**: User accesses personalized feed section
+- **Progression**: Profile setup → Browse history analysis → Curated recommendations → Interaction tracking → Feed refinement
+- **Success criteria**: Recommendation click-through rate >25%; users report finding new destinations they love
 
-**Smart Search**
-- Functionality: Real-time search across destinations, accommodations, and experiences with filters
-- Purpose: Quick discovery of specific locations or experiences
-- Trigger: User types in search bar on any page
-- Progression: Type query → View instant results → Apply filters (category, price, rating) → Select result → View details
-- Success criteria: Returns relevant results in <500ms, filters work instantly
-
-**Clean URL Routing System**
-- Functionality: Browser-native URL routing with clean, semantic paths that are shareable, bookmarkable, and SEO-optimized. Supports dynamic route parameters, query strings, and proper browser history management
-- Purpose: Enable users to share specific pages, bookmark destinations, use browser back/forward buttons naturally, and improve SEO with crawlable URLs
-- Trigger: Any navigation action in the app, direct URL access, or browser navigation
-- Progression: User clicks link/button → URL updates in address bar → Route parsed → Correct page rendered → Browser history updated → Back/forward buttons work naturally
-- Success criteria: All pages accessible via clean URLs (no hashes), URLs shareable and work on refresh, browser navigation works correctly, query parameters preserved for filters, route params work for dynamic content (accommodation IDs, etc.), 404 page shown for invalid routes
-
-**User Authentication with Email & Google OAuth**
-- Functionality: Complete authentication system with role-based access control (Tourist, Host, Service Provider, Admin, SuperAdmin), email/password authentication, Google OAuth integration, and persistent sessions
-- Purpose: Protect role-specific features, enable bookings for tourists only after authentication, allow hosts/service providers to register and manage their offerings, and provide secure administrative access
-- Trigger: 
-  - Tourists: Clicking "Iniciar Sesión" button in navbar (top right) or attempting to book accommodations/save itineraries
-  - Hosts/Service Providers: Clicking "Acceso Anfitriones" link in footer (discrete placement) to register/manage properties
-  - SuperAdmin: Clicking "Acceso Administrativo" link in footer (discrete placement)
-- Progression: 
-  - **Tourist Flow**: Browse freely without auth → Click book/reserve → Redirected to tourist auth page → Choose login/signup tabs → Enter email/password OR click Google OAuth button → Authenticate as 'tourist' role → Return to booking flow or saved itineraries
-  - **Host/Service Provider Flow**: View host auth page → Select account type (Anfitrión or Prestador de Servicios) → Register with business info (name, email, password, phone) → Verification notice (24-48 hours) → Email authentication required → Authenticate → Access property/service management panel → Await SuperAdmin approval before listings go live
-  - **SuperAdmin Flow**: View admin auth page → Enter predefined credentials (superadmin@sendai.com) → Complete 2FA verification (mandatory code: 123456) → IP logging → Authenticate as 'superadmin' role → Access full system administration
-- Success criteria: 
-  - Tourists can browse all content without authentication
-  - Authentication required only for bookings, reviews, and saving itineraries
-  - Email/password authentication works for all user types
-  - Google OAuth button functional for tourists only (simulated with mock flow)
-  - Authentication state persists across sessions using useKV
-  - Secure password validation (min 6 chars for tourists, 8 for hosts/providers)
-  - Role-based UI rendering after login (tourists see booking options, hosts see property management dashboard, superadmin sees all controls)
-  - 2FA mandatory for SuperAdmin with max 3 attempts before lockout
-  - Discrete footer placement for host and admin access links (not prominent)
-  - Clear visual separation of authentication interfaces by role
-  - Verification workflow for new hosts/service providers with SuperAdmin approval gate before properties go live
-  - Proper error handling and user feedback via toast notifications
-
-**Smart Accommodation Cards with Integrated Booking**
-- Functionality: Enhanced accommodation cards with hover effects revealing quick booking options, detailed view dialogs, and direct integration with booking and payment systems without leaving the card interface
-- Purpose: Streamline the booking process by reducing friction and enabling users to complete reservations with minimal clicks
-- Trigger: User views accommodation listings, hovers over cards, or clicks booking CTAs
-- Progression: View card → Hover to reveal actions → Quick book OR view full details → Select room type → Choose dates → Process payment → Confirm booking
-- Success criteria: Cards load images smoothly with carousel, hover states show actions within 200ms, quick book opens dialog instantly, full details load all room types, payment integration seamless, booking confirmed in <30 seconds from card click
-- Functionality: Complete end-to-end booking system with Mercado Pago payment processing
-- Purpose: Enable users to securely book accommodations and complete payments
-- Trigger: Click "Reservar" button on room card in accommodation detail page
-- Progression: Select dates/guests → Fill guest information → Review booking summary → Process payment via Mercado Pago → Receive confirmation
-- Success criteria: Secure payment processing, booking data persistence, booking history tracking
-
-**Supabase Integration**
-- Functionality: Complete backend infrastructure with PostgreSQL database, authentication, real-time subscriptions, and storage
-- Purpose: Provide scalable, secure, and real-time data management for all platform features
-- Trigger: Application initialization, user authentication, data operations (CRUD)
-- Progression: Configure credentials → Initialize client → Authenticate users → Perform data operations → Real-time updates
-- Success criteria: 
-  - Supabase client successfully connected
-  - Authentication working with email/password and OAuth
-  - All CRUD operations functional for accommodations, bookings, reviews
-  - Row Level Security (RLS) policies protecting user data
-  - Real-time subscriptions updating UI automatically
-  - Storage bucket configured for image uploads
-  - Smart hooks (useSupabaseData, useSupabaseAuth) simplifying data operations
-  - Responsive components for accommodation management
-  - Configuration UI for easy setup
-
-**Intelligent Footer Subpages with Internal Linking**
-- Functionality: Comprehensive footer with 60+ organized subpages covering help, destinations, SEO-optimized local content, experiences, company info, legal, blog, partners, and offers
-- Purpose: Improve SEO, provide easy navigation to all platform features, create intelligent internal linking structure that connects related content
-- Trigger: User clicks footer links
-- Progression: Navigate to specialized pages → See related content links → Discover connected experiences → Return to main actions
-- Success criteria: All footer links functional, pages load quickly, intelligent cross-linking improves user journey and SEO
-
-**AI-Powered Dynamic Content for Blog and Articles**
-- Functionality: Generates blog posts, articles, and tourism news dynamically using GPT-4o-mini AI, with persistent storage and regeneration capabilities
-- Purpose: Provide fresh, relevant, and engaging content that inspires travelers and showcases Colombia's tourism opportunities without manual content creation
-- Trigger: User visits blog/articles/news pages, or clicks "Generate Content with IA" button
-- Progression: Load page → Check for existing content → Generate new content if needed → Display cards → Click to read full article → View in dialog with markdown rendering
-- Success criteria: Content generates in <30 seconds, persists between sessions, articles are coherent and informative, images load properly, search and filtering work smoothly
-
-**Personalized Feed with Learning Preferences**
-- Functionality: Tracks user interactions (views, clicks, searches, bookings) across the platform and uses machine learning algorithms to generate personalized accommodation and category recommendations with AI-powered enhancements including weather-based recommendations, collaborative filtering, and real-time push notifications
-- Purpose: Improve user experience by surfacing relevant content based on individual behavior patterns, weather conditions, seasonal events, and similar user preferences, increasing engagement and conversion rates
-- Trigger: User navigates to "Para Ti" (feed-personalizado) page from navbar
-- Progression: Visit feed → View personalized recommendations → See favorite categories highlighted → Browse recommended accommodations with reasoning → View weather-based suggestions → Explore collaborative recommendations from similar users → Receive push notifications for new matches → Clear history if desired
-- Success criteria: Tracks all user interactions persistently, calculates preference scores accurately, recommendations update in real-time, displays clear reasoning for each recommendation, weather integration provides relevant seasonal suggestions, collaborative filtering matches with similar users, push notifications delivered for high-priority recommendations, maintains history across sessions
-
-**AI-Powered Weather & Seasonal Event Recommendations**
-- Functionality: Analyzes current weather conditions, temperature, humidity, and upcoming seasonal events to generate intelligent destination recommendations that match the climate and time of year
-- Purpose: Help users discover destinations that are ideal for current weather conditions and take advantage of cultural events happening nearby
-- Trigger: Automatically loads when accessing personalized feed, updates daily
-- Progression: Fetch weather data → Analyze temperature and conditions → Match with destination categories → Find upcoming events → Score and rank destinations → Display with weather reasoning → Notify users of ideal conditions
-- Success criteria: Weather data updates automatically, recommendations change based on conditions, seasonal events integrated with 3-month lookahead, clear explanation of why destination matches weather, notifications sent for perfect conditions
-
-**Collaborative Filtering with Similar Users**
-- Functionality: Implements advanced collaborative filtering algorithms to find users with similar preferences and recommend accommodations based on what similar users have viewed, clicked, and booked
-- Purpose: Discover hidden gems and popular choices among users with matching travel styles and interests
-- Trigger: Background analysis of user interactions compared against anonymized user pool
-- Progression: Track user behavior → Calculate similarity scores using cosine similarity and Jaccard index → Find top similar users → Aggregate their preferences → Generate recommendations → Display with confidence scores → Notify of high-confidence matches
-- Success criteria: Identifies 5-10 similar users minimum, recommendations have >60% confidence score, reasons explain shared interests, updates as more users join platform, privacy-preserving (no personal data exposed)
-
-**Push Notification System for Smart Recommendations**
-- Functionality: Real-time notification system that alerts users about new recommendations matching their interests, weather opportunities, upcoming events, price drops, and collaborative suggestions
-- Purpose: Re-engage users with timely, relevant information that enhances their travel planning experience
-- Trigger: New matching recommendation detected, weather changes favorably, event approaching, similar user books
-- Progression: System detects match → Checks user notification preferences → Creates notification → Sends browser push notification → Stores in notification center → User clicks to view details
-- Success criteria: Notifications respect user preferences, support browser push API, categorized by type (weather/event/collaborative/price), priority system (high/medium/low), mark as read functionality, notification history persists, opt-out available
-
-**Dynamic Pricing Research & Market Intelligence**
-- Functionality: Real-time pricing analysis system that researches market rates across Colombian tourism destinations, provides seasonal pricing recommendations, calculates competitive positioning, and offers data-driven pricing suggestions for property owners with detailed market insights
-- Purpose: Enable property owners to optimize their pricing strategy based on current market conditions, seasonality, location, and competition while helping travelers understand fair market value
-- Trigger: Property owner accesses pricing analytics dashboard, or system runs automated daily pricing updates
-- Progression: Select properties for analysis → System researches market data by city/category → Calculates seasonal multipliers → Compares with competitor ranges → Generates pricing recommendations → Displays market position → Shows revenue optimization opportunities → Owner applies suggested pricing
-- Success criteria: Analyzes pricing for all Colombian major tourism destinations (Cartagena, Santa Marta, Medellín, Bogotá, Eje Cafetero, Pasto, Ipiales, Tumaco), accounts for high/low season variations, provides budget/mid-range/premium/luxury positioning, calculates potential revenue increases, updates automatically every 24 hours, displays clear reasoning for each recommendation, supports bulk analysis of multiple properties
-
-**Destination Results**
-- Functionality: Grid/list view of search results or category browsing with detailed cards
-- Purpose: Compare multiple options before making decisions
-- Trigger: After search or category selection
-- Progression: View results → Sort by criteria → Filter → Compare → Select destination → View full details
-- Success criteria: Display 50+ results with smooth infinite scroll
+### Category-Based Exploration
+- **Functionality**: Browse experiences by type (Adventure, Culture, Nature, Wellness, etc.)
+- **Purpose**: Helps users discover experiences aligned with their travel style
+- **Trigger**: User selects category from navigation or homepage
+- **Progression**: Homepage → Category selection → Curated category page → Experience cards → Detail view
+- **Success criteria**: Each category showcases 10+ quality experiences; clear visual differentiation between categories
 
 ## Edge Case Handling
-
-- **No Search Results**: Display suggested popular destinations and related categories
-- **AI Generation Failure**: Show fallback pre-curated itineraries for the selected category
-- **Offline Access**: Cache last viewed itinerary and show banner indicating limited functionality
-- **Invalid Date Ranges**: Automatically correct to minimum 1-day trip with helpful message
-- **Property Owner Verification**: Require authentication before allowing property registration or management
-- **Duplicate Listings**: AI-powered detection to prevent same property being listed multiple times
-- **Unauthenticated Access**: Gracefully redirect to login modal when accessing protected owner features
-- **Session Persistence**: Maintain user authentication across page refreshes and browser sessions
-- **Invalid Credentials**: Clear error messaging for failed login attempts with retry capability
-- **Payment Failures**: Handle declined payments gracefully with clear next steps and retry options
-- **Booking Conflicts**: Check room availability in real-time before processing payment
-- **Incomplete Guest Information**: Validate all required fields before allowing payment
-- **Payment Timeout**: Handle Mercado Pago session timeouts with booking data preservation
-- **Network Interruptions**: Save booking state locally and resume when connection restored
+- **Booking Conflicts**: Real-time availability checking prevents double-bookings; users see instant feedback if dates become unavailable
+- **Payment Failures**: Graceful error handling with retry options; booking held for 15 minutes during payment resolution
+- **Incomplete Profiles**: Progressive disclosure allows browsing without account; booking triggers auth flow with return-to-checkout
+- **Network Interruptions**: Form data persists locally; auto-save draft bookings; clear reconnection messaging
+- **Mobile Navigation**: Responsive design adapts complex navigation to mobile; drawer menus for deep hierarchies
+- **Empty States**: Thoughtful messaging with suggested actions when searches return no results or new users have no bookings
 
 ## Design Direction
-
-The design should evoke the vibrant, colorful essence of Colombia - warm, welcoming, and full of life. It should feel adventurous yet trustworthy, modern yet culturally grounded. Think lush greens meeting Caribbean blues, coffee-rich earth tones accented by tropical florals. The interface should breathe with generous spacing, making complex travel planning feel effortless and inspiring.
+The design should evoke a sense of technological sophistication and forward-thinking innovation while maintaining elegance and approachability. Users should feel they're using a premium, next-generation platform that respects their intelligence. The aesthetic draws from cyberpunk elegance, holographic interfaces, and high-end tech products - think luxury meets sci-fi.
 
 ## Color Selection
+A dark, immersive foundation with vibrant electric accents creates depth and visual interest while maintaining excellent readability.
 
-The palette draws from Colombia's natural diversity: lush rainforests, Caribbean coastlines, coffee plantations, and vibrant colonial architecture.
+- **Primary Color**: Electric Purple `oklch(0.65 0.25 285)` - Represents innovation, premium quality, and forward-thinking technology. Commands attention without overwhelming.
+- **Secondary Color**: Cyber Cyan `oklch(0.55 0.22 195)` - Provides technological sophistication and cool contrast. Used for secondary actions and informational elements.
+- **Accent Color**: Holographic Magenta `oklch(0.70 0.28 330)` - Eye-catching highlight for CTAs, important badges, and moments of delight. Creates that futuristic "glow" effect.
+- **Background**: Deep Space Navy `oklch(0.12 0.02 265)` - Rich, sophisticated dark base that allows vibrant colors to pop while reducing eye strain.
+- **Card Surface**: Elevated Midnight `oklch(0.16 0.025 265)` - Slightly lighter than background to create subtle depth hierarchy.
 
-- **Primary Color**: Deep Emerald Green `oklch(0.45 0.15 155)` - Represents Colombia's rich nature and coffee heritage, used for primary CTAs and navigation
-- **Secondary Colors**: 
-  - Warm Terracotta `oklch(0.62 0.12 45)` - Colonial architecture warmth, for secondary buttons and accents
-  - Caribbean Turquoise `oklch(0.70 0.12 210)` - Coastal beauty, for informational elements
-- **Accent Color**: Vibrant Coral `oklch(0.68 0.18 25)` - Tropical flower energy for CTAs, active states, and important highlights
-- **Foreground/Background Pairings**:
-  - Primary Emerald on White background: White text `oklch(0.98 0 0)` - Ratio 7.2:1 ✓
-  - Coral Accent on White: White text `oklch(0.98 0 0)` - Ratio 4.9:1 ✓
-  - Terracotta on White: Dark text `oklch(0.25 0 0)` - Ratio 5.8:1 ✓
-  - Turquoise on White: Dark text `oklch(0.25 0 0)` - Ratio 5.2:1 ✓
+**Foreground/Background Pairings**:
+- Primary Purple `oklch(0.65 0.25 285)`: White text `oklch(0.98 0.005 285)` - Ratio 7.2:1 ✓
+- Secondary Cyan `oklch(0.55 0.22 195)`: White text `oklch(0.98 0.005 195)` - Ratio 6.8:1 ✓
+- Accent Magenta `oklch(0.70 0.28 330)`: White text `oklch(0.98 0.005 330)` - Ratio 8.1:1 ✓
+- Background Navy `oklch(0.12 0.02 265)`: Light text `oklch(0.95 0.01 265)` - Ratio 12.5:1 ✓
+- Card Surface `oklch(0.16 0.025 265)`: Light text `oklch(0.95 0.01 265)` - Ratio 9.8:1 ✓
 
 ## Font Selection
+Typography should feel modern, technical yet approachable, with excellent readability across sizes and weights.
 
-Typography should balance modern clarity with a hint of adventure and sophistication, reflecting both the tech platform and the cultural richness of Colombia.
+- **Display/Headings**: Outfit - Geometric sans-serif with contemporary character, perfect for bold statements and hierarchical clarity
+- **Body/UI**: Inter - Optimized for screen readability with large x-height and clear letterforms
 
-- **Primary Font**: Outfit (Google Fonts) - A geometric sans-serif with warmth and approachability, perfect for travel inspiration
-- **Secondary Font**: Manrope (Google Fonts) - Clean, readable for body text and descriptions
-
-- **Typographic Hierarchy**:
-  - H1 (Hero Headlines): Outfit Bold/48px/tight letter spacing (-0.02em)
-  - H2 (Section Titles): Outfit SemiBold/32px/normal spacing
-  - H3 (Card Titles): Outfit Medium/24px/normal spacing
-  - Body (Content): Manrope Regular/16px/1.6 line height
-  - Small (Metadata): Manrope Regular/14px/muted color
-  - CTA Buttons: Outfit SemiBold/16px/uppercase with wide spacing (0.05em)
+**Typographic Hierarchy**:
+- H1 (Hero Titles): Outfit Bold / 56px / -2% letter spacing / line-height 1.1
+- H2 (Section Headers): Outfit Semibold / 40px / -1.5% letter spacing / line-height 1.2
+- H3 (Card Titles): Outfit Semibold / 28px / -1% letter spacing / line-height 1.3
+- H4 (Subsection): Outfit Medium / 20px / -0.5% letter spacing / line-height 1.4
+- Body Large: Inter Regular / 18px / 0% letter spacing / line-height 1.6
+- Body: Inter Regular / 16px / 0% letter spacing / line-height 1.5
+- Small/Caption: Inter Medium / 14px / 0% letter spacing / line-height 1.4
+- Micro/Labels: Inter Medium / 12px / 0.5% letter spacing / line-height 1.3
 
 ## Animations
+Animations should feel smooth, sophisticated, and purposeful - never distracting. The motion language combines smooth easing with subtle "tech" effects like glows and shimmers. Key moments:
 
-Animations should evoke the flow of travel - smooth transitions that feel like journeying from one place to another. Use subtle parallax on hero images, gentle fades for content loading, and satisfying micro-interactions on cards (lift on hover with soft shadow growth). The AI itinerary generation should have a thoughtful loading state with progressive reveals. Category cards should cascade in with staggered delays. All animations stay under 400ms to maintain snappiness.
+**Micro-interactions**: Button hovers with glow effects (150ms), input focus with subtle ring expansion (200ms), toggle switches with satisfying snap (250ms)
+
+**Content Loading**: Shimmer effects with gradient sweeps suggest high-tech data streaming rather than generic spinners
+
+**Page Transitions**: Smooth slide-up animations (400ms) with slight blur for depth, creating spatial continuity
+
+**Card Interactions**: Gentle lift on hover (300ms) with colored shadow that matches the card's category, making the interface feel responsive and alive
+
+**Success States**: Bounce-in celebrations (400ms) with pulse-glow effects for completed bookings and confirmations
 
 ## Component Selection
 
-- **Components**:
-  - Hero: Custom full-viewport component with parallax background using framer-motion
-  - Navigation: Custom sticky navbar with glass morphism effect (backdrop-blur)
-  - Cards: Shadcn Card with custom hover states and image overlays
-  - Tabs: Shadcn Tabs for category filtering and itinerary day switching
-  - Dialog: Shadcn Dialog for property details and booking forms
-  - Form: Shadcn Form with react-hook-form for search and property registration
-  - Toast: Sonner for success/error notifications
-  - Button: Shadcn Button with custom gradient variants
-  - Badge: Shadcn Badge for category tags and price indicators
-  - Separator: Subtle dividers between sections
-  
-- **Customizations**:
-  - Custom CategoryCard with image overlays, gradient masks, and hover zoom
-  - Custom SearchBar with autocomplete and filter pills
-  - Custom ItineraryTimeline using custom components for day-by-day display
-  - Custom TestimonialCarousel using embla-carousel-react
-  - Custom PropertyOwnerDashboard with chart components for analytics
+**Components**:
+- **Navigation**: Shadcn Navigation Menu with glass-morphism effects and hover glows for main nav; Drawer for mobile with smooth slide-in
+- **Cards**: Shadcn Card with custom hover states, gradient borders, and elevated shadows; backdrop-filter blur for premium feel
+- **Dialogs**: Shadcn Dialog/Sheet with backdrop blur and smooth scale-in animations for booking flows
+- **Forms**: Shadcn Input, Select, Textarea with glowing focus states; Form for validation with inline error animations
+- **Buttons**: Shadcn Button with variants (default: purple gradient, outline: cyan border, ghost: subtle hover)
+- **Data Display**: Shadcn Table for bookings, Carousel for image galleries, Tabs for content organization
+- **Feedback**: Sonner for toast notifications with custom styling matching theme; Progress bars with gradient fills
+- **Calendar**: Shadcn Calendar/DatePicker with custom styling for booking date selection
 
-- **States**:
-  - Buttons: Solid fills with brightness shift on hover, press state reduces scale to 0.97, disabled at 40% opacity
-  - Inputs: 2px border that changes to accent color on focus, with subtle inner shadow
-  - Cards: Lift 8px on hover with shadow expansion, active state adds accent border
-  - Loading: Skeleton screens for content areas, spinning icon for AI generation
+**Customizations**:
+- Custom gradient overlays on hero images for immersive depth
+- Glow effects on primary CTAs using box-shadow animations
+- Backdrop filters for floating navigation and modals to create layered depth
+- Custom loading skeletons with shimmer animations matching brand colors
+- Badge components with holographic gradient backgrounds for deals/featured items
 
-- **Icon Selection**: 
-  - Phosphor Icons throughout for consistency
-  - MagnifyingGlass for search
-  - Compass for explore
-  - MapPin for locations
-  - Calendar for dates
-  - Heart for favorites
-  - User for profile
-  - ChartLine for analytics
-  - Plus for adding items
+**States**:
+- Buttons: Idle (gradient), Hover (glow expansion + slight scale), Active (pressed depth), Focus (ring + glow), Disabled (desaturated + opacity)
+- Inputs: Empty (subtle border), Focused (primary glow ring), Filled (accent border), Error (destructive color + shake), Success (success color + check)
+- Cards: Default (elevated), Hover (lift + shadow + border glow), Selected (primary border + persistent glow), Loading (shimmer overlay)
 
-- **Spacing**: 
-  - Section padding: py-16 md:py-24
-  - Container max-width: max-w-7xl
-  - Card gaps: gap-6 md:gap-8
-  - Button padding: px-6 py-3
-  - Consistent 4/8/16/24/32/48px rhythm
+**Icon Selection**:
+- Phosphor Icons (regular weight) for consistency - modern, clean, and extensive library
+- Search/Filters: MagnifyingGlass, Funnel, SlidersHorizontal
+- Navigation: House, Compass, Heart, User, Bell
+- Actions: Plus, Minus, X, Check, ArrowRight
+- Categories: Mountains, Beach, Fork&Knife, Sparkle (adventure, relaxation, food, premium)
 
-- **Mobile**: 
-  - Hamburger menu for navigation on <768px
-  - Stack category cards vertically on mobile
-  - Single column layout for itinerary on mobile
-  - Bottom sheet for filters instead of sidebar
-  - Touch-optimized 48px minimum tap targets
-  - Collapsible sections for property details
+**Spacing**:
+- Container padding: 4rem (desktop) / 1.5rem (mobile)
+- Section gaps: 6rem (desktop) / 3rem (mobile)
+- Card padding: 2rem
+- Component gaps: 1.5rem (large), 1rem (medium), 0.5rem (small)
+- Grid gaps: 2rem (card grids), 1rem (form fields)
+
+**Mobile**:
+- Navigation collapses to hamburger drawer with full-screen overlay at 768px
+- Card grids shift from 3-column → 2-column → 1-column at 1024px and 768px breakpoints
+- Hero text scales down by 30% on mobile; images maintain aspect ratio with object-fit
+- Sticky header condenses on scroll, reducing padding and hiding secondary nav items
+- Bottom sheet for mobile booking flows instead of centered dialogs
+- Touch-friendly targets minimum 44px with generous padding around interactive elements
