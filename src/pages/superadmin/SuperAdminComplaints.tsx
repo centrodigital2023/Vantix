@@ -113,13 +113,7 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
     
     try {
       // @ts-expect-error - TypeScript incorrectly infers template literal type
-      const prompt = window.spark.llmPrompt`Respuesta profesional empática para queja:
-Categoría: ${selectedComplaint.category}
-Título: ${selectedComplaint.title}
-Descripción: ${selectedComplaint.description.substring(0, 200)}
-Prioridad: ${selectedComplaint.priority}
-
-Incluye: empatía, solución, tiempos. Español Colombia.`
+      const prompt = window.spark.llmPrompt`Response for complaint: Cat:${selectedComplaint.category}|Title:${selectedComplaint.title}|Desc:${selectedComplaint.description.substring(0, 100)}|Priority:${selectedComplaint.priority}. Be empathic. Spanish Colombia.`
       
       const response = await window.spark.llm(prompt, 'gpt-4o-mini')
       setResolution(response)

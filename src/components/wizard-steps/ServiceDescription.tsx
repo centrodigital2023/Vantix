@@ -38,7 +38,7 @@ export function ServiceDescription({ category, data, onNext, onPrevious }: Servi
     try {
       const categoryLabel = SERVICE_CATEGORY_LABELS[category]
       // @ts-expect-error - TypeScript incorrectly infers template literal type
-      const prompt = window.spark.llmPrompt`Descripción atractiva 150-300 palabras para servicio "${categoryLabel}" llamado "${data.name}" en ${data.location.city}, ${data.location.department}, Colombia. Destaca experiencia única, cultura, naturaleza. Lenguaje poético claro. Solo texto.`
+      const prompt = window.spark.llmPrompt`Description 150-300 words: ${categoryLabel} "${data.name}" in ${data.location.city}, ${data.location.department}, Colombia. Highlight unique experience, culture, nature. Poetic, clear. Spanish only.`
 
       const result = await window.spark.llm(prompt, 'gpt-4o')
       setFormData({ ...formData, description: result.trim() })

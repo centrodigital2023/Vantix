@@ -133,30 +133,7 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
 
     try {
       // @ts-expect-error - TypeScript incorrectly infers template literal type
-      const prompt = window.spark.llmPrompt`Eres un auditor legal y de riesgo para una plataforma turística.
-      
-      Analiza este proveedor y genera una recomendación:
-      
-      Nombre: ${selectedProvider.name}
-      Tipo: ${selectedProvider.type}
-      País: ${selectedProvider.country}
-      Ciudad: ${selectedProvider.city}
-      Servicios: ${selectedProvider.servicesCount}
-      Reservas totales: ${selectedProvider.totalBookings}
-      Rating promedio: ${selectedProvider.averageRating}
-      Quejas: ${selectedProvider.complaintsCount}
-      Documentos: ${selectedProvider.documentsStatus}
-      Tiene RNT: ${selectedProvider.hasRNT ? 'Sí' : 'No'}
-      Tiene seguro: ${selectedProvider.hasInsurance ? 'Sí' : 'No'}
-      
-      Genera:
-      1. Score riesgo (0-100)
-      2. Score legal (0-100)
-      3. Score reputación (0-100)
-      4. Acción: APROBAR/RECHAZAR/OBSERVAR/SUSPENDER
-      5. Razones
-      
-      Español Colombia.`
+      const prompt = window.spark.llmPrompt`Audit provider: ${selectedProvider.name}|Type:${selectedProvider.type}|Bookings:${selectedProvider.totalBookings}|Rating:${selectedProvider.averageRating}|Complaints:${selectedProvider.complaintsCount}|RNT:${selectedProvider.hasRNT}|Insurance:${selectedProvider.hasInsurance}. Return: risk(0-100)|legal(0-100)|reputation(0-100)|action(APPROVE/REJECT/OBSERVE/SUSPEND)|reasons. Spanish.`
 
       const response = await window.spark.llm(prompt, 'gpt-4o')
       

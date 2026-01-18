@@ -32,16 +32,7 @@ export function Itinerario() {
     
     try {
       // @ts-expect-error - TypeScript incorrectly infers template literal type
-      const prompt = window.spark.llmPrompt`Itinerario ${days} días Colombia:
-- Tipo: ${category}
-- Región: ${region}
-- Viajeros: ${travelers}
-
-JSON:
-{
-  "title": "...",
-  "days": [{"day": 1, "title": "...", "activities": [...], "accommodation": "...", "dining": [...]}]
-}`
+      const prompt = window.spark.llmPrompt`${days}d Colombia itinerary: ${category}|${region}|${travelers} people. Return JSON: {"title":"...","days":[{"day":1,"title":"...","activities":[...],"meals":[...],"accommodation":"..."}]}`
       
       const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
       const itinerary = JSON.parse(result)

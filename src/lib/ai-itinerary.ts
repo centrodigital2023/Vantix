@@ -225,118 +225,14 @@ export async function generateAIItinerary(
     : ''
 
   // @ts-expect-error - TypeScript incorrectly infers template literal type
-  const prompt = spark.llmPrompt`You are an expert travel planner for Colombia. Create a ${preferences.duration}-day itinerary.
+  const prompt = spark.llmPrompt`Colombia ${preferences.duration}d itinerary.
 
-**Trip Details:**
-- Destination: ${preferences.destination} ${destinationsText}
-- Dates: ${preferences.startDate} to ${preferences.endDate}
-- Budget: ${preferences.budget.min}-${preferences.budget.max} ${preferences.budget.currency}
-- Interests: ${preferences.interests.join(', ')}
-- Type: ${preferences.travelType}, ${preferences.travelers.adults} adults${childrenText}
-- Pace: ${preferences.pace}, Accommodation: ${preferences.accommodationPreference || 'any'}
-${dietaryText ? `- ${dietaryText}` : ''}
-${accessibilityText ? `- ${accessibilityText}` : ''}
-- Optimize: ${optimizeFor}
+Dest:${preferences.destination}|Budget:${preferences.budget.min}-${preferences.budget.max}|People:${preferences.travelers.adults}${childrenText}|Pace:${preferences.pace}|Type:${preferences.travelType}|Interests:${preferences.interests.slice(0,3).join(',')}
 
-**Return JSON with this structure (NO additional text):**
-{
-  "name": "Trip title",
-  "description": "Brief overview",
-  "days": [
-    {
-      "day": 1,
-      "date": "YYYY-MM-DD",
-      "title": "Day title",
-      "description": "Day overview",
-      "location": {"name": "City", "lat": 0.0, "lon": 0.0},
-      "activities": [
-        {
-          "time": "09:00",
-          "duration": 120,
-          "name": "Activity",
-          "description": "Details",
-          "type": "experience",
-          "location": {"name": "Place", "address": "Address", "lat": 0.0, "lon": 0.0},
-          "cost": 50000,
-          "tips": ["Tip"],
-          "aiRecommendationReason": "Why"
-        }
-      ],
-      "meals": [
-        {
-          "time": "12:30",
-          "type": "lunch",
-          "restaurant": {
-            "name": "Restaurant",
-            "cuisine": "Type",
-            "priceRange": "$$",
-            "address": "Address",
-            "lat": 0.0,
-            "lon": 0.0,
-            "rating": 4.5
-          },
-          "estimatedCost": 30000,
-          "recommendations": ["Dish"]
-        }
-      ],
-      "accommodation": {
-        "name": "Hotel",
-        "type": "hotel",
-        "address": "Address",
-        "lat": 0.0,
-        "lon": 0.0,
-        "rating": 4.2,
-        "pricePerNight": 150000,
-        "amenities": ["WiFi"],
-        "checkIn": "15:00",
-        "checkOut": "11:00"
-      },
-      "transport": {
-        "type": "bus",
-        "from": "Origin",
-        "to": "Destination",
-        "duration": 180,
-        "distance": 120,
-        "cost": 25000,
-        "details": "Info"
-      },
-      "costs": {
-        "activities": 100000,
-        "meals": 80000,
-        "accommodation": 150000,
-        "transport": 25000,
-        "total": 355000
-      },
-      "tips": ["Tip"]
-    }
-  ],
-  "costs": {
-    "accommodation": 600000,
-    "transport": 150000,
-    "experiences": 400000,
-    "food": 350000,
-    "other": 100000,
-    "total": 1600000,
-    "currency": "COP"
-  },
-  "map": {
-    "center": {"lat": 4.7110, "lon": -74.0721},
-    "zoom": 10,
-    "route": [{"lat": 0.0, "lon": 0.0}]
-  },
-  "tips": ["General tip"],
-  "safetyWarnings": ["Safety info if needed"]
-}
+Return only JSON:
+{"name":"Title","desc":"overview","days":[{"day":1,"title":"Title","desc":"Day plan","loc":"Place","lat":0.0,"lon":0.0,"acts":[{"time":"09:00","dur":120,"name":"Act","desc":"Details","cost":50000}],"meals":[{"time":"12:30","name":"Rest","cost":30000,"rec":["Dish"]}],"acc":{"name":"Hotel","price":150000,"rate":4.2},"trans":{"type":"bus","cost":25000}}],"total":1600000,"cur":"COP"}
 
-**Guidelines:**
-1. Use real Colombian places with accurate coordinates
-2. Base prices on realistic COP market rates
-3. Consider travel times and ${preferences.pace} pace
-4. Match activities to interests: ${preferences.interests.join(', ')}
-5. Stay within budget ${preferences.budget.min}-${preferences.budget.max} ${preferences.budget.currency}
-6. Include practical tips
-Return ONLY the JSON, no extra text.
-`
+Keep real Colombian places. Match interests. Stay within budget. NO EXTRA TEXT.`
 
   try {
     // Validar que spark.llm esté disponible
@@ -369,31 +265,57 @@ Return ONLY the JSON, no extra text.
       throw new Error('El formato de respuesta del LLM es inválido. Falta información requerida.')
     }
 
+    // Mapear claves comprimidas a claves completas
+    const normalizedDays = itineraryData.days.map((d: any) => ({
+      day: d.day,
+      date: d.date,
+      title: d.title,
+      description: d.desc || d.description,
+      location: d.loc || d.location,
+      latitude: d.lat,
+      longitude: d.lon,
+      activities: (d.acts || d.activities || []).map((a: any) => ({
+        time: a.time,
+        duration: a.dur || a.duration,
+        name: a.name,
+        description: a.desc || a.description,
+        cost: a.cost
+      })),
+      meals: (d.meals || []).map((m: any) => ({
+        time: m.time,
+        name: m.name,
+        cost: m.cost,
+        recommendations: m.rec || m.recommendations
+      })),
+      accommodation: d.acc || d.accommodation,
+      transport: d.trans || d.transport
+    }))
+
     const itinerary: AIItinerary = {
       id: `itinerary_${Date.now()}`,
       userId: undefined,
       name: itineraryData.name,
-      description: itineraryData.description,
+      description: itineraryData.desc || itineraryData.description,
       destination: preferences.destination,
       destinations: preferences.destinations || [preferences.destination],
       startDate: preferences.startDate,
       endDate: preferences.endDate,
       duration: preferences.duration,
-      days: itineraryData.days,
+      days: normalizedDays,
       services: {
-        accommodations: itineraryData.days.map((d: any) => d.accommodation?.name || 'No especificado').filter(Boolean),
-        transports: itineraryData.days.filter((d: any) => d.transport).map((d: any) => d.transport.type),
-        experiences: itineraryData.days.flatMap((d: any) => d.activities?.map((a: any) => a.name) || []),
-        restaurants: itineraryData.days.flatMap((d: any) => d.meals?.map((m: any) => m.restaurant?.name) || [])
+        accommodations: normalizedDays.map((d: any) => d.accommodation?.name || 'No especificado').filter(Boolean),
+        transports: normalizedDays.filter((d: any) => d.transport).map((d: any) => d.transport.type),
+        experiences: normalizedDays.flatMap((d: any) => d.activities?.map((a: any) => a.name) || []),
+        restaurants: normalizedDays.flatMap((d: any) => d.meals?.map((m: any) => m.name) || [])
       },
-      costs: itineraryData.costs || {
-        accommodation: 0,
-        transport: 0,
-        experiences: 0,
-        food: 0,
+      costs: {
+        accommodation: itineraryData.accommodation || 0,
+        transport: itineraryData.transport || 0,
+        experiences: itineraryData.experiences || 0,
+        food: itineraryData.food || 0,
         other: 0,
-        total: 0,
-        currency: preferences.budget.currency
+        total: itineraryData.total || 0,
+        currency: itineraryData.cur || preferences.budget.currency
       },
       map: itineraryData.map || {
         center: { lat: 4.7110, lon: -74.0721 },

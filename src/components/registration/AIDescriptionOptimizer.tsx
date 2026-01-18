@@ -37,24 +37,7 @@ export function AIDescriptionOptimizer({
 
     try {
       // @ts-expect-error - TypeScript incorrectly infers template literal type
-      const prompt = window.spark.llmPrompt`Eres un experto en marketing turístico y copywriting para plataformas como Booking.com y Airbnb.
-
-Optimiza la siguiente descripción de alojamiento/servicio turístico para hacerla más atractiva, persuasiva y profesional.
-
-DESCRIPCIÓN ORIGINAL:
-${value}
-
-INSTRUCCIONES:
-1. Mantén toda la información factual original
-2. Mejora la estructura y claridad
-3. Usa lenguaje evocativo pero profesional
-4. Destaca beneficios y características únicas
-5. Incluye llamados sutiles a la acción
-6. Optimiza para SEO con palabras clave naturales
-7. Máximo ${maxLength} caracteres
-8. En español
-
-Responde SOLO con la descripción optimizada, sin explicaciones adicionales.`
+      const prompt = window.spark.llmPrompt`Optimize for tourism platforms (Booking/Airbnb): ${value.substring(0, 150)}... Max ${maxLength} chars. Make evocative, professional, SEO-friendly, Spanish. Only response.`
 
       const optimized = await window.spark.llm(prompt, 'gpt-4o')
       

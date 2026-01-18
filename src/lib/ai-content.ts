@@ -84,23 +84,11 @@ export async function generateBlogPosts(count: number = 12): Promise<BlogPost[]>
     const city = colombianCities[Math.floor(Math.random() * colombianCities.length)]
     
     // @ts-expect-error - TypeScript incorrectly infers template literal type
-    const prompt = window.spark.llmPrompt`Genera blog sobre turismo Colombia. 
-Tema: ${topic.theme}, Categoría: ${topic.category}, Destino: ${city}
+    const prompt = window.spark.llmPrompt`Blog Colombia: ${topic.theme} in ${city}.
 
-Incluye:
-- Título atractivo (<80 chars)
-- Extracto breve (120-150 chars)
-- Contenido 800-1000 palabras en markdown
-- Tono inspirador y práctico
-- 5 tags
+Title(<80), excerpt(150), 800+ words markdown, tone:poetic, 5 tags.
 
-JSON:
-{
-  "title": "título",
-  "excerpt": "extracto",
-  "content": "contenido markdown",
-  "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"]
-}`
+Return JSON only: {"title":"...","excerpt":"...","content":"...","tags":[...]}`
 
     try {
       // Validar que window.spark y window.spark.llm estén disponibles
@@ -151,24 +139,11 @@ export async function generateArticles(count: number = 12): Promise<Article[]> {
     const city = colombianCities[Math.floor(Math.random() * colombianCities.length)]
     
     // @ts-expect-error - TypeScript incorrectly infers template literal type
-    const prompt = window.spark.llmPrompt`Genera artículo sobre viajes Colombia.
+    const prompt = window.spark.llmPrompt`Article Colombia: ${topic.category} in ${city}.
 
-Categoría: ${topic.category}, Destino: ${city}
+Title(<80), subtitle(<120), 1200+ words markdown, tone:narrative, 5 tags.
 
-Incluye:
-- Título impactante (<80 chars)
-- Subtítulo descriptivo (<120 chars)
-- Contenido 1200-1500 palabras en markdown
-- Tono narrativo personal
-- 5 tags
-
-JSON:
-{
-  "title": "título",
-  "subtitle": "subtítulo",
-  "content": "contenido markdown",
-  "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"]
-}`
+Return JSON only: {"title":"...","subtitle":"...","content":"...","tags":[...]}`
 
     try {
       if (!window.spark || typeof window.spark.llm !== 'function') {
@@ -215,22 +190,9 @@ export async function generateNews(count: number = 10): Promise<NewsItem[]> {
     const topic = newsTopics[i % newsTopics.length]
     
     // @ts-expect-error - TypeScript incorrectly infers template literal type
-    const prompt = window.spark.llmPrompt`Genera noticia sobre turismo Colombia.
+    const prompt = window.spark.llmPrompt`News Colombia: ${topic.category}.
 
-Categoría: ${topic.category}
-
-Incluye:
-- Título periodístico (<100 chars)
-- Extracto (150 chars)
-- Contenido 400-600 palabras estilo periodístico
-- Información objetiva
-
-JSON:
-{
-  "title": "título",
-  "excerpt": "extracto",
-  "content": "contenido markdown"
-}`
+Title(<100), excerpt(150), 400+ words objective. Return JSON: {"title":"...","excerpt":"...","content":"..."}`
 
     try {
       if (!window.spark || typeof window.spark.llm !== 'function') {
