@@ -9,11 +9,23 @@
   body {
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
-  h1, h2, h3, h4, h5, h6 {
+  h1 {
+    font-family: 'Space Grotesk', 'Outfit', sans-serif;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+  
+  h2, h3, h4, h5, h6 {
     font-family: 'Outfit', sans-serif;
     letter-spacing: -0.02em;
+  }
+  
+  img {
+    content-visibility: auto;
   }
 }
 
@@ -139,6 +151,15 @@
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .animate-shimmer {
   animation: shimmer 2s linear infinite;
   background: linear-gradient(
@@ -162,21 +183,41 @@
   animation: slide-up 0.4s ease-out;
 }
 
-.marketplace-card-hover {
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.glass-card {
+  background: oklch(0.16 0.025 265 / 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid oklch(0.28 0.03 265 / 0.5);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, oklch(0.65 0.25 285), oklch(0.70 0.28 330), oklch(0.55 0.22 195));
+  background-size: 200% 200%;
+  animation: gradient-shift 5s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.hover-lift {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.marketplace-card-hover:hover {
+.hover-lift:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 40px -12px oklch(0.65 0.25 285 / 0.35);
 }
 
-.deal-badge {
-  background: linear-gradient(135deg, oklch(0.70 0.28 330), oklch(0.65 0.25 285));
-  color: oklch(0.98 0.005 285);
-  font-weight: 600;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  animation: pulse-glow 2s ease-in-out infinite;
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
 }

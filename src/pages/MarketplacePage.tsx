@@ -80,7 +80,8 @@ export function MarketplacePage({ onNavigate }: MarketplacePageProps) {
               Encuentra tu próximo destino
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Compara precios, lee reseñas verificadas y reserva con confianza en el mejor marketplace de turismo de Colombia
+              Experiencias curadas, precios transparentes y reservas instantáneas. 
+              La plataforma inteligente que convierte deseos en coordenadas reales.
             </p>
           </motion.div>
 

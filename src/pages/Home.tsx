@@ -1,14 +1,14 @@
-import { FuturisticHero } from '@/components/futuristic/FuturisticHero'
+import { ManifestoHero } from '@/components/ManifestoHero'
 import { CategoryGrid } from '@/components/futuristic/CategoryGrid'
 import { FuturisticTestimonials } from '@/components/futuristic/FuturisticTestimonials'
 import { FuturisticCTA } from '@/components/futuristic/FuturisticCTA'
 import { GlassCard } from '@/components/futuristic/GlassCard'
 import { PageRoute, Testimonial } from '@/lib/types'
 import { useUserPreferences } from '@/hooks/use-user-preferences'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Sparkle, TrendUp, ArrowRight, Storefront, ChartLine, Heart, Lightning } from '@phosphor-icons/react'
+import { Sparkle, TrendUp, ArrowRight, Storefront, ChartLine, Heart, Lightning, Clock } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 
 interface HomeProps {
@@ -44,6 +44,7 @@ const testimonials: Testimonial[] = [
 
 export function Home({ onNavigate }: HomeProps) {
   const { trackInteraction, interactionCount } = useUserPreferences()
+  const [emotionalSearch, setEmotionalSearch] = useState<string>('')
 
   useEffect(() => {
     trackInteraction({ type: 'view', category: 'home' })
@@ -54,9 +55,9 @@ export function Home({ onNavigate }: HomeProps) {
     onNavigate('explorar')
   }
 
-  const handleAI = () => {
-    trackInteraction({ type: 'click', category: 'ai-itinerary' })
-    onNavigate('itinerario')
+  const handleEmotionalSearch = (feeling: string) => {
+    setEmotionalSearch(feeling)
+    trackInteraction({ type: 'click', category: 'emotional-search' })
   }
 
   const handleCTA = () => {
@@ -66,7 +67,10 @@ export function Home({ onNavigate }: HomeProps) {
 
   return (
     <div className="min-h-screen">
-      <FuturisticHero onExplore={handleExplore} onAI={handleAI} />
+      <ManifestoHero 
+        onNavigate={onNavigate} 
+        onEmotionalSearch={handleEmotionalSearch}
+      />
       
       <div className="py-12 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,14 +81,14 @@ export function Home({ onNavigate }: HomeProps) {
           >
             <Badge className="mb-4 gap-2 bg-accent text-white px-4 py-2 text-sm">
               <Lightning size={16} weight="fill" />
-              Nuevo Marketplace
+              VIVIR ES URGENTE
             </Badge>
             <h2 className="text-4xl font-bold mb-4">
-              El Mejor Marketplace de Turismo
+              La Felicidad Tiene Coordenadas
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Compara precios, encuentra ofertas exclusivas y reserva con confianza. 
-              Combinamos lo mejor de Booking.com, Airbnb y Trivago.
+              No buscamos lugares. Buscamos sentimientos. 
+              Tecnología invisible que transforma deseos en experiencias reales.
             </p>
           </motion.div>
 
@@ -98,10 +102,10 @@ export function Home({ onNavigate }: HomeProps) {
                 <div className="p-3 bg-primary/10 rounded-xl w-fit mb-4">
                   <ChartLine size={32} className="text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Comparación de Precios</h3>
+                <h3 className="text-xl font-semibold mb-2">Búsqueda Emocional</h3>
                 <p className="text-muted-foreground">
-                  Ve el historial de precios y encuentra las mejores ofertas. 
-                  Configura alertas para cuando bajen los precios.
+                  Di cómo te sientes y te mostraremos dónde encontrarlo. 
+                  IA que entiende emociones, no solo palabras clave.
                 </p>
               </GlassCard>
             </motion.div>
@@ -115,10 +119,10 @@ export function Home({ onNavigate }: HomeProps) {
                 <div className="p-3 bg-secondary/10 rounded-xl w-fit mb-4">
                   <Sparkle size={32} className="text-secondary" weight="fill" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Anfitriones Verificados</h3>
+                <h3 className="text-xl font-semibold mb-2">Experiencias Verificadas</h3>
                 <p className="text-muted-foreground">
-                  SuperAnfitriones con excelentes calificaciones, tiempos de respuesta 
-                  rápidos y propiedades verificadas.
+                  Cada destino, cada anfitrión, verificado y curado. 
+                  Calidad garantizada para que tu única preocupación sea disfrutar.
                 </p>
               </GlassCard>
             </motion.div>
@@ -132,10 +136,10 @@ export function Home({ onNavigate }: HomeProps) {
                 <div className="p-3 bg-accent/10 rounded-xl w-fit mb-4">
                   <Heart size={32} className="text-accent" weight="fill" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Listas de Deseos</h3>
+                <h3 className="text-xl font-semibold mb-2">Momentos Guardados</h3>
                 <p className="text-muted-foreground">
-                  Guarda tus alojamientos favoritos en listas organizadas. 
-                  Recibe notificaciones cuando bajen de precio.
+                  Crea colecciones de experiencias que resuenan contigo. 
+                  Tu wishlist personal de momentos por vivir.
                 </p>
               </GlassCard>
             </motion.div>
@@ -148,7 +152,7 @@ export function Home({ onNavigate }: HomeProps) {
               className="gap-2 px-8"
             >
               <Storefront size={24} />
-              Explorar Marketplace
+              Explorar Experiencias
               <ArrowRight size={20} />
             </Button>
           </div>
