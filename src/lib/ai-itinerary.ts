@@ -447,8 +447,14 @@ export async function optimizeItinerary(
   optimizationGoal: 'cost' | 'time' | 'experience'
 ): Promise<AIItinerary> {
   // @ts-expect-error - TypeScript incorrectly infers template literal type
-  const goalText = optimizationGoal === 'cost' ? 'reduce costs' : optimizationGoal === 'time' ? 'minimize travel time' : 'maximize experiences'
-  const prompt = spark.llmPrompt`Optimize for ${goalText}: ${itinerary.name}|Days:${itinerary.days.length}|Budget:${itinerary.costs?.total}. Return optimized JSON maintaining structure.`
+  const prompt = spark.llmPrompt`
+Optimize this itinerary to ${optimizationGoal === 'cost' ? 'reduce costs' : optimizationGoal === 'time' ? 'minimize travel time' : 'maximize experiences'}.
+
+Current itinerary:
+${JSON.stringify(itinerary, null, 2)}
+
+Return the optimized version maintaining the JSON structure.
+`
 
   try {
     if (!spark.llm || typeof spark.llm !== 'function') {
@@ -515,7 +521,19 @@ export async function suggestAlternativeActivity(
   reason: string
 ): Promise<Activity[]> {
   // @ts-expect-error - TypeScript incorrectly infers template literal type
-  const prompt = spark.llmPrompt`Suggest 3 alternatives for: ${activity.name}|Desc:${activity.description.substring(0,50)}|Type:${activity.type}|Cost:${activity.cost}. Reason:${reason}. Return JSON array only.`
+  const prompt = spark.llmPrompt`
+Suggest 3 alternative activities similar to this one:
+
+Activity: ${activity.name}
+Description: ${activity.description}
+Type: ${activity.type}
+Location: ${activity.location.name}
+Cost: ${activity.cost}
+
+Reason for alternatives: ${reason}
+
+Return a JSON array of 3 alternative activities with the same structure.
+`
 
   try {
     if (!spark.llm || typeof spark.llm !== 'function') {

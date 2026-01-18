@@ -82,9 +82,9 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
   ])
   
   const [searchTerm, setSearchTerm] = useState('')
-  const [categoryFilter, setCategoryFilter] = useState<string>('all-categories')
-  const [priorityFilter, setPriorityFilter] = useState<string>('all-priorities')
-  const [statusFilter, setStatusFilter] = useState<string>('all-statuses')
+  const [categoryFilter, setCategoryFilter] = useState<string>('all')
+  const [priorityFilter, setPriorityFilter] = useState<string>('all')
+  const [statusFilter, setStatusFilter] = useState<string>('all')
   const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null)
   const [showComplaintDialog, setShowComplaintDialog] = useState(false)
   const [resolution, setResolution] = useState('')
@@ -95,9 +95,9 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
       complaint.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       complaint.touristName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (complaint.relatedServiceName || '').toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = categoryFilter === 'all-categories' || complaint.category === categoryFilter
-    const matchesPriority = priorityFilter === 'all-priorities' || complaint.priority === priorityFilter
-    const matchesStatus = statusFilter === 'all-statuses' || complaint.status === statusFilter
+    const matchesCategory = categoryFilter === 'all' || complaint.category === categoryFilter
+    const matchesPriority = priorityFilter === 'all' || complaint.priority === priorityFilter
+    const matchesStatus = statusFilter === 'all' || complaint.status === statusFilter
     return matchesSearch && matchesCategory && matchesPriority && matchesStatus
   })
 
@@ -113,7 +113,7 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
     
     try {
       // @ts-expect-error - TypeScript incorrectly infers template literal type
-      const prompt = window.spark.llmPrompt`Response for complaint: Cat:${selectedComplaint.category}|Title:${selectedComplaint.title}|Desc:${selectedComplaint.description.substring(0, 100)}|Priority:${selectedComplaint.priority}. Be empathic. Spanish Colombia.`
+      const prompt = window.spark.llmPrompt`Complaint response: ${selectedComplaint.category}|${selectedComplaint.title.substring(0, 50)}|${selectedComplaint.priority}. Empathic.`
       
       const response = await window.spark.llm(prompt, 'gpt-4o-mini')
       setResolution(response)
@@ -122,7 +122,7 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
       
       if (errorMessage.includes('400') || errorMessage.toLowerCase().includes('bad request')) {
-        toast.error('Error 400: Descripción de queja demasiado larga.')
+        toast.error('Error 400: Descripción demasiado larga. Intenta de nuevo.')
       } else {
         toast.error('Error al generar respuesta con IA')
       }
@@ -259,12 +259,12 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
                   />
                 </div>
               </div>
-              <Select value={categoryFilter || "all-categories"} onValueChange={setCategoryFilter}>
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Categoría" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all-categories">Todas</SelectItem>
+                  <SelectItem value="all">Todas</SelectItem>
                   <SelectItem value="accommodation">Alojamiento</SelectItem>
                   <SelectItem value="transport">Transporte</SelectItem>
                   <SelectItem value="experience">Experiencia</SelectItem>
@@ -273,24 +273,24 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
                   <SelectItem value="other">Otro</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={priorityFilter || "all-priorities"} onValueChange={setPriorityFilter}>
+              <Select value={priorityFilter} onValueChange={setPriorityFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Prioridad" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all-priorities">Todas</SelectItem>
+                  <SelectItem value="all">Todas</SelectItem>
                   <SelectItem value="low">Baja</SelectItem>
                   <SelectItem value="medium">Media</SelectItem>
                   <SelectItem value="high">Alta</SelectItem>
                   <SelectItem value="critical">Crítica</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={statusFilter || "all-statuses"} onValueChange={setStatusFilter}>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all-statuses">Todos</SelectItem>
+                  <SelectItem value="all">Todos</SelectItem>
                   <SelectItem value="open">Abiertas</SelectItem>
                   <SelectItem value="in_progress">En progreso</SelectItem>
                   <SelectItem value="resolved">Resueltas</SelectItem>

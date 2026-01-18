@@ -105,8 +105,8 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
   ])
 
   const [searchTerm, setSearchTerm] = useState('')
-  const [typeFilter, setTypeFilter] = useState<string>('all-types')
-  const [statusFilter, setStatusFilter] = useState<string>('all-statuses')
+  const [typeFilter, setTypeFilter] = useState<string>('all')
+  const [statusFilter, setStatusFilter] = useState<string>('all')
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null)
   const [showProviderDialog, setShowProviderDialog] = useState(false)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
@@ -115,8 +115,8 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
     const matchesSearch = 
       provider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       provider.email.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesType = typeFilter === 'all-types' || provider.type === typeFilter
-    const matchesStatus = statusFilter === 'all-statuses' || provider.status === statusFilter
+    const matchesType = typeFilter === 'all' || provider.type === typeFilter
+    const matchesStatus = statusFilter === 'all' || provider.status === statusFilter
     return matchesSearch && matchesType && matchesStatus
   })
 
@@ -133,7 +133,7 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
 
     try {
       // @ts-expect-error - TypeScript incorrectly infers template literal type
-      const prompt = window.spark.llmPrompt`Audit provider: ${selectedProvider.name}|Type:${selectedProvider.type}|Bookings:${selectedProvider.totalBookings}|Rating:${selectedProvider.averageRating}|Complaints:${selectedProvider.complaintsCount}|RNT:${selectedProvider.hasRNT}|Insurance:${selectedProvider.hasInsurance}. Return: risk(0-100)|legal(0-100)|reputation(0-100)|action(APPROVE/REJECT/OBSERVE/SUSPEND)|reasons. Spanish.`
+      const prompt = window.spark.llmPrompt`Audit: ${selectedProvider.name}|${selectedProvider.type}|Bookings:${selectedProvider.totalBookings}|Rating:${selectedProvider.averageRating}|Complaints:${selectedProvider.complaintsCount}. Risk|Legal|Action.`
 
       const response = await window.spark.llm(prompt, 'gpt-4o')
       
@@ -147,7 +147,7 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
       
       if (errorMessage.includes('400') || errorMessage.toLowerCase().includes('bad request')) {
-        toast.error('Error 400: Información del proveedor demasiado extensa.')
+        toast.error('Error 400: Información demasiada. Intenta de nuevo.')
       } else {
         toast.error('Error al analizar con IA')
       }
@@ -265,12 +265,12 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
                   />
                 </div>
               </div>
-              <Select value={typeFilter || "all-types"} onValueChange={setTypeFilter}>
+              <Select value={typeFilter} onValueChange={setTypeFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all-types">Todos los tipos</SelectItem>
+                  <SelectItem value="all">Todos los tipos</SelectItem>
                   <SelectItem value="host">Anfitriones</SelectItem>
                   <SelectItem value="transport">Transporte</SelectItem>
                   <SelectItem value="tour">Tours</SelectItem>
@@ -278,12 +278,12 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
                   <SelectItem value="gastronomy">Gastronomía</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={statusFilter || "all-statuses"} onValueChange={setStatusFilter}>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger>
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all-statuses">Todos los estados</SelectItem>
+                  <SelectItem value="all">Todos los estados</SelectItem>
                   <SelectItem value="pending">Pendientes</SelectItem>
                   <SelectItem value="active">Activos</SelectItem>
                   <SelectItem value="suspended">Suspendidos</SelectItem>
