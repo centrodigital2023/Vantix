@@ -44,27 +44,35 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
   }
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border">
+    <nav className="sticky top-0 z-50 backdrop-blur-2xl glass-card border-b border-border/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <button 
             onClick={() => onNavigate('home')}
-            className="flex items-center gap-2"
+            className="flex items-center gap-3 group"
           >
-            <img src="/src/assets/images/logovantix.png" alt="Vantix" className="h-10 w-auto" />
+            <div className="p-2 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+              <img src="/src/assets/images/logovantix.png" alt="Vantix" className="h-8 w-auto" />
+            </div>
+            <span className="text-xl font-bold text-gradient hidden sm:inline">Vantix</span>
           </button>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-2">
             {navItems.map((item) => {
               const Icon = item.icon
+              const isActive = currentPage === item.page
               return (
                 <Button
                   key={item.page}
-                  variant={currentPage === item.page ? 'default' : 'ghost'}
+                  variant={isActive ? 'default' : 'ghost'}
                   onClick={() => onNavigate(item.page)}
-                  className="gap-2"
+                  className={`gap-2 transition-all ${
+                    isActive 
+                      ? 'bg-primary text-primary-foreground shadow-[0_0_20px_rgba(59,191,255,0.3)]' 
+                      : 'hover:bg-primary/10 hover:text-primary'
+                  }`}
                 >
-                  <Icon size={18} weight={currentPage === item.page ? 'fill' : 'regular'} />
+                  <Icon size={18} weight={isActive ? 'fill' : 'regular'} />
                   {item.label}
                 </Button>
               )
@@ -121,7 +129,7 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
               <Button
                 variant="default"
                 onClick={() => onNavigate('tourist-auth')}
-                className="ml-2 gap-2"
+                className="ml-2 gap-2 bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(59,191,255,0.2)] hover:shadow-[0_0_30px_rgba(59,191,255,0.4)] transition-all"
               >
                 <User size={18} />
                 <span className="hidden lg:inline">Iniciar Sesión</span>

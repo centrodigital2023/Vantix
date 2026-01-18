@@ -1,16 +1,13 @@
-import { HeroSection } from '@/components/HeroSection'
-import { WelcomeMessage } from '@/components/WelcomeMessage'
-import { CategoryCard } from '@/components/CategoryCard'
-import { Testimonials } from '@/components/Testimonials'
-import { CallToAction } from '@/components/CallToAction'
-import { PageRoute, Testimonial, SearchFilters } from '@/lib/types'
-import { CATEGORIES } from '@/lib/data'
-import { useKV } from '@github/spark/hooks'
+import { FuturisticHero } from '@/components/futuristic/FuturisticHero'
+import { CategoryGrid } from '@/components/futuristic/CategoryGrid'
+import { FuturisticTestimonials } from '@/components/futuristic/FuturisticTestimonials'
+import { FuturisticCTA } from '@/components/futuristic/FuturisticCTA'
+import { GlassCard } from '@/components/futuristic/GlassCard'
+import { PageRoute, Testimonial } from '@/lib/types'
 import { useUserPreferences } from '@/hooks/use-user-preferences'
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Sparkle, TrendUp } from '@phosphor-icons/react'
+import { Sparkle, TrendUp, ArrowRight } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 
 interface HomeProps {
@@ -45,54 +42,49 @@ const testimonials: Testimonial[] = [
 ]
 
 export function Home({ onNavigate }: HomeProps) {
-  const [, setSearchFilters] = useKV<SearchFilters>('current-search-filters', {})
   const { trackInteraction, interactionCount } = useUserPreferences()
 
   useEffect(() => {
     trackInteraction({ type: 'view', category: 'home' })
   }, [])
 
-  const handleSearch = (filters: SearchFilters) => {
-    setSearchFilters(() => filters)
-    if (filters.destination) {
-      trackInteraction({ 
-        type: 'search', 
-        searchQuery: filters.destination 
-      })
-    }
+  const handleExplore = () => {
+    trackInteraction({ type: 'click', category: 'explore' })
+    onNavigate('explorar')
   }
 
-  const handleCategoryClick = (category: typeof CATEGORIES[0]) => {
-    trackInteraction({ 
-      type: 'click', 
-      category: category.slug 
-    })
-    onNavigate(`categoria-${category.slug}` as PageRoute)
+  const handleAI = () => {
+    trackInteraction({ type: 'click', category: 'ai-itinerary' })
+    onNavigate('itinerario')
+  }
+
+  const handleCTA = () => {
+    trackInteraction({ type: 'click', category: 'cta' })
+    onNavigate('explorar')
   }
 
   return (
-    <>
-      <HeroSection onNavigate={onNavigate} onSearch={handleSearch} />
+    <div className="min-h-screen">
+      <FuturisticHero onExplore={handleExplore} onAI={handleAI} />
       
-      <WelcomeMessage />
-
       {interactionCount > 5 && (
-        <div className="py-8 bg-gradient-to-r from-primary/5 via-accent/5 to-turquoise/5">
+        <div className="py-12 relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Card className="overflow-hidden bg-gradient-to-br from-primary/10 via-accent/10 to-turquoise/10 border-primary/20">
-                <div className="p-8 md:p-12">
+              <GlassCard className="relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-primary/10" />
+                <div className="relative p-8 md:p-12">
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-start gap-4 flex-1">
                       <div className="p-3 bg-primary/20 rounded-xl">
                         <Sparkle size={32} weight="duotone" className="text-primary" />
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold mb-2">
+                        <h3 className="text-2xl md:text-3xl font-bold mb-2">
                           Tu feed personalizado está listo
                         </h3>
                         <p className="text-muted-foreground mb-4 max-w-2xl">
@@ -108,41 +100,25 @@ export function Home({ onNavigate }: HomeProps) {
                     <Button 
                       size="lg" 
                       onClick={() => onNavigate('feed-personalizado')}
-                      className="whitespace-nowrap gap-2"
+                      className="group whitespace-nowrap gap-2 bg-primary hover:bg-primary/90"
                     >
                       <Sparkle size={20} />
                       Ver mi feed
+                      <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </div>
                 </div>
-              </Card>
+              </GlassCard>
             </motion.div>
           </div>
         </div>
       )}
       
-      <div className="py-16 md:py-24 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Explora por categoría
-          </h2>
-          
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {CATEGORIES.map((category, index) => (
-              <CategoryCard
-                key={category.id}
-                category={category}
-                onClick={() => handleCategoryClick(category)}
-                delay={index * 0.05}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      <CategoryGrid onNavigate={onNavigate} />
       
-      <Testimonials testimonials={testimonials} />
+      <FuturisticTestimonials testimonials={testimonials} />
       
-      <CallToAction onNavigate={onNavigate} />
-    </>
+      <FuturisticCTA onAction={handleCTA} />
+    </div>
   )
 }
