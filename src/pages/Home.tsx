@@ -77,30 +77,30 @@ export function Home({ onNavigate }: HomeProps) {
       <WelcomeMessage />
 
       {interactionCount > 5 && (
-        <div className="py-8 bg-gradient-to-r from-primary/5 via-accent/5 to-turquoise/5">
+        <div className="py-8 bg-vantix-charcoal">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Card className="overflow-hidden bg-gradient-to-br from-primary/10 via-accent/10 to-turquoise/10 border-primary/20">
+              <Card className="overflow-hidden bg-vantix-black/50 border-vantix-amber/30">
                 <div className="p-8 md:p-12">
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-start gap-4 flex-1">
-                      <div className="p-3 bg-primary/20 rounded-xl">
-                        <Sparkle size={32} weight="duotone" className="text-primary" />
+                      <div className="p-3 bg-vantix-amber/20 rounded-xl">
+                        <Sparkle size={32} weight="duotone" className="text-vantix-amber" />
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold mb-2">
+                        <h3 className="text-2xl font-bold mb-2 text-vantix-bone">
                           Tu feed personalizado está listo
                         </h3>
-                        <p className="text-muted-foreground mb-4 max-w-2xl">
+                        <p className="text-vantix-dust mb-4 max-w-2xl">
                           Hemos aprendido tus preferencias y preparamos recomendaciones únicas para ti. 
                           Descubre destinos y alojamientos que se ajustan perfectamente a tus intereses.
                         </p>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <TrendUp size={16} className="text-accent" />
+                        <div className="flex items-center gap-2 text-sm text-vantix-dust">
+                          <TrendUp size={16} className="text-vantix-amber" />
                           <span>Basado en {interactionCount} interacciones</span>
                         </div>
                       </div>
@@ -108,7 +108,7 @@ export function Home({ onNavigate }: HomeProps) {
                     <Button 
                       size="lg" 
                       onClick={() => onNavigate('feed-personalizado')}
-                      className="whitespace-nowrap gap-2"
+                      className="whitespace-nowrap gap-2 bg-vantix-amber hover:bg-vantix-amber/90 text-vantix-black"
                     >
                       <Sparkle size={20} />
                       Ver mi feed
@@ -121,9 +121,9 @@ export function Home({ onNavigate }: HomeProps) {
         </div>
       )}
       
-      <div className="py-16 md:py-24 bg-muted/30">
+      <div className="py-16 md:py-24 bg-vantix-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-vantix-bone">
             Explora por categoría
           </h2>
           
