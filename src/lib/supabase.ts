@@ -13,6 +13,8 @@ const createSupabaseClient = (): SupabaseClient => {
     })
   }
 
+  return createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
       storage: {
         getItem: (key: string) => {
           return window.spark.kv.get<string>(key).then(value => value || null)
@@ -23,13 +25,8 @@ const createSupabaseClient = (): SupabaseClient => {
         removeItem: (key: string) => {
           return window.spark.kv.delete(key)
         }
-          return window.spark.kv.set(key, value)
-        },
-  }) removeItem: (key: string) => {
-}       return window.spark.kv.delete(key)
-        }
-export const supabase = createSupabaseClient()
-
+      }
+    }
   })
 }
 
