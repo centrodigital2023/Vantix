@@ -1,74 +1,74 @@
 # Futuristic Intelligent Redesign - Vantix Platform
 
-Vantix transforms into an intelligent, AI-first travel experience with a cutting-edge futuristic interface that feels like stepping into 2030. The design embraces glassmorphism, fluid animations, neural network aesthetics, and spatial intelligence.
-
 **Experience Qualities**:
-1. **Visionary** - Design language that feels advanced, with holographic UI elements, neural patterns, and ambient particle effects
-2. **Fluid** - Seamless micro-interactions and state transitions that feel organic and responsive to user intent
-3. **Intelligent** - AI-powered elements are visually distinct with glowing accents, pulsing animations, and predictive interfaces
 
-**Complexity Level**: Complex Application - Comprehensive tourism platform reimagined with futuristic UX patterns
 
-## Essential Features
 
-**Neural Navigation System**
+
 - Functionality: Intelligent sidebar that adapts to user behavior with AI-suggested routes and predictive navigation
-- Purpose: Reduce cognitive load by anticipating user needs
-- Trigger: Application load, persistent across all pages
-- Progression: Load app → Neural nav appears → AI learns patterns → Suggests next actions → Adapts layout
+
 - Success criteria: Navigation feels intuitive, AI suggestions relevant, animations smooth at 60fps
 
-**Holographic Hero Experience**
-- Functionality: Immersive hero section with animated gradient meshes, floating elements, and particle systems
-- Purpose: Create memorable first impression that conveys technological sophistication
-- Trigger: Homepage load
-- Progression: Page loads → Gradient mesh animates → Particles float → Text reveals with stagger → Interactive cards appear
-- Success criteria: Hero loads in <2s, animations don't impact performance, feels premium
+- Purpose: Create mem
 
-**Smart Category Grid**
+
 - Functionality: AI-powered category cards with hover states revealing neural patterns and personalized data
-- Purpose: Guide users to relevant content with intelligent visual cues
 - Trigger: Scroll to categories section
-- Progression: Scroll trigger → Cards fade in with stagger → Hover reveals AI insights → Click navigates
-- Success criteria: Cards respond instantly, AI data contextual, transitions feel natural
-
+- Success criteria: Cards respond instantly, AI data con
 **Ambient Intelligence Indicators**
-- Functionality: Subtle AI presence indicators (pulsing orbs, gradient shifts) throughout UI
 - Purpose: Build trust in AI systems through visible, beautiful feedback
-- Trigger: Any AI operation (search, recommendations, analysis)
-- Progression: AI thinks → Indicator pulses → Result appears → Indicator fades
-- Success criteria: Never intrusive, always informative, visually cohesive
 
-## Edge Case Handling
+
 - **Slow Connections**: Skeleton loaders with shimmer effects maintain futuristic feel
-- **No JavaScript**: Graceful degradation to clean, accessible layout
 - **Small Screens**: Adaptive layouts that prioritize content, collapsible neural nav
-- **High Motion Sensitivity**: Respect prefers-reduced-motion, disable particle effects
-- **Loading States**: Holographic progress indicators, never blank screens
-
+- **Loading States**: Ho
 ## Design Direction
+The interface should evoke the feeling of using technology from the future - clean, minim
 
-The interface should evoke the feeling of using technology from the future - clean, minimal, but with sophisticated depth. Think Apple Vision Pro meets Stripe's design system meets sci-fi interfaces. Every interaction should feel intentional and satisfying. The design whispers "intelligent" rather than screaming "futuristic."
-
-## Color Selection
-
-**Primary Color (Electric Cyan)**: `oklch(0.70 0.18 210)` - Represents intelligence, technology, and clarity. Used for AI indicators, primary actions, and neural network accents.
-
-**Secondary Color (Deep Void)**: `oklch(0.12 0.01 240)` - Rich dark background that creates depth and contrast. Main surface color for dark mode aesthetic.
-
-**Accent Color (Plasma Purple)**: `oklch(0.65 0.22 290)` - High-energy accent for hover states, notifications, and emphasis. Creates visual excitement.
-
-**Neural Gradient**: Linear gradient from Electric Cyan → Plasma Purple → Cyan, used for AI elements, borders, and interactive states.
-
+**Primary Color (Electr
+**Secondary Color (Deep Void)**: `oklch(0.12 0.01 240)` - Rich dark background that creates depth and contra
+**Accent Color (Plasma Purple)**: `oklch(0.65 0.22 290)` - High-energy 
+**Neural Gradient**: Linear gradient fr
 **Foreground/Background Pairings**:
-- Deep Void (`oklch(0.12 0.01 240)`): White text (`oklch(0.98 0 0)`) - Ratio 16.2:1 ✓
-- Electric Cyan (`oklch(0.70 0.18 210)`): Deep Void text (`oklch(0.12 0.01 240)`) - Ratio 8.4:1 ✓
-- Plasma Purple (`oklch(0.65 0.22 290)`): White text (`oklch(0.98 0 0)`) - Ratio 5.8:1 ✓
-- Glassmorphic Surfaces (`oklch(0.18 0.02 240 / 0.4)`): White text with backdrop blur - Ratio 11.2:1 ✓
+- Electric Cyan (`oklch(0.70 0.18 210)`): Deep Void text (`oklch(0.12 0.01 240)`) - Ratio
 
 ## Font Selection
+Typography should feel clean, modern, and highly legible - the typefaces of a confident tech
+**Primary: Space Grotesk** - Geometric sans-serif with technical precisi
+**Secondary: Inter** - Highly legible, neutral sans for body co
+**Monospace: JetBrains Mono** - For code-like elements, AI outputs, and techni
+**Typographic Hierarchy**:
 
-Typography should feel clean, modern, and highly legible - the typefaces of a confident technological future.
+- Body (Primary): Int
+- Code (AI Output): JetBrains Mono / 14px / Tabular figures
+## Animations
+Animations should feel fluid, purposeful, and slightly elastic - like interfaces in s
+**Micro-interactions**: 150-200ms cubic-bezier(0.4, 0.0, 0.2, 1) for buttons, cards, ho
+**AI Indicators**: Continuous pulse animation (2s loop) with glow intensit
+
+
+
+- **Button**: Variant="default" for primary, "ghost" for navigation, custom gradient styles
+
+- **Tabs**: For ca
+
+
+
+- **AI Indicator**: Pulsing orb component with gradient ring animation
+
+**States**:
+
+- Focus: Animated gradient ring, no harsh outline
+
+**Icon Selection** (Phosphor Icons)
+- AI Features: Brain, Magic Wand, Lightning, Sparkle
+- Status: Check, Warning, Info with gradient fills
+**Spacing**:
+- Section padding: py-24 md:py-32 (generous vertical spacing)
+
+**Mobile**:
+
+- Particle effects disabled on mobile for performance
 
 **Primary: Space Grotesk** - Geometric sans-serif with technical precision for headings and UI elements. Its distinctive letterforms feel contemporary without being trendy.
 
@@ -140,4 +140,5 @@ Animations should feel fluid, purposeful, and slightly elastic - like interfaces
 - Cards stack in single column with maintained aspect ratios
 - Particle effects disabled on mobile for performance
 - Touch targets minimum 48px, generously spaced
+- Glassmorphism simplified to solid backgrounds on low-end devices
 - Glassmorphism simplified to solid backgrounds on low-end devices
