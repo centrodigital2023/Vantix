@@ -62,7 +62,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
               <SelectValue placeholder="Región" />
             </SelectTrigger>
             <SelectContent>
-              {REGIONS.map((r) => (
+              {REGIONS.filter(r => r && r.trim() !== '').map((r) => (
                 <SelectItem key={r} value={r}>{r}</SelectItem>
               ))}
             </SelectContent>

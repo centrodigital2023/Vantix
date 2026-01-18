@@ -1,51 +1,51 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useKV } from '@github/spark/hooks'
 
-  type: 'host' | 'service' | 'tou
-  lastActivi
-}
+export interface RealtimeEntity {
+  id: string
+  type: 'host' | 'service' | 'tourist'
   status: 'online' | 'offline' | 'away'
   lastActivity: number
   data: any
 }
 
 export function useRealtimeSync<T extends RealtimeEntity>(entityType: string) {
+  const [entities, setEntities] = useKV<T[]>(`realtime-${entityType}`, [])
+  const [isConnected, setIsConnected] = useState(true)
+  const [lastSync, setLastSync] = useState(Date.now())
+
+  const safeEntities = entities || []
+
+  const updateEntity = useCallback((entity: T) => {
     setEntities((current) => {
-      const existing = safeEntities.find(e => e.id ===
-        return safeEntities.map(e => e.id === entity.i
-
+      const safeEntities = current || []
+      const existing = safeEntities.find(e => e.id === entity.id)
+      if (existing) {
+        return safeEntities.map(e => e.id === entity.id ? entity : e)
+      }
+      return [...safeEntities, entity]
+    })
     setLastSync(Date.now())
-
-    setEntities((current) => (current ||
   }, [setEntities])
-  const markOnline = 
-      (current || []).map(e => e.id === entityId ? { ...e, status: 'online' as const, lastActivity: Da
-    set
 
-    se
+  const removeEntity = useCallback((entityId: string) => {
+    setEntities((current) => (current || []).filter(e => e.id !== entityId))
+    setLastSync(Date.now())
+  }, [setEntities])
+
+  const markOnline = useCallback((entityId: string) => {
+    setEntities((current) =>
+      (current || []).map(e => e.id === entityId ? { ...e, status: 'online' as const, lastActivity: Date.now() } : e)
     )
   }, [setEntities])
 
-      const now = Date.now()
-        (current || []).map(e => {
-          if (inactiveTime 
-          } else if
+  const markOffline = useCallback((entityId: string) => {
+    setEntities((current) =>
+      (current || []).map(e => e.id === entityId ? { ...e, status: 'offline' as const } : e)
+    )
+  }, [setEntities])
 
-        })
-    }, 30000)
-    return () => clearInterval(heartbeatInterval)
-
-    entities: entities || [
-    lastSync,
-
-    markOffline
-}
-export function usePresence(userId: string, userType: 'host' | 'tourist' | 'service') {
-
-    markOnline(userId)
-    const handleVis
-
-        markOnline(
+  useEffect(() => {
     const heartbeatInterval = setInterval(() => {
       const now = Date.now()
       setEntities((current) => 
@@ -65,7 +65,7 @@ export function usePresence(userId: string, userType: 'host' | 'tourist' | 'serv
   }, [setEntities])
 
   return {
-    entities,
+    entities: entities || [],
     isConnected,
     lastSync,
     updateEntity,
@@ -94,21 +94,14 @@ export function usePresence(userId: string, userType: 'host' | 'tourist' | 'serv
     }
 
     document.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('beforeunload', handleBeforeUnload)
 
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+      markOffline(userId)
+    }
+  }, [userId, markOnline, markOffline])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  return { updateEntity, markOnline, markOffline }
+}

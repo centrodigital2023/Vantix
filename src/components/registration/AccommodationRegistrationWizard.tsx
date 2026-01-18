@@ -302,7 +302,7 @@ export function AccommodationRegistrationWizard() {
                     <SelectValue placeholder="Selecciona" />
                   </SelectTrigger>
                   <SelectContent>
-                    {COLOMBIA_REGIONS.map((region) => (
+                    {COLOMBIA_REGIONS.filter(region => region.value && region.value.trim() !== '').map((region) => (
                       <SelectItem key={region.value} value={region.value}>
                         {region.label}
                       </SelectItem>

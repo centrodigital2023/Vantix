@@ -208,7 +208,7 @@ export function SupabaseAccommodationForm({ onSuccess, onCancel }: SupabaseAccom
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.map((cat) => (
+                  {categories.filter(cat => cat && cat.trim() !== '').map((cat) => (
                     <SelectItem key={cat} value={cat}>
                       {cat.charAt(0).toUpperCase() + cat.slice(1)}
                     </SelectItem>
@@ -224,7 +224,7 @@ export function SupabaseAccommodationForm({ onSuccess, onCancel }: SupabaseAccom
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {departments.map((dep) => (
+                  {departments.filter(dep => dep && dep.trim() !== '').map((dep) => (
                     <SelectItem key={dep} value={dep}>
                       {dep}
                     </SelectItem>
