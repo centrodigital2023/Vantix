@@ -31,7 +31,7 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
 
   const navItems = [
     { label: 'Inicio', page: 'home' as PageRoute, icon: House },
-    { label: 'Marketplace', page: 'marketplace' as PageRoute, icon: Storefront },
+    { label: 'Destinos', page: 'marketplace' as PageRoute, icon: Storefront },
     { label: 'Explorar', page: 'explorar' as PageRoute, icon: Compass },
     { label: 'Itinerario IA', page: 'itinerario' as PageRoute, icon: Calendar },
     { label: 'Para Ti', page: 'feed-personalizado' as PageRoute, icon: Sparkle },
