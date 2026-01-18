@@ -82,9 +82,9 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
   ])
   
   const [searchTerm, setSearchTerm] = useState('')
-  const [categoryFilter, setCategoryFilter] = useState<string>('all')
-  const [priorityFilter, setPriorityFilter] = useState<string>('all')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [categoryFilter, setCategoryFilter] = useState<string>('all-categories')
+  const [priorityFilter, setPriorityFilter] = useState<string>('all-priorities')
+  const [statusFilter, setStatusFilter] = useState<string>('all-statuses')
   const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null)
   const [showComplaintDialog, setShowComplaintDialog] = useState(false)
   const [resolution, setResolution] = useState('')
@@ -95,9 +95,9 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
       complaint.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       complaint.touristName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (complaint.relatedServiceName || '').toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = categoryFilter === 'all' || complaint.category === categoryFilter
-    const matchesPriority = priorityFilter === 'all' || complaint.priority === priorityFilter
-    const matchesStatus = statusFilter === 'all' || complaint.status === statusFilter
+    const matchesCategory = categoryFilter === 'all-categories' || complaint.category === categoryFilter
+    const matchesPriority = priorityFilter === 'all-priorities' || complaint.priority === priorityFilter
+    const matchesStatus = statusFilter === 'all-statuses' || complaint.status === statusFilter
     return matchesSearch && matchesCategory && matchesPriority && matchesStatus
   })
 
@@ -264,7 +264,7 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
                   <SelectValue placeholder="Categoría" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todas</SelectItem>
+                  <SelectItem value="all-categories">Todas</SelectItem>
                   <SelectItem value="accommodation">Alojamiento</SelectItem>
                   <SelectItem value="transport">Transporte</SelectItem>
                   <SelectItem value="experience">Experiencia</SelectItem>
@@ -278,7 +278,7 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
                   <SelectValue placeholder="Prioridad" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todas</SelectItem>
+                  <SelectItem value="all-priorities">Todas</SelectItem>
                   <SelectItem value="low">Baja</SelectItem>
                   <SelectItem value="medium">Media</SelectItem>
                   <SelectItem value="high">Alta</SelectItem>
@@ -290,7 +290,7 @@ export function SuperAdminComplaints({ onNavigate }: SuperAdminComplaintsProps) 
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="all-statuses">Todos</SelectItem>
                   <SelectItem value="open">Abiertas</SelectItem>
                   <SelectItem value="in_progress">En progreso</SelectItem>
                   <SelectItem value="resolved">Resueltas</SelectItem>

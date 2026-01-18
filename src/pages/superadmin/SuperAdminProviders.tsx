@@ -105,8 +105,8 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
   ])
 
   const [searchTerm, setSearchTerm] = useState('')
-  const [typeFilter, setTypeFilter] = useState<string>('all')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [typeFilter, setTypeFilter] = useState<string>('all-types')
+  const [statusFilter, setStatusFilter] = useState<string>('all-statuses')
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null)
   const [showProviderDialog, setShowProviderDialog] = useState(false)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
@@ -115,8 +115,8 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
     const matchesSearch = 
       provider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       provider.email.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesType = typeFilter === 'all' || provider.type === typeFilter
-    const matchesStatus = statusFilter === 'all' || provider.status === statusFilter
+    const matchesType = typeFilter === 'all-types' || provider.type === typeFilter
+    const matchesStatus = statusFilter === 'all-statuses' || provider.status === statusFilter
     return matchesSearch && matchesType && matchesStatus
   })
 
@@ -270,7 +270,7 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todos los tipos</SelectItem>
+                  <SelectItem value="all-types">Todos los tipos</SelectItem>
                   <SelectItem value="host">Anfitriones</SelectItem>
                   <SelectItem value="transport">Transporte</SelectItem>
                   <SelectItem value="tour">Tours</SelectItem>
@@ -283,7 +283,7 @@ export function SuperAdminProviders({ onNavigate }: SuperAdminProvidersProps) {
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todos los estados</SelectItem>
+                  <SelectItem value="all-statuses">Todos los estados</SelectItem>
                   <SelectItem value="pending">Pendientes</SelectItem>
                   <SelectItem value="active">Activos</SelectItem>
                   <SelectItem value="suspended">Suspendidos</SelectItem>

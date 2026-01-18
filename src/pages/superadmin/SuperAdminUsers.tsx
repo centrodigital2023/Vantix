@@ -75,8 +75,8 @@ export function SuperAdminUsers({ onNavigate }: SuperAdminUsersProps) {
   ])
   
   const [searchTerm, setSearchTerm] = useState('')
-  const [roleFilter, setRoleFilter] = useState<string>('all')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [roleFilter, setRoleFilter] = useState<string>('all-roles')
+  const [statusFilter, setStatusFilter] = useState<string>('all-statuses')
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [showUserDialog, setShowUserDialog] = useState(false)
 
@@ -84,8 +84,8 @@ export function SuperAdminUsers({ onNavigate }: SuperAdminUsersProps) {
     const matchesSearch = 
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesRole = roleFilter === 'all' || user.role === roleFilter
-    const matchesStatus = statusFilter === 'all' || user.status === statusFilter
+    const matchesRole = roleFilter === 'all-roles' || user.role === roleFilter
+    const matchesStatus = statusFilter === 'all-statuses' || user.status === statusFilter
     return matchesSearch && matchesRole && matchesStatus
   })
 
@@ -187,7 +187,7 @@ export function SuperAdminUsers({ onNavigate }: SuperAdminUsersProps) {
                   <SelectValue placeholder="Rol" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todos los roles</SelectItem>
+                  <SelectItem value="all-roles">Todos los roles</SelectItem>
                   <SelectItem value="tourist">Turistas</SelectItem>
                   <SelectItem value="host">Anfitriones</SelectItem>
                   <SelectItem value="service_provider">Prestadores</SelectItem>
@@ -200,7 +200,7 @@ export function SuperAdminUsers({ onNavigate }: SuperAdminUsersProps) {
                   <SelectValue placeholder="Estado" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todos los estados</SelectItem>
+                  <SelectItem value="all-statuses">Todos los estados</SelectItem>
                   <SelectItem value="active">Activos</SelectItem>
                   <SelectItem value="suspended">Suspendidos</SelectItem>
                   <SelectItem value="blocked">Bloqueados</SelectItem>
