@@ -1,53 +1,140 @@
-# Vantix Tourism Marketplace - Product Requirements Document
+# Planning Guide
 
-A sophisticated tourism marketplace platform that connects travelers with authentic Colombian experiences through an elegant, futuristic interface.
+Una plataforma turística integral que conecta viajeros con experiencias auténticas en Colombia, utilizando IA para personalización y recomendaciones inteligentes.
 
 **Experience Qualities**:
-1. **Futuristic Elegance** - The interface feels cutting-edge yet refined, combining advanced digital aesthetics with sophisticated visual language
-2. **Immersive Discovery** - Users experience a sense of exploration and wonder as they navigate through destinations and experiences
-3. **Seamless Sophistication** - Every interaction flows naturally with polished animations and intuitive navigation that feels effortless
+1. **Inmersivo** - La interfaz debe transportar al usuario visualmente a los destinos, con imágenes de alta calidad y transiciones fluidas que evocan la sensación de estar planeando un viaje emocionante.
+2. **Inteligente** - Aprovecha IA para generar itinerarios personalizados, recomendaciones contextuales y búsquedas semánticas que anticipan las necesidades del viajero.
+3. **Confiable** - Muestra información en tiempo real sobre disponibilidad, anfitriones conectados y servicios activos para generar confianza y transparencia.
 
 **Complexity Level**: Complex Application (advanced functionality, likely with multiple views)
-This is a full-featured tourism marketplace with user authentication, booking systems, host management panels, admin dashboards, destination browsing, search functionality, and payment processing integration.
+- La aplicación incluye múltiples módulos interconectados: exploración de destinos, generación de itinerarios con IA, sistema de reservas, perfiles de usuario, panel de anfitriones, gestión de servicios, y un sistema de recomendaciones personalizado basado en preferencias del usuario.
 
 ## Essential Features
 
-### Multi-Destination Search & Discovery
-- **Functionality**: Users can search and filter accommodations, tours, and experiences across Colombian destinations
-- **Purpose**: Enables travelers to find exactly what they're looking for through intelligent filtering
-- **Trigger**: User enters search criteria or browses categories
-- **Progression**: Landing page → Category selection → Results grid → Filter refinement → Detail view
-- **Success criteria**: Users find relevant results within 3 interactions; search returns accurate matches
+### Exploración Inteligente de Destinos
+- **Functionality**: Sistema de búsqueda y exploración con tres vistas principales (Categorías, Destinos, Servicios) que muestra contenido en tiempo real con indicadores de disponibilidad
+- **Purpose**: Permitir a los usuarios descubrir destinos y servicios de manera intuitiva, con información contextual sobre anfitriones en línea y servicios activos
+- **Trigger**: Usuario navega a la página Explorar desde el menú principal
+- **Progression**: Carga página → Muestra badges de actividad en tiempo real → Usuario selecciona tab (Categorías/Destinos/Servicios) → Sistema carga contenido optimizado → Usuario filtra/busca → Sistema trackea preferencias → Muestra recomendaciones personalizadas
+- **Success criteria**: Cards se cargan en <500ms, indicadores de tiempo real actualizan cada 30s, recomendaciones personalizadas aparecen después de 3+ interacciones
 
-### Accommodation Booking System
-- **Functionality**: Complete booking flow with date selection, room selection, and payment processing
-- **Purpose**: Allows travelers to secure their accommodations with confidence
-- **Trigger**: User clicks "Book" on accommodation detail page
-- **Progression**: Detail view → Date selection → Room type selection → Guest info → Payment → Confirmation
-- **Success criteria**: Booking completion rate >70%; payment processing without errors; confirmation delivered instantly
+### Generador de Itinerarios con IA
+- **Functionality**: Formulario conversacional que recopila preferencias del usuario y genera itinerarios detallados día por día usando GPT-4o-mini
+- **Purpose**: Eliminar la fricción de planear un viaje permitiendo que la IA cree itinerarios completos con actividades, comidas y alojamientos recomendados
+- **Trigger**: Usuario navega a "Itinerario" desde el menú o hero section
+- **Progression**: Usuario completa formulario (categoría, región, duración, viajeros) → Click "Generar Itinerario" → Sistema construye prompt optimizado → Llama a LLM con JSON mode → Parsea respuesta → Guarda en KV storage → Muestra itinerario día por día con secciones expandibles
+- **Success criteria**: Genera itinerarios en <10s, formato JSON válido 100% del tiempo, maneja errores de API gracefully, permite exportar/compartir itinerario
 
-### Host Management Panel
-- **Functionality**: Property owners can register accommodations, manage bookings, update pricing and availability
-- **Purpose**: Empowers hosts to independently manage their tourism offerings
-- **Trigger**: Host logs in and accesses their dashboard
-- **Progression**: Login → Dashboard overview → Property management → Booking calendar → Analytics
-- **Success criteria**: Hosts can add/edit listings in <5 minutes; real-time booking notifications; analytics provide actionable insights
+### Sistema de Recomendaciones Personalizadas
+- **Functionality**: Tracking de interacciones del usuario para construir perfil de preferencias y mostrar contenido relevante
+- **Purpose**: Mejorar la experiencia reduciendo el tiempo de búsqueda y aumentando el engagement
+- **Trigger**: Automático en cada interacción (view, click, search, booking)
+- **Progression**: Usuario interactúa con contenido → Hook trackea evento → Actualiza perfil en KV → Re-renderiza secciones recomendadas → Prioriza categorías favoritas en futuras visitas
+- **Success criteria**: Recomendaciones aparecen después de 3 interacciones, precision del sistema mejora con uso
 
-### Personalized Feed & Recommendations
-- **Functionality**: AI-powered recommendations based on user preferences and browsing history
-- **Purpose**: Creates a tailored experience that helps users discover unexpected destinations
-- **Trigger**: User accesses personalized feed section
-- **Progression**: Profile setup → Browse history analysis → Curated recommendations → Interaction tracking → Feed refinement
-- **Success criteria**: Recommendation click-through rate >25%; users report finding new destinations they love
+### Indicadores de Disponibilidad en Tiempo Real
+- **Functionality**: Muestra badges y estados visuales para anfitriones/servicios en línea
+- **Purpose**: Generar urgencia y confianza mostrando actividad actual en la plataforma
+- **Trigger**: Automático al cargar páginas de exploración
+- **Progression**: Componente monta → Hook consulta realtime sync → Filtra entidades online → Muestra contadores animados → Actualiza cada 30s
+- **Success criteria**: Latencia <100ms, animaciones suaves, badges visualmente prominentes
 
-### Category-Based Exploration
-- **Functionality**: Browse experiences by type (Adventure, Culture, Nature, Wellness, etc.)
-- **Purpose**: Helps users discover experiences aligned with their travel style
-- **Trigger**: User selects category from navigation or homepage
-- **Progression**: Homepage → Category selection → Curated category page → Experience cards → Detail view
-- **Success criteria**: Each category showcases 10+ quality experiences; clear visual differentiation between categories
+## Edge Case Handling
 
-- **Booking Conflicts**: Real-time availability checking prevents double-bookings; users see instant feedback if dates become unavailable- **Payment Failures**: Graceful error handling with retry options; booking held for 15 minutes during payment resolution- **Incomplete Profiles**: Progressive disclosure allows browsing without account; booking triggers auth flow with return-to-checkout- **Network Interruptions**: Form data persists locally; auto-save draft bookings; clear reconnection messaging- **Mobile Navigation**: Responsive design adapts complex navigation to mobile; drawer menus for deep hierarchies- **Empty States**: Thoughtful messaging with suggested actions when searches return no results or new users have no bookingsThe design should evoke a sense of technological sophistication and forward-thinking innovation while maintaining elegance and approachability. Users should feel they're using a premium, next-generation platform that respects their intelligence. The aesthetic draws from cyberpunk elegance, holographic interfaces, and high-end tech products - think luxury meets sci-fi.A dark, immersive foundation with vibrant electric accents creates depth and visual interest while maintaining excellent readability.- **Primary Color**: Electric Purple `oklch(0.65 0.25 285)` - Represents innovation, premium quality, and forward-thinking technology. Commands attention without overwhelming.- **Secondary Color**: Cyber Cyan `oklch(0.55 0.22 195)` - Provides technological sophistication and cool contrast. Used for secondary actions and informational elements.- **Accent Color**: Holographic Magenta `oklch(0.70 0.28 330)` - Eye-catching highlight for CTAs, important badges, and moments of delight. Creates that futuristic "glow" effect.- **Background**: Deep Space Navy `oklch(0.12 0.02 265)` - Rich, sophisticated dark base that allows vibrant colors to pop while reducing eye strain.- **Card Surface**: Elevated Midnight `oklch(0.16 0.025 265)` - Slightly lighter than background to create subtle depth hierarchy.**Foreground/Background Pairings**:- Primary Purple `oklch(0.65 0.25 285)`: White text `oklch(0.98 0.005 285)` - Ratio 7.2:1 ✓- Secondary Cyan `oklch(0.55 0.22 195)`: White text `oklch(0.98 0.005 195)` - Ratio 6.8:1 ✓- Accent Magenta `oklch(0.70 0.28 330)`: White text `oklch(0.98 0.005 330)` - Ratio 8.1:1 ✓- Background Navy `oklch(0.12 0.02 265)`: Light text `oklch(0.95 0.01 265)` - Ratio 12.5:1 ✓- Card Surface `oklch(0.16 0.025 265)`: Light text `oklch(0.95 0.01 265)` - Ratio 9.8:1 ✓
-Typography should feel modern, technical yet approachable, with excellent readability across sizes and weights.- **Display/Headings**: Outfit - Geometric sans-serif with contemporary character, perfect for bold statements and hierarchical clarity- **Body/UI**: Inter - Optimized for screen readability with large x-height and clear letterforms**Typographic Hierarchy**:- H1 (Hero Titles): Outfit Bold / 56px / -2% letter spacing / line-height 1.1- H2 (Section Headers): Outfit Semibold / 40px / -1.5% letter spacing / line-height 1.2- H3 (Card Titles): Outfit Semibold / 28px / -1% letter spacing / line-height 1.3- H4 (Subsection): Outfit Medium / 20px / -0.5% letter spacing / line-height 1.4- Body Large: Inter Regular / 18px / 0% letter spacing / line-height 1.6- Body: Inter Regular / 16px / 0% letter spacing / line-height 1.5- Small/Caption: Inter Medium / 14px / 0% letter spacing / line-height 1.4- Micro/Labels: Inter Medium / 12px / 0.5% letter spacing / line-height 1.3
-Animations should feel smooth, sophisticated, and purposeful - never distracting. The motion language combines smooth easing with subtle "tech" effects like glows and shimmers. Key moments:**Micro-interactions**: Button hovers with glow effects (150ms), input focus with subtle ring expansion (200ms), toggle switches with satisfying snap (250ms)**Content Loading**: Shimmer effects with gradient sweeps suggest high-tech data streaming rather than generic spinners**Page Transitions**: Smooth slide-up animations (400ms) with slight blur for depth, creating spatial continuity**Card Interactions**: Gentle lift on hover (300ms) with colored shadow that matches the card's category, making the interface feel responsive and alive**Success States**: Bounce-in celebrations (400ms) with pulse-glow effects for completed bookings and confirmations## Component Selection**Components**:- **Navigation**: Shadcn Navigation Menu with glass-morphism effects and hover glows for main nav; Drawer for mobile with smooth slide-in- **Cards**: Shadcn Card with custom hover states, gradient borders, and elevated shadows; backdrop-filter blur for premium feel- **Dialogs**: Shadcn Dialog/Sheet with backdrop blur and smooth scale-in animations for booking flows- **Forms**: Shadcn Input, Select, Textarea with glowing focus states; Form for validation with inline error animations- **Buttons**: Shadcn Button with variants (default: purple gradient, outline: cyan border, ghost: subtle hover)- **Data Display**: Shadcn Table for bookings, Carousel for image galleries, Tabs for content organization- **Feedback**: Sonner for toast notifications with custom styling matching theme; Progress bars with gradient fills- **Calendar**: Shadcn Calendar/DatePicker with custom styling for booking date selection**Customizations**:- Custom gradient overlays on hero images for immersive depth- Glow effects on primary CTAs using box-shadow animations- Backdrop filters for floating navigation and modals to create layered depth- Custom loading skeletons with shimmer animations matching brand colors- Badge components with holographic gradient backgrounds for deals/featured items**States**:- Buttons: Idle (gradient), Hover (glow expansion + slight scale), Active (pressed depth), Focus (ring + glow), Disabled (desaturated + opacity)- Inputs: Empty (subtle border), Focused (primary glow ring), Filled (accent border), Error (destructive color + shake), Success (success color + check)- Cards: Default (elevated), Hover (lift + shadow + border glow), Selected (primary border + persistent glow), Loading (shimmer overlay)**Icon Selection**:- Phosphor Icons (regular weight) for consistency - modern, clean, and extensive library- Search/Filters: MagnifyingGlass, Funnel, SlidersHorizontal- Navigation: House, Compass, Heart, User, Bell- Actions: Plus, Minus, X, Check, ArrowRight- Categories: Mountains, Beach, Fork&Knife, Sparkle (adventure, relaxation, food, premium)**Spacing**:- Container padding: 4rem (desktop) / 1.5rem (mobile)- Section gaps: 6rem (desktop) / 3rem (mobile)- Card padding: 2rem- Component gaps: 1.5rem (large), 1rem (medium), 0.5rem (small)- Grid gaps: 2rem (card grids), 1rem (form fields)**Mobile**:- Navigation collapses to hamburger drawer with full-screen overlay at 768px- Card grids shift from 3-column → 2-column → 1-column at 1024px and 768px breakpoints- Hero text scales down by 30% on mobile; images maintain aspect ratio with object-fit- Sticky header condenses on scroll, reducing padding and hiding secondary nav items- Bottom sheet for mobile booking flows instead of centered dialogs
-- Touch-friendly targets minimum 44px with generous padding around interactive elements
+- **Prompts muy largos en LLM**: El sistema limita la duración de itinerarios a 7 días máximo y simplifica el prompt para evitar errores 400 de la API
+- **Datos faltantes**: Usa valores por defecto seguros (arrays vacíos, placeholders) y muestra skeletons durante carga
+- **API LLM no disponible**: Muestra mensaje de error amigable con sugerencia de reintentar, no bloquea resto de la app
+- **Sin datos de preferencias**: Muestra recomendaciones genéricas basadas en popularidad hasta acumular interacciones
+- **Imágenes que fallan**: Implementa lazy loading con fallbacks a placeholders y detección de errores de carga
+- **Usuario sin autenticación**: Permite explorar libremente, muestra modal de login solo al intentar reservar
+
+## Design Direction
+
+La interfaz debe evocar **aventura tecnológica**, combinando la calidez y autenticidad del turismo colombiano con una estética futurista y sofisticada. Los colores vibrantes del paisaje colombiano (verdes de la selva, azules del caribe, dorados de las montañas) se reinterpretan con saturación digital y efectos de luz neón. El diseño debe sentirse como una plataforma premium que utiliza tecnología de punta, pero sin perder el toque humano y emocional del viaje.
+
+## Color Selection
+
+Un esquema de colores oscuros con acentos vibrantes que crea una atmósfera inmersiva y moderna, donde el contenido (imágenes de destinos) es la estrella visual.
+
+- **Primary Color**: oklch(0.65 0.25 285) - Púrpura vibrante que representa innovación tecnológica y experiencias premium, usado para CTAs principales y elementos de IA
+- **Secondary Colors**: 
+  - oklch(0.55 0.22 195) - Cyan tropical que evoca playas caribeñas, para elementos secundarios y badges
+  - oklch(0.70 0.28 330) - Rosa-magenta energético para acentos de "urgencia" y elementos destacados
+- **Accent Color**: oklch(0.70 0.28 330) - Rosa-magenta cálido usado en badges de tiempo real, indicadores de actividad y CTAs secundarios
+- **Success Color**: oklch(0.62 0.20 155) - Verde esmeralda para indicadores online y confirmaciones
+- **Foreground/Background Pairings**: 
+  - Background (Dark Navy oklch(0.12 0.02 265)): Foreground White (oklch(0.95 0.01 265)) - Ratio 16.8:1 ✓
+  - Primary (Vibrant Purple oklch(0.65 0.25 285)): White text (oklch(0.98 0.005 285)) - Ratio 5.2:1 ✓
+  - Accent (Warm Magenta oklch(0.70 0.28 330)): White text (oklch(0.98 0.005 330)) - Ratio 4.9:1 ✓
+  - Card (Dark Slate oklch(0.16 0.025 265)): Foreground (oklch(0.95 0.01 265)) - Ratio 14.2:1 ✓
+
+## Font Selection
+
+Tipografía que balancea modernidad tecnológica con legibilidad cálida, usando fuentes geométricas con personalidad distintiva.
+
+- **Typographic Hierarchy**:
+  - H1 (Page Titles): Space Grotesk Bold / 48-60px / -3% letter spacing / line-height 1.1 - Para títulos principales con impacto visual
+  - H2 (Section Headers): Outfit SemiBold / 32-40px / -2% letter spacing / line-height 1.2 - Para encabezados de sección con jerarquía clara
+  - H3 (Card Titles): Outfit SemiBold / 20-24px / -1% letter spacing / line-height 1.3 - Para títulos de tarjetas y componentes
+  - Body (General Text): Inter Regular / 16px / 0% letter spacing / line-height 1.6 - Para texto legible y cómodo
+  - Small (Metadata): Inter Medium / 14px / 0% letter spacing / line-height 1.5 - Para etiquetas, badges y metadatos
+  - Tiny (Captions): Inter Regular / 12px / 0% letter spacing / line-height 1.4 - Para información secundaria
+
+## Animations
+
+Las animaciones deben sentirse como transiciones cinematográficas que guían la atención sin distraer, priorizando física natural y respuesta inmediata.
+
+- **Micro-interacciones**: Hover effects sutiles en cards (lift + shadow) con cubic-bezier(0.4, 0, 0.2, 1) a 300ms
+- **Page transitions**: Fade + slide-up usando framer-motion con stagger de 50ms entre elementos
+- **Loading states**: Shimmer effect en skeletons con gradiente animado, pulse suave en indicadores de actividad
+- **IA generation**: Spinner + progress text que cambia cada 2s para mantener engagement durante generación
+- **Success feedback**: Bounce-in animation para confirmaciones con spring physics (stiffness: 260, damping: 20)
+
+## Component Selection
+
+- **Components**: 
+  - Tabs (Shadcn) para alternar entre Categorías/Destinos/Servicios con indicadores visuales claros
+  - Card (Shadcn) como contenedor base con modificación glass-morphism (backdrop-blur + border sutil)
+  - Select (Shadcn) para dropdowns del formulario de itinerario con styling personalizado
+  - Button (Shadcn) con variantes custom (primary gradient, secondary outline, ghost para acciones terciarias)
+  - Badge (Shadcn) para indicadores de tiempo real con dot animado y colores semánticos
+  - Dialog (Shadcn) para modals de autenticación y confirmaciones
+  - Skeleton (Shadcn) para loading states optimizado con shimmer effect custom
+  - Toast (Sonner) para feedback de acciones con positioning bottom-right
+
+- **Customizations**:
+  - CategoryCard: Componente custom con hover effect que revela descripción, gradient overlay en imagen, icon phosphor prominente
+  - OptimizedCard: Card inteligente con lazy loading de imágenes, priority loading para ATF, badge de host status integrado
+  - SearchBar: Input expandible con sugerencias tipo-ahead y icono de búsqueda animado
+  - RealtimeIndicator: Badge custom con dot pulsante y contador animado usando framer-motion
+
+- **States**: 
+  - Buttons: Default (gradient), Hover (brightness +10%, scale 1.02), Active (scale 0.98), Disabled (opacity 50%, no interaction)
+  - Cards: Default (subtle border), Hover (lift 4px, shadow xl, border accent), Active (ring), Loading (skeleton con shimmer)
+  - Inputs: Default (border muted), Focus (ring primary 2px, border primary), Error (ring destructive, helper text), Success (ring success)
+
+- **Icon Selection**: 
+  - Phosphor Icons duotone weight para mayor expresividad visual
+  - Sparkle (fill) para todo lo relacionado con IA
+  - MapTrifold para exploración y destinos
+  - Calendar para fechas e itinerarios
+  - Users para información de viajeros
+  - Circle (fill, 8px) para indicadores de status online
+  - TrendUp para secciones de recomendaciones
+  - Storefront para destinos/alojamientos
+
+- **Spacing**: 
+  - Container padding: px-4 sm:px-6 lg:px-8
+  - Section gaps: space-y-12 (3rem) para mobile, space-y-16 (4rem) para desktop
+  - Card grids: gap-6 (1.5rem) consistente
+  - Internal card padding: p-6 en mobile, p-8 en desktop
+  - Button padding: px-6 py-3 para large, px-4 py-2 para default
+
+- **Mobile**: 
+  - Grid collapse: 4 columnas → 2 columnas → 1 columna usando grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+  - Tabs: TabsList con scroll horizontal en mobile, fixed en desktop
+  - Search: Full width en mobile con button dentro del input
+  - Typography: Scale down 20% en mobile (text-4xl md:text-5xl)
+  - Spacing: Reduce padding/gaps en 33% para mobile (py-16 md:py-24)
+  - Navigation: Hamburger menu con drawer lateral en mobile
