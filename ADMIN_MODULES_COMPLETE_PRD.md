@@ -27,93 +27,93 @@ Completar todos los módulos del sistema SuperAdmin para crear una plataforma en
 - 🆕 Aprobación/rechazo/edición de contenido
 - 🆕 Historial de moderaciones con auditoría
 
-### 3. **SuperAdmin Bookings** (Gestión de Reservas)
-- 🆕 Vista completa de reservas con filtros avanzados
-- 🆕 Intervención en disputas
-- 🆕 Cancelaciones forzadas con autorización doble
 - 🆕 Sistema de reembolsos con trazabilidad
-- 🆕 Línea de tiempo de pagos y estado
 
-### 4. **SuperAdmin Analytics** (Analítica Global)
-- ✅ Dashboard básico con métricas
-- 🔄 **MEJORAR**: Predicciones con IA
-- 🔄 **MEJORAR**: Análisis de tendencias por país/categoría
-- 🔄 **MEJORAR**: Reportes exportables (PDF/Excel)
-- 🔄 **MEJORAR**: Comparativas temporales (YoY, MoM)
-- 🔄 **MEJORAR**: Alertas inteligentes de anomalías
+- ✅ Dashboard básico con métr
+- 🔄 **MEJORAR**: Análisis de tendencias por país/
+- 🔄 **MEJORAR**: Comparativas temporales (
 
-### 5. **SuperAdmin Config** (Configuración Global)
-- ✅ Interfaz básica
-- 🔄 **COMPLETAR**: Configuración por país
-- 🔄 **COMPLETAR**: Ajuste de comisiones y políticas
-- 🔄 **COMPLETAR**: Gestión de categorías de servicios
-- 🔄 **COMPLETAR**: Configuración de notificaciones
-- 🔄 **COMPLETAR**: Políticas de cancelación/reembolso
 
-### 6. **SuperAdmin Complaints** (Centro de Quejas)
+- 🔄 **COMPLETAR**: Ajuste de comisiones y polític
+- 🔄 **COMPLETAR**: Configuración
+
 - ✅ Sistema de quejas con IA
-- ✅ Clasificación automática
 - ✅ Generación de respuestas con IA
-- 🔄 **MEJORAR**: Sistema de asignación a agentes
 - 🔄 **MEJORAR**: SLA tracking (tiempo de respuesta)
-- 🔄 **MEJORAR**: Escalamiento automático
 
-### 7. **Trust & Sanctions System** (Sistema de Confianza)
-- 🆕 Score de confianza automatizado
-- 🆕 Penalizaciones progresivas (strikes)
+
 - 🆕 Sistema de suspensión temporal/permanente
-- 🆕 Notificaciones y apelaciones
-- 🆕 Historial completo de sanciones
-
-### 8. **Security & Audit** (Seguridad y Auditoría)
-- 🆕 Logs inmutables de todas las acciones
+- 🆕 Historial comp
+### 8. **Security & Audit** (Seguridad y A
 - 🆕 2FA para acciones críticas
-- 🆕 Detección de actividad sospechosa
 - 🆕 Panel de auditoría con búsqueda avanzada
-- 🆕 Alertas de seguridad en tiempo real
 
----
 
-## Diseño Visual Enterprise
 
-### Principios de Diseño
-1. **Información Densa pero Legible** — Tablas optimizadas, spacing generoso
-2. **Feedback Visual Inmediato** — Estados claros, transiciones suaves
-3. **Navegación Eficiente** — Breadcrumbs, acciones contextuales
-4. **Jerarquía Visual Clara** — Tipografía escalonada, color con propósito
+1. **Información Densa pero Legible** — Tablas opti
+3. **Navegación Eficiente** 
 
-### Paleta de Colores (Enterprise Professional)
 
-```css
 :root {
-  /* Background & Base */
   --background: oklch(0.98 0.002 100);
-  --foreground: oklch(0.25 0.01 100);
   
-  /* Cards & Containers */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.01 100);
+
   
-  /* Primary (Professional Teal) */
   --primary: oklch(0.45 0.15 200);
-  --primary-foreground: oklch(0.98 0 0);
   
-  /* Status Colors */
   --success: oklch(0.65 0.15 150);
-  --warning: oklch(0.68 0.18 45);
-  --destructive: oklch(0.55 0.22 30);
-  --info: oklch(0.60 0.15 240);
+  --destructive: oklch(0.55 0.22 
   
-  /* AI & Intelligence */
-  --ai-accent: oklch(0.50 0.18 300);
-  --ai-accent-foreground: oklch(0.98 0 0);
+
   
-  /* Borders & Inputs */
   --border: oklch(0.90 0.005 100);
-  --input: oklch(0.92 0.005 100);
   
-  /* Muted & Secondary */
   --muted: oklch(0.96 0.002 100);
+  
+}
+
+
+
+- H3: 20px / 1.4 / normal —
+
+- Body Large: 16px / 1.6
+- Body Small: 13px / 1.4 / normal — Captions, metadata
+
+- Data/IDs: 13px / 1.4 / tabular-nums — Numbers, codes
+
+
+
+
+  icon
+  value
+  trend="up"
+/>
+
+``
+  insight="Se detectó un p
+  priority="high"
+/>
+
+```tsx
+  items={[
+    { type: 'complaint_resolved', id: '#
+/>
+
+```tsx
+  title="Bloquear Proveedor"
+  requiresPassword
+/>
+
+
+
+1. Notificación de nuevo registro → 2. Rev
+##
+
+1. Detección de patrón sospechoso 
+### Flujo 4: Intervenir en Reserv
+
+
+
   --muted-foreground: oklch(0.50 0.02 100);
   
   --radius: 0.5rem;
@@ -230,43 +230,43 @@ Completar todos los módulos del sistema SuperAdmin para crear una plataforma en
 - ✅ Detección de fraude: >90%
 
 ### Experiencia de Usuario
-- ✅ Carga de dashboard: <2s
-- ✅ Búsqueda de usuarios: <500ms
-- ✅ Clics para acción crítica: ≤3
-- ✅ Satisfacción del admin: >9/10
 
-### Técnicas
-- ✅ Disponibilidad: >99.9%
-- ✅ Cero brechas de seguridad
-- ✅ 100% de acciones auditadas
-- ✅ Escalabilidad: 10K+ usuarios concurrentes
 
----
 
-## Roadmap de Implementación
 
-### ✅ Fase 1: Fundamentos (Completado)
-- Dashboard con métricas básicas
-- Gestión de usuarios completa
-- Centro de quejas con IA
-- Header de navegación
 
-### 🚀 Fase 2: Completar Módulos Core (ACTUAL)
-- **SuperAdmin Providers**: Vista detallada, bloqueos, notificaciones
-- **SuperAdmin Moderation**: Sistema completo de moderación IA
-- **SuperAdmin Bookings**: Gestión de reservas y disputas
-- **SuperAdmin Analytics**: Mejoras con predicciones IA
-- **SuperAdmin Config**: Configuración completa multi-país
 
-### 🔮 Fase 3: Sistemas Avanzados (Siguiente)
-- Trust & Sanctions System automatizado
-- Security & Audit panel completo
-- Notificaciones push en tiempo real
-- Reportes avanzados exportables
-- Panel móvil optimizado
 
----
 
-## Conclusión
 
-Este sistema SuperAdmin representa el cerebro operativo de VANTIX, permitiendo gestión profesional, decisiones basadas en datos, moderación inteligente con IA y control total sobre la plataforma turística. El diseño enterprise, las animaciones sutiles y la arquitectura escalable garantizan una experiencia de administración de clase mundial.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
