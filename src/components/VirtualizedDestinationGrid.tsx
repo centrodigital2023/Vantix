@@ -61,7 +61,6 @@ export function VirtualizedDestinationGrid({
             key={destination.id}
             destination={destination}
             onNavigate={onNavigate}
-            featured={destination.featured}
           />
         ))}
       </div>

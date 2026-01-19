@@ -163,20 +163,9 @@ export function SuperAdminModeration({ onNavigate }: SuperAdminModerationProps) 
   const handleAnalyzeWithAI = async (item: ModerationItem) => {
     setIsAnalyzing(true)
     try {
-      const prompt = window.spark.llmPrompt`Analiza el siguiente contenido para moderación:
-
-Tipo: ${item.type}
-Título: ${item.title}
-Contenido: ${item.content}
-Categoría: ${item.category}
-
-Proporciona:
-1. Un score de confianza (0-100)
-2. Flags de alerta si los hay
-3. Recomendación: aprobar, revisar o rechazar
-4. Razón detallada
-
-Responde en formato JSON con las propiedades: score, flags (array), recommendation, reason`
+      const promptText = `Analiza el siguiente contenido para moderación:\n\nTipo: ${item.type}\nTítulo: ${item.title}\nContenido: ${item.content}\nCategoría: ${item.category}\n\nProporciona:\n1. Un score de confianza (0-100)\n2. Flags de alerta si los hay\n3. Recomendación: aprobar, revisar o rechazar\n4. Razón detallada\n\nResponde en formato JSON con las propiedades: score, flags (array), recommendation, reason`
+      
+      const prompt = window.spark.llmPrompt([promptText] as any)
 
       const response = await window.spark.llm(prompt, 'gpt-4o-mini', true)
       const analysis = JSON.parse(response)

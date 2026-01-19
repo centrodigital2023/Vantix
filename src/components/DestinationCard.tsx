@@ -8,13 +8,12 @@ interface DestinationCardProps {
   featured?: boolean
 }
 
-export function DestinationCard({ destination, onClick, delay = 0, featured }: DestinationCardProps) {
+export function DestinationCard({ destination, onClick, delay = 0 }: DestinationCardProps) {
   return (
     <OptimizedDestinationCard
       destination={destination}
       onNavigate={onClick ? () => onClick() : undefined}
       delay={delay}
-      featured={featured}
     />
   )
 }
