@@ -96,13 +96,7 @@ export function ManifestoHero({ onNavigate, onEmotionalSearch }: ManifestoHeroPr
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
             className="space-y-6"
           >
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none">
-              <span className="block text-gradient bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-                VANTIX
-              </span>
-            </h1>
-
-            <div className="h-24 sm:h-20 flex items-center justify-center">
+            <div>
               <AnimatePresence mode="wait">
                 <motion.p
                   key={currentLine}
@@ -132,12 +126,6 @@ export function ManifestoHero({ onNavigate, onEmotionalSearch }: ManifestoHeroPr
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Heart size={20} weight="duotone" className="text-accent" />
                 <span className="uppercase tracking-wider font-semibold">Búsqueda</span>
-              </div>
-              
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-300" />
-                <div className="relative flex gap-2">
-                  <Input
                     type="text"
                     value={emotionalInput}
                     onChange={(e) => setEmotionalInput(e.target.value)}
