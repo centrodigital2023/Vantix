@@ -160,12 +160,12 @@ export function SuperAdminUsers({ onNavigate }: SuperAdminUsersProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
+      <SuperAdminHeader
+        title="Gestión de Usuarios"
+        subtitle="Administra todos los usuarios de la plataforma SendAI"
+        onNavigate={onNavigate}
+      />
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <SuperAdminHeader
-          title="Gestión de Usuarios"
-          description="Administra todos los usuarios de la plataforma SendAI"
-          onNavigate={onNavigate}
-        />
 
         <Card className="mb-6">
           <CardContent className="pt-6">

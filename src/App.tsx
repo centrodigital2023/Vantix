@@ -105,6 +105,8 @@ const SuperAdminComplaints = lazy(() => import('@/pages/superadmin').then(m => (
 const SuperAdminProviders = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminProviders })))
 const SuperAdminAnalytics = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminAnalytics })))
 const SuperAdminConfig = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminConfig })))
+const SuperAdminModeration = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminModeration })))
+const SuperAdminBookings = lazy(() => import('@/pages/superadmin').then(m => ({ default: m.SuperAdminBookings })))
 
 // Host Panel
 const HostPanelMain = lazy(() => import('@/pages/panel-anfitrion/HostPanelMain').then(m => ({ default: m.HostPanelMain })))
@@ -350,6 +352,10 @@ function AppContent() {
         return <SuperAdminAnalytics onNavigate={handleNavigate} />
       case 'superadmin-config':
         return <SuperAdminConfig onNavigate={handleNavigate} />
+      case 'superadmin-moderation':
+        return <SuperAdminModeration onNavigate={handleNavigate} />
+      case 'superadmin-bookings':
+        return <SuperAdminBookings onNavigate={handleNavigate} />
         
       default:
         return <NotFoundPage onNavigate={handleNavigate} />

@@ -1,75 +1,88 @@
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { ArrowLeft, SignOut, House } from '@phosphor-icons/react'
-import { toast } from 'sonner'
+import { ArrowLeft, SignOut, Bell } from '@phosphor-icons/react'
 import { useAuth } from '@/contexts/AuthContext'
+import { toast } from 'sonner'
 
 interface SuperAdminHeaderProps {
   onNavigate: (page: string) => void
   title: string
-  description?: string
-  showSystemStatus?: boolean
-  systemStatus?: 'operational' | 'degraded'
+  subtitle?: string
+  showAlerts?: boolean
+  alertCount?: number
 }
 
-export function SuperAdminHeader({
-  onNavigate,
-  title,
-  description,
-  showSystemStatus = false,
-  systemStatus = 'operational'
+export function SuperAdminHeader({ 
+  onNavigate, 
+  title, 
+  subtitle,
+  showAlerts = false,
+  alertCount = 0
 }: SuperAdminHeaderProps) {
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
 
   const handleLogout = () => {
     logout()
-    toast.success('Sesión de SuperAdmin cerrada exitosamente')
+    toast.success('Sesión cerrada exitosamente')
     onNavigate('home')
   }
 
-  const handleBackToDashboard = () => {
+  const handleBack = () => {
     onNavigate('superadmin-dashboard')
   }
 
   return (
-    <div className="flex flex-col gap-4 border-b pb-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleBackToDashboard}
-            aria-label="Volver al panel"
-          >
-            <ArrowLeft size={20} />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => onNavigate('home')}
-            aria-label="Ir al inicio"
-          >
-            <House size={20} />
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold leading-tight">{title}</h1>
-            {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          {showSystemStatus && (
-            <Badge
-              variant={systemStatus === 'operational' ? 'default' : 'destructive'}
-              className="text-sm px-3 py-1"
+    <div className="bg-card border-b border-border sticky top-0 z-10">
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={handleBack}
             >
-              {systemStatus === 'operational' ? '● Sistema Operativo' : '● Sistema Degradado'}
-            </Badge>
-          )}
-          <Button variant="outline" onClick={handleLogout} className="gap-2">
-            <SignOut size={20} weight="bold" />
-            Cerrar Sesión
-          </Button>
+              <ArrowLeft className="mr-2" />
+              Dashboard
+            </Button>
+            <div className="border-l border-border h-8" />
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+              {subtitle && (
+                <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+              )}
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            {showAlerts && alertCount > 0 && (
+              <Button variant="outline" size="sm" className="relative">
+                <Bell className="mr-2" />
+                Alertas
+                <Badge className="ml-2 bg-destructive text-destructive-foreground">
+                  {alertCount}
+                </Badge>
+              </Button>
+            )}
+            
+            <div className="flex items-center gap-2 px-3 py-2 bg-muted rounded-lg">
+              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold">
+                SA
+              </div>
+              <div className="text-sm">
+                <div className="font-medium text-foreground">{user?.name || 'SuperAdmin'}</div>
+                <Badge variant="secondary" className="text-xs">SuperAdmin</Badge>
+              </div>
+            </div>
+            
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={handleLogout}
+            >
+              <SignOut className="mr-2" />
+              Salir
+            </Button>
+          </div>
         </div>
       </div>
     </div>
