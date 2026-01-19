@@ -13,11 +13,11 @@ Una plataforma turística integral que conecta viajeros con experiencias autént
 ## Essential Features
 
 ### Exploración Inteligente de Destinos
-- **Functionality**: Sistema de búsqueda y exploración con tres vistas principales (Categorías, Destinos, Servicios) que muestra contenido en tiempo real con indicadores de disponibilidad
-- **Purpose**: Permitir a los usuarios descubrir destinos y servicios de manera intuitiva, con información contextual sobre anfitriones en línea y servicios activos
+- **Functionality**: Sistema de búsqueda y exploración con tres vistas principales (Categorías, Destinos, Servicios) que muestra contenido en tiempo real con indicadores de disponibilidad. **Implementa carga ultrarrápida** con virtualización, lazy loading, y React memoization.
+- **Purpose**: Permitir a los usuarios descubrir destinos y servicios de manera intuitiva, con información contextual sobre anfitriones en línea y servicios activos, con rendimiento excepcional incluso con cientos de destinos.
 - **Trigger**: Usuario navega a la página Explorar desde el menú principal
-- **Progression**: Carga página → Muestra badges de actividad en tiempo real → Usuario selecciona tab (Categorías/Destinos/Servicios) → Sistema carga contenido optimizado → Usuario filtra/busca → Sistema trackea preferencias → Muestra recomendaciones personalizadas
-- **Success criteria**: Cards se cargan en <500ms, indicadores de tiempo real actualizan cada 30s, recomendaciones personalizadas aparecen después de 3+ interacciones
+- **Progression**: Carga página → Muestra skeleton placeholders inmediatamente → Carga primeras 12 cards → Muestra badges de actividad en tiempo real → Usuario selecciona tab (Categorías/Destinos/Servicios) → Sistema carga contenido optimizado con virtualización → Usuario filtra/busca → Sistema trackea preferencias → Muestra recomendaciones personalizadas → Al hacer scroll, carga progresiva de más cards
+- **Success criteria**: Initial render <150ms, skeleton visible instantáneamente, primeras 12 cards <300ms, scroll a 60fps constante, lazy loading de imágenes, indicadores de tiempo real actualizan cada 30s, recomendaciones personalizadas aparecen después de 3+ interacciones
 
 ### Generador de Itinerarios con IA
 - **Functionality**: Formulario conversacional que recopila preferencias del usuario y genera itinerarios detallados día por día usando GPT-4o-mini
@@ -46,7 +46,10 @@ Una plataforma turística integral que conecta viajeros con experiencias autént
 - **Datos faltantes**: Usa valores por defecto seguros (arrays vacíos, placeholders) y muestra skeletons durante carga
 - **API LLM no disponible**: Muestra mensaje de error amigable con sugerencia de reintentar, no bloquea resto de la app
 - **Sin datos de preferencias**: Muestra recomendaciones genéricas basadas en popularidad hasta acumular interacciones
-- **Imágenes que fallan**: Implementa lazy loading con fallbacks a placeholders y detección de errores de carga
+- **Imágenes que fallan**: Implementa lazy loading con fallbacks a placeholders y detección de errores de carga optimizada con `useCallback`
+- **Cards muy numerosas (100+)**: Usa virtualización con Intersection Observer para renderizar solo las visibles, carga progresiva de 12 en 12
+- **Imágenes pesadas**: Lazy loading nativo del navegador (`loading="lazy"`), decodificación asíncrona (`decoding="async"`), y progressive image loading
+- **Re-renders innecesarios**: React.memo() en todos los cards, useCallback en event handlers, previene renders cuando props no cambian
 - **Usuario sin autenticación**: Permite explorar libremente, muestra modal de login solo al intentar reservar
 
 ## Design Direction

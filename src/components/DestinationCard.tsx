@@ -1,4 +1,4 @@
-import { SmartDestinationCard } from './SmartDestinationCard'
+import { OptimizedDestinationCard } from './OptimizedDestinationCard'
 import { EnrichedDestination } from '@/lib/api/sync'
 
 interface DestinationCardProps {
@@ -10,7 +10,7 @@ interface DestinationCardProps {
 
 export function DestinationCard({ destination, onClick, delay = 0, featured }: DestinationCardProps) {
   return (
-    <SmartDestinationCard
+    <OptimizedDestinationCard
       destination={destination}
       onNavigate={onClick ? () => onClick() : undefined}
       delay={delay}
