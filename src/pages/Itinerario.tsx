@@ -69,30 +69,10 @@ export function Itinerario() {
     }, 500)
     
     try {
-      const preferencesText = additionalPreferences ? `Preferencias adicionales: ${additionalPreferences}` : ''
+      const prefs = additionalPreferences ? `Prefs:${additionalPreferences.substring(0, 100)}` : ''
       
-      const prompt = window.spark.llmPrompt`Genera un itinerario detallado de viaje de ${days} días para ${travelers} personas en la región ${region} de Colombia con enfoque en ${category}.
-
-${preferencesText}
-
-Devuelve ÚNICAMENTE un objeto JSON válido con esta estructura exacta (sin texto adicional):
-{
-  "title": "Título atractivo del itinerario",
-  "days": [
-    {
-      "day": 1,
-      "title": "Título del día",
-      "activities": ["Actividad 1", "Actividad 2", "Actividad 3"],
-      "dining": ["Restaurante recomendado 1", "Restaurante recomendado 2"],
-      "accommodation": "Sugerencia de alojamiento",
-      "estimatedCost": 250000,
-      "transportation": "Medio de transporte sugerido"
-    }
-  ],
-  "totalEstimatedCost": 1500000,
-  "tips": ["Consejo 1", "Consejo 2", "Consejo 3"],
-  "bestTimeToVisit": "Mejor época del año para visitar"
-}`
+      const prompt = window.spark.llmPrompt`Colombia ${days}d trip: ${region}|${category}|${travelers}ppl. ${prefs}
+JSON: {"title":"...","days":[{"day":1,"title":"...","activities":[],"dining":[],"accommodation":"...","estimatedCost":0,"transportation":"..."}],"totalEstimatedCost":0,"tips":[],"bestTimeToVisit":"..."}`
       
       const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
       
