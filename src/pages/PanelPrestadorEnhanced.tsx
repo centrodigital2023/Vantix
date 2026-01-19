@@ -338,7 +338,7 @@ export function PanelPrestador({ onNavigate }: PanelPrestadorProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
           >
-            <Card className="p-5 hover:shadow-lg transition-all cursor-pointer" onClick={() => setActiveTab('services')}>
+            <Card className="p-5 hover:shadow-lg transition-all" onClick={() => setActiveTab('services')}>
               <div className="flex items-center justify-between mb-3">
                 <div className="p-2.5 bg-green-500/10 rounded-lg">
                   <CheckCircle size={22} weight="fill" className="text-green-600" />
