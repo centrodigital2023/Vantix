@@ -125,22 +125,25 @@ export function ManifestoHero({ onNavigate, onEmotionalSearch }: ManifestoHeroPr
             <div className="glass-card backdrop-blur-xl p-8 space-y-6 border border-primary/20">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Heart size={20} weight="duotone" className="text-accent" />
-                <span className="uppercase tracking-wider font-semibold">Búsqueda</span>
-                    type="text"
-                    value={emotionalInput}
-                    onChange={(e) => setEmotionalInput(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleEmotionalSearch()}
-                    placeholder={emotionalPrompts[placeholderIndex]}
-                    className="flex-1 h-14 px-6 text-lg bg-background/80 backdrop-blur border-primary/30 focus:border-primary"
-                  />
-                  <Button
-                    size="lg"
-                    onClick={handleEmotionalSearch}
-                    className="h-14 px-8 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
-                  >
-                    <MagnifyingGlass size={24} weight="bold" />
-                  </Button>
-                </div>
+                <span className="uppercase tracking-wider font-semibold">Búsqueda Emocional</span>
+              </div>
+
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  value={emotionalInput}
+                  onChange={(e) => setEmotionalInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleEmotionalSearch()}
+                  placeholder={emotionalPrompts[placeholderIndex]}
+                  className="flex-1 h-14 px-6 text-lg bg-background/80 backdrop-blur border-primary/30 focus:border-primary"
+                />
+                <Button
+                  size="lg"
+                  onClick={handleEmotionalSearch}
+                  className="h-14 px-8 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+                >
+                  <MagnifyingGlass size={24} weight="bold" />
+                </Button>
               </div>
 
               <div className="flex flex-wrap gap-2 justify-center">

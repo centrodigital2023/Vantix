@@ -71,10 +71,10 @@ export function Itinerario() {
     try {
       const prefs = additionalPreferences ? `Prefs:${additionalPreferences.substring(0, 100)}` : ''
       
-      const prompt = window.spark.llmPrompt`Colombia ${days}d trip: ${region}|${category}|${travelers}ppl. ${prefs}
+      const promptString = `Colombia ${days}d trip: ${region}|${category}|${travelers}ppl. ${prefs}
 JSON: {"title":"...","days":[{"day":1,"title":"...","activities":[],"dining":[],"accommodation":"...","estimatedCost":0,"transportation":"..."}],"totalEstimatedCost":0,"tips":[],"bestTimeToVisit":"..."}`
       
-      const result = await window.spark.llm(prompt, 'gpt-4o-mini', true)
+      const result = await window.spark.llm(promptString, 'gpt-4o-mini', true)
       
       clearInterval(progressInterval)
       setProgress(100)
