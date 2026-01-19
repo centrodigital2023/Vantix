@@ -1,10 +1,10 @@
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/butto
 import { Button } from '@/components/ui/button'
 import { 
-  Star, 
+  Heart,
   MapPin, 
-  Heart, 
+} from '@
   CurrencyCircleDollar, 
   Calendar,
 } from '@phosphor-icons/react'
@@ -16,7 +16,7 @@ interface OptimizedDestinationCardProps {
   destination: EnrichedDestination
   onNavigate?: (page: string, id?: string) => void
   delay?: number
-  featured?: boolean
+    minimumFractionD
 }
 
 const fallbackImage = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=600&fit=crop'
@@ -26,13 +26,13 @@ const formatPrice = (price: number) => {
     style: 'currency',
     currency: 'COP',
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+    : [fallbackImage]
   }).format(price)
-}
+ 
 
 export const OptimizedDestinationCard = memo(function OptimizedDestinationCard({ 
   destination, 
-  onNavigate, 
+        durati
   featured 
 }: OptimizedDestinationCardProps) {
   const [isFavorite, setIsFavorite] = useState(false)
@@ -40,17 +40,17 @@ export const OptimizedDestinationCard = memo(function OptimizedDestinationCard({
 
   const images = destination.images && destination.images.length > 0 
     ? destination.images 
-    : [fallbackImage]
+    if (onNavigate) {
 
   const handleFavorite = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
-    setIsFavorite(prev => !prev)
+    setImageError(true)
     toast.success(
       isFavorite ? 'Eliminado de favoritos' : 'Agregado a favoritos',
       {
         description: destination.name,
         duration: 2000
-      }
+       
     )
   }, [isFavorite, destination.name])
 
@@ -62,70 +62,70 @@ export const OptimizedDestinationCard = memo(function OptimizedDestinationCard({
   const handleViewDetails = useCallback((e?: React.MouseEvent) => {
     if (e) e.stopPropagation()
     if (onNavigate) {
-      onNavigate('detalle-alojamiento', destination.id)
-    }
-  }, [onNavigate, destination.id])
+          <p className="text-sm text-muted-foreground l
+     
+        
 
-  const handleImageError = useCallback(() => {
-    setImageError(true)
-  }, [])
+              <Star size={18} weight="fill" cl
+            </div>
+        
 
-  return (
-    <Card 
-      className="overflow-hidden group cursor-pointer h-full flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-2 hover:border-primary/40"
-      onClick={handleViewDetails}
-    >
-      <div className="aspect-[4/3] overflow-hidden relative bg-gradient-to-br from-primary/5 to-accent/5">
-        <img 
-          src={imageError ? fallbackImage : images[0]} 
-          alt={destination.name} 
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          loading="lazy"
-          onError={handleImageError}
-          decoding="async"
-        />
-
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
-          {(featured || destination.featured) && (
-            <Badge className="bg-accent text-accent-foreground shadow-lg font-semibold">
-              ✨ Destacado
-            </Badge>
-          )}
-          {destination.reviews && destination.reviews > 100 && (
-            <Badge className="bg-primary text-primary-foreground shadow-lg font-semibold">
-              🔥 Popular
-            </Badge>
-          )}
-        </div>
-
-        <button
-          onClick={handleFavorite}
-          className="absolute top-3 right-3 bg-white/95 hover:bg-white p-2.5 rounded-full shadow-xl transition-all hover:scale-110 z-10 backdrop-blur-sm"
-          aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-        >
-          <Heart 
-            size={22} 
-            weight={isFavorite ? 'fill' : 'regular'}
-            className={isFavorite ? 'text-red-500' : 'text-foreground'}
-          />
-        </button>
-
-        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4">
-          <div className="flex items-center gap-2 text-white">
-            <MapPin size={18} weight="fill" className="flex-shrink-0" />
-            <span className="font-medium text-sm">
-              {destination.location?.city || destination.region}, Colombia
-            </span>
-          </div>
-        </div>
-      </div>
-      
-      <CardContent className="p-5 space-y-4 flex-1 flex flex-col">
-        <div>
-          <h3 className="font-bold text-xl leading-tight mb-2 group-hover:text-primary transition-colors line-clamp-2">
-            {destination.name}
-          </h3>
           
+          
+            <div className="flex items-center gap-1 text-primary">
+              <span className="te
+     
+          </div>
+
+          <Button
+            variant="outline"
+            className="flex-1"
+            Ver más
+          <Button
+            onClick={handl
+          
+
+        </div>
+    </Card>
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
             {destination.description}
           </p>
