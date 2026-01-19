@@ -96,18 +96,6 @@ export function ManifestoHero({ onNavigate, onEmotionalSearch }: ManifestoHeroPr
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
             className="space-y-6"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card backdrop-blur-xl">
-              <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              >
-                <Sparkle size={20} weight="fill" className="text-accent" />
-              </motion.div>
-              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Manifiesto Digital
-              </span>
-            </div>
-
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-none">
               <span className="block text-gradient bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
                 VANTIX
@@ -132,12 +120,6 @@ export function ManifestoHero({ onNavigate, onEmotionalSearch }: ManifestoHeroPr
                 </motion.p>
               </AnimatePresence>
             </div>
-
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              No buscamos lugares. Buscamos sentimientos. 
-              <br className="hidden sm:block" />
-              <span className="text-primary font-semibold">Tecnología invisible que transforma deseos en experiencias.</span>
-            </p>
           </motion.div>
 
           <motion.div
@@ -149,7 +131,7 @@ export function ManifestoHero({ onNavigate, onEmotionalSearch }: ManifestoHeroPr
             <div className="glass-card backdrop-blur-xl p-8 space-y-6 border border-primary/20">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Heart size={20} weight="duotone" className="text-accent" />
-                <span className="uppercase tracking-wider font-semibold">Búsqueda Emocional</span>
+                <span className="uppercase tracking-wider font-semibold">Búsqueda</span>
               </div>
               
               <div className="relative group">
