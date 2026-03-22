@@ -136,11 +136,11 @@ function AppContent() {
     }
   }, [])
 
-  const handleNavigate = (page: PageRoute, accommodationId?: string) => {
+  const handleNavigate = (page: string, accommodationId?: string) => {
     if (accommodationId) {
-      routerNavigate(page, { id: accommodationId })
+      routerNavigate(page as PageRoute, { id: accommodationId })
     } else {
-      routerNavigate(page)
+      routerNavigate(page as PageRoute)
     }
   }
 
