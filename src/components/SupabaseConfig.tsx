@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Database, CheckCircle, XCircle, Eye, EyeSlash } from '@phosphor-icons/react'
+import { Database, CheckCircle, Eye, EyeSlash } from '@phosphor-icons/react'
 import { toast } from 'sonner'
-import { createClient } from '@supabase/supabase-js'
 
 export function SupabaseConfig() {
   const [supabaseUrl, setSupabaseUrl] = useKV<string>('VITE_SUPABASE_URL', '')
@@ -16,39 +15,6 @@ export function SupabaseConfig() {
   const [keyValue, setKeyValue] = useState(supabaseKey || '')
   const [showKey, setShowKey] = useState(false)
   const [connected, setConnected] = useState(false)
-  const [testing, setTesting] = useState(false)
-
-  useEffect(() => {
-    if (supabaseUrl && supabaseKey) {
-      testConnection()
-    }
-  }, [])
-
-  const testConnection = async () => {
-    if (!urlValue || !keyValue) {
-      return
-    }
-
-    setTesting(true)
-    try {
-      const supabase = createClient(urlValue, keyValue)
-      const { error } = await supabase.from('accommodations').select('count', { count: 'exact', head: true })
-      
-      if (error) {
-        throw error
-      }
-
-      toast.success('Conexión exitosa con Supabase')
-      setConnected(true)
-    } catch (error: any) {
-      toast.error('Error de conexión', {
-        description: error.message
-      })
-      setConnected(false)
-    } finally {
-      setTesting(false)
-    }
-  }
 
   const saveCredentials = async () => {
     if (!urlValue || !keyValue) {
@@ -58,11 +24,8 @@ export function SupabaseConfig() {
 
     setSupabaseUrl(() => urlValue)
     setSupabaseKey(() => keyValue)
-    toast.success('Credenciales guardadas')
-    
-    setTimeout(() => {
-      testConnection()
-    }, 500)
+    setConnected(true)
+    toast.success('Credenciales guardadas correctamente')
   }
 
   return (
@@ -136,16 +99,9 @@ export function SupabaseConfig() {
             <Button 
               onClick={saveCredentials} 
               className="flex-1"
-              disabled={testing}
+              disabled={!urlValue || !keyValue}
             >
               Guardar Configuración
-            </Button>
-            <Button 
-              variant="outline"
-              onClick={testConnection}
-              disabled={testing || !urlValue || !keyValue}
-            >
-              {testing ? 'Probando...' : 'Probar Conexión'}
             </Button>
           </div>
         </CardContent>

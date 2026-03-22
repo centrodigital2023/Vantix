@@ -82,8 +82,8 @@ JSON: {"title":"...","days":[{"day":1,"title":"...","activities":[],"dining":[],
       const itinerary = JSON.parse(result) as GeneratedItinerary
       
       setSavedItinerary((current: any) => itinerary)
-      setItineraryHistory((current: GeneratedItinerary[]) => {
-        const updated = [itinerary, ...current].slice(0, 10)
+      setItineraryHistory((current) => {
+        const updated = [itinerary, ...(current || [])].slice(0, 10)
         return updated
       })
       
