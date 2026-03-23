@@ -1,17 +1,10 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { Badge } from '@/components/ui/badg
+import { Bell, ChartLineDown, ChartLineUp, X } from '@phosphor-icons/react'
 import { Bell, ChartLineDown, ChartLineUp, X } from '@phosphor-icons/react'
 import { useFavorites } from '@/hooks/use-favorites'
 import { formatDistanceToNow } from 'date-fns'
-import { es } from 'date-fns/locale'
-
-export function PriceNotificationCenter() {
-  const { priceNotifications, unviewedNotificationsCount, markNotificationViewed, clearNotifications } = useFavorites()
-  const [open, setOpen] = useState(false)
 
   const handleNotificationClick = (notificationId: string) => {
     markNotificationViewed(notificationId)
@@ -68,6 +61,7 @@ export function PriceNotificationCenter() {
             <div className="text-center py-12 space-y-3">
               <Bell size={48} weight="thin" className="mx-auto text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">
+                No tienes notificaciones de precios
                 No tienes notificaciones de precios
               </p>
               <p className="text-xs text-muted-foreground">
@@ -130,7 +124,6 @@ export function PriceNotificationCenter() {
                               variant={isDecrease ? 'default' : 'secondary'}
                               className={`text-xs ${
                                 isDecrease ? 'bg-success/20 text-success hover:bg-success/30' : 'bg-warning/20 text-warning hover:bg-warning/30'
-                              }`}
                             >
                               {isDecrease ? '' : '+'}
                               {Math.abs(notification.changePercentage).toFixed(1)}%
