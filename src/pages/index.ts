@@ -51,3 +51,6 @@ export { FeedPersonalizado } from './FeedPersonalizado'
 export { TouristAuth } from './TouristAuth'
 export { HostAuth } from './HostAuth'
 export { AdminAuth } from './AdminAuth'
+
+export { NotFoundPage } from './NotFound'
+export { ServerError } from './ServerError'

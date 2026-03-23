@@ -110,6 +110,7 @@ const routes: Array<{ pattern: RegExp; page: PageRoute; keys: string[] }> = [
   
   { pattern: /^\/favoritos$/, page: 'favoritos', keys: [] },
   { pattern: /^\/preguntas-frecuentes$/, page: 'preguntas-frecuentes', keys: [] },
+  { pattern: /^\/error\/500$/, page: 'server-error', keys: [] },
 ]
 
 const pageToPath: Record<PageRoute, string> = {
@@ -210,6 +211,7 @@ const pageToPath: Record<PageRoute, string> = {
   
   'favoritos': '/favoritos',
   'preguntas-frecuentes': '/preguntas-frecuentes',
+  'server-error': '/error/500',
 }
 
 export function matchRoute(pathname: string): RouteMatch | null {

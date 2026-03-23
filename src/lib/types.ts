@@ -398,3 +398,4 @@ export type PageRoute =
   | 'superadmin-bookings'
   | 'superadmin-analytics'
   | 'superadmin-config'
+  | 'server-error'

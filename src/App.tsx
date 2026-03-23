@@ -24,6 +24,7 @@ const FeedPersonalizado = lazy(() => import('@/pages/FeedPersonalizado').then(m 
 const RegistroServicio = lazy(() => import('@/pages/RegistroServicio').then(m => ({ default: m.RegistroServicio })))
 const PanelPrestador = lazy(() => import('@/pages/PanelPrestador').then(m => ({ default: m.PanelPrestador })))
 const NotFoundPage = lazy(() => import('@/pages/NotFound').then(m => ({ default: m.NotFoundPage })))
+const ServerError = lazy(() => import('@/pages/ServerError').then(m => ({ default: m.ServerError })))
 
 // Categorías
 const Aventura = lazy(() => import('@/pages/categorias/Aventura').then(m => ({ default: m.Aventura })))
@@ -356,6 +357,9 @@ function AppContent() {
         return <SuperAdminModeration onNavigate={handleNavigate} />
       case 'superadmin-bookings':
         return <SuperAdminBookings onNavigate={handleNavigate} />
+      
+      case 'server-error':
+        return <ServerError onNavigate={handleNavigate} />
         
       default:
         return <NotFoundPage onNavigate={handleNavigate} />
