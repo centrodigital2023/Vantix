@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { List, X, Compass, Calendar, Article, Envelope, House, User, SignOut, Sparkle, ShieldCheck, Storefront } from '@phosphor-icons/react'
+import { List, X, Compass, Calendar, Article, Envelope, House, User, SignOut, Sparkle, ShieldCheck, Storefront, Heart } from '@phosphor-icons/react'
 import { PageRoute } from '@/lib/types'
 import { useAuth } from '@/contexts/AuthContext'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -107,6 +107,10 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
                   <DropdownMenuItem onClick={() => onNavigate('mis-reservas')}>
                     <Calendar size={16} className="mr-2" />
                     Mis Reservas
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onNavigate('favoritos')}>
+                    <Heart size={16} className="mr-2" />
+                    Mis Favoritos
                   </DropdownMenuItem>
                   {(user?.role === 'host' || user?.role === 'service_provider') && (
                     <>

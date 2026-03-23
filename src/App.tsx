@@ -21,6 +21,7 @@ const ReservaConfirmacion = lazy(() => import('@/pages/ReservaConfirmacion').the
 const ReservaExitosa = lazy(() => import('@/pages/ReservaExitosa').then(m => ({ default: m.ReservaExitosa })))
 const MisReservas = lazy(() => import('@/pages/MisReservas').then(m => ({ default: m.MisReservas })))
 const FeedPersonalizado = lazy(() => import('@/pages/FeedPersonalizado').then(m => ({ default: m.FeedPersonalizado })))
+const FavoritesPage = lazy(() => import('@/pages').then(m => ({ default: m.FavoritesPage })))
 const RegistroServicio = lazy(() => import('@/pages/RegistroServicio').then(m => ({ default: m.RegistroServicio })))
 const PanelPrestador = lazy(() => import('@/pages/PanelPrestador').then(m => ({ default: m.PanelPrestador })))
 const NotFoundPage = lazy(() => import('@/pages/NotFound').then(m => ({ default: m.NotFoundPage })))
@@ -214,6 +215,8 @@ function AppContent() {
         return <ReservaExitosa onNavigate={handleNavigate} />
       case 'mis-reservas':
         return <MisReservas onNavigate={handleNavigate} />
+      case 'favoritos':
+        return <FavoritesPage onNavigate={handleNavigate} />
       case 'feed-personalizado':
         return <FeedPersonalizado onNavigate={handleNavigate} />
       

@@ -47,6 +47,7 @@ export { PlanesFinDeSemanaPage } from './promociones/PlanesFinDeSemanaPage'
 export { ViajesBaratosPage } from './promociones/ViajesBaratosPage'
 
 export { FeedPersonalizado } from './FeedPersonalizado'
+export { FavoritesPage } from './FavoritesPage'
 
 export { TouristAuth } from './TouristAuth'
 export { HostAuth } from './HostAuth'
