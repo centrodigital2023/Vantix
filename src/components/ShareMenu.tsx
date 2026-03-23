@@ -110,7 +110,7 @@ export function ShareMenu({ title, price, url }: ShareMenuProps) {
         <div className="space-y-2">
           <p className="text-sm font-semibold mb-3">Compartir este lugar</p>
 
-          {navigator.share && (
+          {typeof navigator !== 'undefined' && typeof navigator.share !== 'undefined' && (
             <Button
               variant="outline"
               className="w-full justify-start gap-3 mb-2"

@@ -42,7 +42,7 @@ export function FavoritesPage({ onNavigate }: FavoritesPageProps) {
   const [showComparator, setShowComparator] = useState(false)
 
   const getAccommodationDetails = (favoriteId: string) => {
-    return accommodations.find(acc => acc.id === favoriteId)
+    return accommodations?.find(acc => acc.id === favoriteId)
   }
 
   const toggleExpanded = (id: string) => {

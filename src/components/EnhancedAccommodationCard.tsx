@@ -1,35 +1,30 @@
 import { useState, useCallback, memo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Dialog, DialogContent, DialogHeader, D
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { 
   Star, 
   Heart, 
   Users, 
   Phone,
-  Whatsapp
-  CaretRi
-} from '@phosphor-icons/rea
-import { 
-import { cn } 
+  WhatsappLogo,
+  EnvelopeSimple,
+  MapPin,
+  CaretLeft,
+  CaretRight,
+  CalendarIcon,
+  CheckCircle,
+  X
+} from '@phosphor-icons/react'
+import { cn } from '@/lib/utils'
+import { useKV } from '@github/spark/hooks'
 
+interface AccommodationData {
   id: string
-  location: str
-  department
-  price: numb
-  r
-  roomTypes?: Array<{
-    name: string
-    maxGuests: number
-    available: number
-  contact?: {
-    email?: string
-
-  featured?: boolean
-}
-interface Enha
-  onView?: (id: st
+  name: string
+  location: string
   city: string
   department: string
   images: string[]
@@ -62,73 +57,39 @@ interface EnhancedAccommodationCardProps {
   priority?: boolean
 }
 
-  }, [accommodation.id, setFavorites])
-  const handleIm
-    setCu
-      if (di
+export const EnhancedAccommodationCard = memo(({ 
+  accommodation, 
+  onView, 
+  index = 0,
+  priority = false 
+}: EnhancedAccommodationCardProps) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [showDetails, setShowDetails] = useState(false)
+  const [showQuickBook, setShowQuickBook] = useState(false)
+  const [favorites, setFavorites] = useKV<string[]>('favorites', [])
+  
+  const isFavorite = favorites ? favorites.includes(accommodation.id) : false
+
+  const handleImageChange = useCallback((direction: 'next' | 'prev', e: React.MouseEvent) => {
+    e.stopPropagation()
+    setCurrentImageIndex(prev => {
+      if (direction === 'next') {
+        return (prev + 1) % accommodation.images.length
       }
+      return prev === 0 ? accommodation.images.length - 1 : prev - 1
     })
+  }, [accommodation.images.length])
 
-    if (!checkIn || !checkOut) {
-      return
-
-      toast.error('La fecha de salida debe ser p
-    }
-    setIsCheckingAvailability(true)
-    await new Promise(resolve => setTimeout(resolve, 800))
-
-    
-
-    
-    setShowQuickBook(fa
-
-    ? accommodation.price * (1 - ac
-
-    <>
-        initial={{ opacity: 0, y: 20 }}
-        transi
-          delay: index * 0.05,
-        }}
-      >
-      
-        >
-
-                <source 
-                  type=
-                <img
-                  alt={accommodation.name}
-                  decoding="async
-                />
-
-                <>
-      
-                    aria-label="Ima
-
-                  <button
-                    className="a
-                  >
-            
-     
-
-                        classN
-                          idx === currentImageIndex 
-            
-     
-
-              )}
-    
-                  <Star size={14} weight="fill" />
-    
-
-                <Badge className="absolute top
-    
-
-                size="icon"
-     
-    
-    setIsCheckingAvailability(false)
-    setShowQuickBook(false)
-  }, [checkIn, checkOut, accommodation.price])
+  const handleToggleFavorite = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+    setFavorites(currentFavorites => {
+      const favs = currentFavorites || []
+      if (favs.includes(accommodation.id)) {
+        return favs.filter(id => id !== accommodation.id)
+      }
+      return [...favs, accommodation.id]
+    })
+  }, [accommodation.id, setFavorites])
 
   const finalPrice = accommodation.discount 
     ? accommodation.price * (1 - accommodation.discount / 100) 
@@ -511,127 +472,38 @@ interface EnhancedAccommodationCardProps {
               <p className="text-sm text-muted-foreground">{accommodation.location}</p>
             </div>
 
-                  <span className="font
-                   
-                </div>
-            )}
-            <div className="flex gap-3 pt-
-                variant="ou
-                onClick={() => setShowQ
-                Cancelar
-              <Button
-                onClick={handleCheckAvailability}
+            <div className="bg-muted/50 rounded-lg p-4">
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl font-bold text-primary">
+                  ${Math.round(finalPrice).toLocaleString()}
+                </span>
+                <span className="text-sm text-muted-foreground">/ noche</span>
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-4 border-t">
+              <Button 
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowQuickBook(false)}
               >
-              </Butto
+                Cancelar
+              </Button>
+              <Button
+                className="flex-1"
+                onClick={() => {
+                  setShowQuickBook(false)
+                  if (onView) onView(accommodation.id)
+                }}
+              >
+                Continuar
+              </Button>
+            </div>
           </div>
+        </DialogContent>
       </Dialog>
+    </>
   )
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+EnhancedAccommodationCard.displayName = 'EnhancedAccommodationCard'

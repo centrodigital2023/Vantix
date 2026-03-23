@@ -4,10 +4,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { X, MapPin, Star, Wifi, Check, ChartLineDown } from '@phosphor-icons/react'
+import { X, MapPin, Star, WifiHigh, Check, ChartLineDown } from '@phosphor-icons/react'
 import { FavoriteItem } from '@/hooks/use-favorites'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { useKV } from '@github/spark/hooks'
+import React from 'react'
 
 interface FavoriteComparatorProps {
   open: boolean
@@ -17,7 +18,7 @@ interface FavoriteComparatorProps {
   onNavigate: (page: string, id?: string) => void
 }
 
-const ComparisonRow = ({ label, values }: { label: string; values: (string | number | JSX.Element)[] }) => (
+const ComparisonRow = ({ label, values }: { label: string; values: (string | number | React.JSX.Element)[] }) => (
   <div className="grid grid-cols-4 gap-4 py-3 border-b border-border/50 last:border-0">
     <div className="font-medium text-sm text-muted-foreground">{label}</div>
     {values.map((value, index) => (
@@ -39,7 +40,7 @@ export function FavoriteComparator({
   const [accommodations] = useKV<any[]>('accommodations-data', [])
 
   const getAccommodationDetails = (favoriteId: string) => {
-    return accommodations.find(acc => acc.id === favoriteId)
+    return accommodations?.find(acc => acc.id === favoriteId)
   }
 
   const content = (
