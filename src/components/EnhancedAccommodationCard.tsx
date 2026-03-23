@@ -2,34 +2,34 @@ import { useState, useCallback, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Calendar } from '@/components/ui/calendar'
+import { Dialog, DialogContent, DialogHeader, D
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { 
   Star, 
-  MapPin, 
   Heart, 
-  Calendar as CalendarIcon,
   Users, 
-  CheckCircle,
   Phone,
-  EnvelopeSimple,
-  WhatsappLogo,
-  CaretLeft,
-  CaretRight,
-  X
-} from '@phosphor-icons/react'
-import { useKV } from '@github/spark/hooks'
-import { format, addDays, differenceInDays } from 'date-fns'
-import { es } from 'date-fns/locale'
-import { cn } from '@/lib/utils'
-import { toast } from 'sonner'
+  Whatsapp
+  CaretRi
+} from '@phosphor-icons/rea
+import { 
+import { cn } 
 
-interface AccommodationData {
   id: string
-  name: string
-  location: string
+  location: str
+  department
+  price: numb
+  r
+  roomTypes?: Array<{
+    name: string
+    maxGuests: number
+    available: number
+  contact?: {
+    email?: string
+
+  featured?: boolean
+}
+interface Enha
+  onView?: (id: st
   city: string
   department: string
   images: string[]
@@ -62,69 +62,69 @@ interface EnhancedAccommodationCardProps {
   priority?: boolean
 }
 
-export const EnhancedAccommodationCard = memo(function EnhancedAccommodationCard({
-  accommodation,
-  onView,
-  index = 0,
-  priority = false
-}: EnhancedAccommodationCardProps) {
-  const [favorites, setFavorites] = useKV<string[]>('user-favorites', [])
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [showDetails, setShowDetails] = useState(false)
-  const [showQuickBook, setShowQuickBook] = useState(false)
-  const [checkIn, setCheckIn] = useState<Date>()
-  const [checkOut, setCheckOut] = useState<Date>()
-  const [guests, setGuests] = useState(2)
-  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false)
-
-  const isFavorite = favorites?.includes(accommodation.id) || false
-
-  const handleToggleFavorite = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-    setFavorites((current) => {
-      const updated = current || []
-      if (updated.includes(accommodation.id)) {
-        toast.success('Removido de favoritos')
-        return updated.filter(id => id !== accommodation.id)
-      } else {
-        toast.success('Agregado a favoritos')
-        return [...updated, accommodation.id]
-      }
-    })
   }, [accommodation.id, setFavorites])
-
-  const handleImageChange = useCallback((direction: 'prev' | 'next', e: React.MouseEvent) => {
-    e.stopPropagation()
-    setCurrentImageIndex(prev => {
-      const total = accommodation.images.length
-      if (direction === 'next') {
-        return (prev + 1) % total
+  const handleIm
+    setCu
+      if (di
       }
-      return (prev - 1 + total) % total
     })
-  }, [accommodation.images.length])
 
-  const handleCheckAvailability = useCallback(async () => {
     if (!checkIn || !checkOut) {
-      toast.error('Selecciona las fechas de entrada y salida')
       return
-    }
 
-    if (checkOut <= checkIn) {
-      toast.error('La fecha de salida debe ser posterior a la de entrada')
-      return
+      toast.error('La fecha de salida debe ser p
     }
-
     setIsCheckingAvailability(true)
-    
     await new Promise(resolve => setTimeout(resolve, 800))
+
     
-    const nights = differenceInDays(checkOut, checkIn)
-    const total = accommodation.price * nights
+
     
-    toast.success(
-      `Disponible! ${nights} ${nights === 1 ? 'noche' : 'noches'} - Total: $${total.toLocaleString()}`
-    )
+    setShowQuickBook(fa
+
+    ? accommodation.price * (1 - ac
+
+    <>
+        initial={{ opacity: 0, y: 20 }}
+        transi
+          delay: index * 0.05,
+        }}
+      >
+      
+        >
+
+                <source 
+                  type=
+                <img
+                  alt={accommodation.name}
+                  decoding="async
+                />
+
+                <>
+      
+                    aria-label="Ima
+
+                  <button
+                    className="a
+                  >
+            
+     
+
+                        classN
+                          idx === currentImageIndex 
+            
+     
+
+              )}
+    
+                  <Star size={14} weight="fill" />
+    
+
+                <Badge className="absolute top
+    
+
+                size="icon"
+     
     
     setIsCheckingAvailability(false)
     setShowQuickBook(false)
@@ -511,127 +511,127 @@ export const EnhancedAccommodationCard = memo(function EnhancedAccommodationCard
               <p className="text-sm text-muted-foreground">{accommodation.location}</p>
             </div>
 
-            <div className="space-y-3">
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">Check-in</label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !checkIn && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon size={16} className="mr-2" />
-                      {checkIn ? format(checkIn, "PPP", { locale: es }) : "Selecciona fecha"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={checkIn}
-                      onSelect={setCheckIn}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">Check-out</label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !checkOut && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon size={16} className="mr-2" />
-                      {checkOut ? format(checkOut, "PPP", { locale: es }) : "Selecciona fecha"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={checkOut}
-                      onSelect={setCheckOut}
-                      disabled={(date) => !checkIn || date <= checkIn}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium mb-1.5 block">Huéspedes</label>
-                <div className="flex items-center gap-3">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setGuests(Math.max(1, guests - 1))}
-                    disabled={guests <= 1}
-                  >
-                    -
-                  </Button>
-                  <span className="flex-1 text-center font-medium">{guests}</span>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setGuests(Math.min(10, guests + 1))}
-                    disabled={guests >= 10}
-                  >
-                    +
-                  </Button>
+                  <span className="font
+                   
                 </div>
-              </div>
-            </div>
-
-            {checkIn && checkOut && (
-              <div className="bg-muted/50 rounded-lg p-4 space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Precio por noche</span>
-                  <span className="font-semibold">${finalPrice.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Noches</span>
-                  <span className="font-semibold">{differenceInDays(checkOut, checkIn)}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Huéspedes</span>
-                  <span className="font-semibold">{guests}</span>
-                </div>
-                <div className="pt-2 border-t border-border flex justify-between">
-                  <span className="font-semibold">Total</span>
-                  <span className="font-bold text-lg text-primary">
-                    ${(finalPrice * differenceInDays(checkOut, checkIn)).toLocaleString()}
-                  </span>
-                </div>
-              </div>
             )}
-
-            <div className="flex gap-3 pt-2">
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => setShowQuickBook(false)}
-              >
+            <div className="flex gap-3 pt-
+                variant="ou
+                onClick={() => setShowQ
                 Cancelar
-              </Button>
               <Button
-                className="flex-1"
                 onClick={handleCheckAvailability}
-                disabled={!checkIn || !checkOut || isCheckingAvailability}
               >
-                {isCheckingAvailability ? 'Verificando...' : 'Verificar disponibilidad'}
-              </Button>
-            </div>
+              </Butto
           </div>
-        </DialogContent>
       </Dialog>
-    </>
   )
-})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
