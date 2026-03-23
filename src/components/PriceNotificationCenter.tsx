@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
+import { Bell, ChartLineDown, ChartLineUp, X 
 import { Card } from '@/components/ui/card'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Bell, ChartLineDown, ChartLineUp, X } from '@phosphor-icons/react'
@@ -14,22 +14,22 @@ export function PriceNotificationCenter() {
   const [open, setOpen] = useState(false)
 
   const handleNotificationClick = (notificationId: string) => {
-    markNotificationViewed(notificationId)
-  }
+    <Sheet open={open} onOpenChange={setOp
+   
 
-  return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell size={22} weight={unviewedNotificationsCount > 0 ? 'fill' : 'regular'} />
-          {unviewedNotificationsCount > 0 && (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-1 -right-1"
-            >
+          
+              className="absolute -top-1 -righ
               <Badge 
-                variant="destructive" 
+                className="h-5 min-w-5 flex items-center justify-
+                {unviewedNotificationsCount}
+            </motion.div>
+        </Button>
+
+        <SheetHeader className="spac
+            <SheetTitle className="flex items-cent
+             
+            {priceNot
+                variant="ghost"
                 className="h-5 min-w-5 flex items-center justify-center p-0 px-1 bg-accent text-accent-foreground animate-pulse-glow"
               >
                 {unviewedNotificationsCount}
@@ -126,25 +126,25 @@ export function PriceNotificationCenter() {
                               variant={isDecrease ? 'default' : 'secondary'}
                               className={`text-xs ${
                                 isDecrease ? 'bg-success/20 text-success hover:bg-success/30' : 'bg-warning/20 text-warning hover:bg-warning/30'
-                              }`}
-                            >
-                              {isDecrease ? '' : '+'}{notification.changePercentage.toFixed(1)}%
-                            </Badge>
-                          </div>
-
-                          <p className="text-xs text-muted-foreground">
-                            {formatDistanceToNow(notification.timestamp, { addSuffix: true, locale: es })}
-                          </p>
-                        </div>
-                      </div>
-                    </Card>
-                  </motion.div>
-                )
-              })}
-            </AnimatePresence>
-          )}
-        </div>
-      </SheetContent>
-    </Sheet>
   )
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
