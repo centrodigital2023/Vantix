@@ -1,23 +1,38 @@
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Card } from '@/components/ui/card'
+import { motion, AnimatePresence } from 'framer-motion'
+import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { Bell, ChartLineDown, ChartLineUp, X } from '@phosphor-icons/react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { useFavorites } from '@/hooks/use-favorites'
 
+export function PriceNotificationCenter() {
+  const { priceNotifications, unviewedNotificationsCount, markNotificationViewed, clearNotifications } = useFavorites()
   const [open, setOpen] = useState(false)
-
-    markNotificationViewed(notificationId)
-
-    <Sheet open={open} onOpenChange={setOpen}>
-
-          size="icon"
-        >
-          {unviewedNotificationsCount > 0 && (
 
   const handleNotificationClick = (notificationId: string) => {
     markNotificationViewed(notificationId)
-  }           className="absolute -top-1 -right-1"
+  }
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative"
+        >
+          <Bell size={24} weight={unviewedNotificationsCount > 0 ? 'fill' : 'regular'} />
+          {unviewedNotificationsCount > 0 && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="absolute -top-1 -right-1"
             >
+              <Badge variant="destructive" className="h-5 w-5 p-0 flex items-center justify-center text-xs">
                 {unviewedNotificationsCount}
               </Badge>
             </motion.div>
@@ -50,7 +65,6 @@ import { es } from 'date-fns/locale'
             <div className="text-center py-12 space-y-3">
               <Bell size={48} weight="thin" className="mx-auto text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">
-                No tienes notificaciones de precios
                 No tienes notificaciones de precios
               </p>
               <p className="text-xs text-muted-foreground">
