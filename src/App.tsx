@@ -117,6 +117,7 @@ import { PageRoute } from '@/lib/types'
 import { useKV } from '@github/spark/hooks'
 import { AuthProvider, useAuth } from '@/contexts/AuthContext'
 import { useInitializeSync } from '@/hooks/use-category-data'
+import { usePriceMonitoring } from '@/hooks/use-price-monitoring'
 import { generateSampleAccommodations } from '@/lib/sample-data'
 import { BookingDialog } from '@/components/BookingDialog'
 import { useRouter } from '@/hooks/use-router'
@@ -130,6 +131,7 @@ function AppContent() {
   const [pendingRoomId, setPendingRoomId] = useState<string>('')
   
   useInitializeSync()
+  usePriceMonitoring()
 
   useEffect(() => {
     if (!accommodations || accommodations.length === 0) {

@@ -5,7 +5,7 @@ import { PageRoute } from '@/lib/types'
 import { useAuth } from '@/contexts/AuthContext'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { NotificationCenter } from '@/components/NotificationCenter'
+import { PriceNotificationCenter } from '@/components/PriceNotificationCenter'
 import logoVantix from '@/assets/images/logovantix.png'
 
 interface NavbarProps {
@@ -80,7 +80,7 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
               )
             })}
             
-            <NotificationCenter onNavigate={onNavigate} />
+            <PriceNotificationCenter />
             
             {isAuthenticated ? (
               <DropdownMenu>
