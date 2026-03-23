@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { WishlistManager } from './WishlistManager'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { PropertyDetailDialog } from './PropertyDetailDialog'
 
 export interface PropertyCardData {
   id: string
@@ -42,6 +43,7 @@ export function EnhancedPropertyCard({ property, onView, onBook, className }: En
   const [isFavorite, setIsFavorite] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [showWishlist, setShowWishlist] = useState(false)
+  const [showDetailDialog, setShowDetailDialog] = useState(false)
 
   const images = property.images || [property.image]
   const hasDiscount = property.discount && property.discount > 0
@@ -57,7 +59,12 @@ export function EnhancedPropertyCard({ property, onView, onBook, className }: En
   }
 
   const handleCardClick = () => {
-    if (onView) onView()
+    setShowDetailDialog(true)
+  }
+
+  const handleViewMore = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setShowDetailDialog(true)
   }
 
   return (
@@ -239,10 +246,7 @@ export function EnhancedPropertyCard({ property, onView, onBook, className }: En
               <Button
                 variant="outline"
                 size="sm"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  if (onView) onView()
-                }}
+                onClick={handleViewMore}
                 className="flex-1"
               >
                 Ver más
@@ -261,6 +265,13 @@ export function EnhancedPropertyCard({ property, onView, onBook, className }: En
           </div>
         </CardContent>
       </Card>
+
+      <PropertyDetailDialog
+        property={property}
+        open={showDetailDialog}
+        onOpenChange={setShowDetailDialog}
+        onBook={onBook}
+      />
 
       <Dialog open={showWishlist} onOpenChange={setShowWishlist}>
         <DialogContent>

@@ -4,6 +4,7 @@ export { WishlistManager } from './WishlistManager'
 export { EnhancedPropertyCard } from './EnhancedPropertyCard'
 export { HostProfileCard } from './HostProfileCard'
 export { DealCountdown } from './DealCountdown'
+export { PropertyDetailDialog } from './PropertyDetailDialog'
 
 export type { PropertyCardData } from './EnhancedPropertyCard'
 export type { HostProfileData } from './HostProfileCard'
