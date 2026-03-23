@@ -30,38 +30,38 @@ export function PriceNotificationCenter() {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="absolute -top-1 -right-1"
             >
-              <Badge variant="destructive" className="h-5 w-5 p-0 flex items-center justify-center text-xs">
-                {unviewedNotificationsCount}
-              </Badge>
+             
             </motion.div>
-          )}
         </Button>
-      </SheetTrigger>
 
-      <SheetContent className="w-full sm:max-w-md">
-        <SheetHeader className="space-y-4">
-          <div className="flex items-center justify-between">
-            <SheetTitle className="flex items-center gap-2">
-              <Bell size={24} weight="fill" className="text-primary" />
-              Notificaciones de Precios
-            </SheetTitle>
-            {priceNotifications.length > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
+        <SheetHeader clas
+            
+              Not
+            {priceNot
+
                 onClick={clearNotifications}
-                className="text-xs"
               >
-                Limpiar todo
               </Button>
-            )}
           </div>
-        </SheetHeader>
 
-        <div className="mt-6 space-y-3">
-          {priceNotifications.length === 0 ? (
+          {priceNotifications.length ==
+              <Bell size=
+                No tienes notificaciones de pre
+              <p clas
+              </p>
+          ) : (
+              {priceNotifications.map((notif
+                const Icon = isDecr
+               
+                    key={not
+                    ani
+              
+                
+                      
+
+                      <div className="fl
+                          isDecrease ? 'bg-suc
             <div className="text-center py-12 space-y-3">
               <Bell size={48} weight="thin" className="mx-auto text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">
@@ -94,6 +94,65 @@ export function PriceNotificationCenter() {
                       <div className="flex gap-3">
                         <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                           isDecrease ? 'bg-success/20' : 'bg-warning/20'
+                        }`}>
+                          <Icon 
+                            size={20} 
+                            weight="bold" 
+                            className={isDecrease ? 'text-success' : 'text-warning'}
+                          />
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2 mb-1">
+                            <p className="font-semibold text-sm line-clamp-2">
+                              {notification.favoriteName}
+                            </p>
+                            {!notification.viewed && (
+                              <Badge variant="secondary" className="text-xs px-1.5 py-0 h-5">
+                                Nuevo
+                              </Badge>
+                            )}
+                          </div>
+
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-xs text-muted-foreground line-through">
+                              ${notification.oldPrice.toLocaleString()}
+                            </span>
+                            <span className={`text-sm font-bold ${
+                              isDecrease ? 'text-success' : 'text-warning'
+                            }`}>
+                              ${notification.newPrice.toLocaleString()}
+                            </span>
+                            <Badge 
+                              variant={isDecrease ? 'default' : 'secondary'}
+                              className={`text-xs ${
+                                isDecrease ? 'bg-success/20 text-success hover:bg-success/30' : 'bg-warning/20 text-warning hover:bg-warning/30'
+                              }`}
+                            >
+                              {isDecrease ? '' : '+'}
+                              {Math.abs(notification.changePercentage).toFixed(1)}%
+                            </Badge>
+                          </div>
+
+                          <p className="text-xs text-muted-foreground">
+                            {formatDistanceToNow(new Date(notification.timestamp), { 
+                              addSuffix: true, 
+                              locale: es 
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
+          )}
+        </div>
+      </SheetContent>
+    </Sheet>
+  )
+}
                         }`}>
                           <Icon 
                             size={20} 
