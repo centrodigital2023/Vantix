@@ -29,6 +29,20 @@
   }
 }
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+img[loading="lazy"] {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
 :root {
   --background: oklch(0.12 0.02 265);
   --foreground: oklch(0.95 0.01 265);

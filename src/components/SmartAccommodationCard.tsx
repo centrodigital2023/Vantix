@@ -2,11 +2,12 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Star, MapPin, Heart, WifiHigh, Car, Coffee, Bathtub, Users, CreditCard, Calendar, CheckCircle } from '@phosphor-icons/react'
+import { Star, MapPin, Heart, WifiHigh, Car, Coffee, Bathtub, Users, CreditCard, Calendar, CheckCircle, Images } from '@phosphor-icons/react'
 import { Accommodation } from '@/lib/types'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { BookingDialog } from './BookingDialog'
+import { PhotoGalleryModal } from './PhotoGalleryModal'
 
 interface SmartAccommodationCardProps {
   accommodation: Accommodation
@@ -20,6 +21,7 @@ export function SmartAccommodationCard({ accommodation, onSelect, featured, onBo
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [showQuickBook, setShowQuickBook] = useState(false)
   const [showFullDialog, setShowFullDialog] = useState(false)
+  const [showGallery, setShowGallery] = useState(false)
 
   const amenityIcons: Record<string, any> = {
     'WiFi': WifiHigh,
@@ -103,6 +105,19 @@ export function SmartAccommodationCard({ accommodation, onSelect, featured, onBo
                       />
                     ))}
                   </div>
+
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setShowGallery(true)
+                    }}
+                    className="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 text-white border-0 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                  >
+                    <Images size={16} className="mr-1" />
+                    Ver todas ({accommodation.images.length})
+                  </Button>
                 </>
               )}
 
@@ -316,6 +331,14 @@ export function SmartAccommodationCard({ accommodation, onSelect, featured, onBo
             onBookingSuccess()
           }
         }}
+      />
+
+      <PhotoGalleryModal
+        images={accommodation.images}
+        initialIndex={currentImageIndex}
+        open={showGallery}
+        onOpenChange={setShowGallery}
+        title={accommodation.name}
       />
     </>
   )

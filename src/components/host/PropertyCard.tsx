@@ -1,10 +1,12 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Star, MapPin, Eye, PencilSimple, Calendar, Warning } from '@phosphor-icons/react'
+import { Star, MapPin, Eye, PencilSimple, Calendar, Warning, CaretLeft, CaretRight, Images } from '@phosphor-icons/react'
 import { HostProperty } from '@/lib/host-types'
 import { cn } from '@/lib/utils'
+import { useState } from 'react'
+import { PhotoGalleryModal } from '@/components/PhotoGalleryModal'
 
 interface PropertyCardProps {
   property: HostProperty
@@ -14,6 +16,10 @@ interface PropertyCardProps {
 }
 
 export function PropertyCard({ property, onView, onEdit, onManageCalendar }: PropertyCardProps) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [imageDirection, setImageDirection] = useState(0)
+  const [showGallery, setShowGallery] = useState(false)
+
   const getStatusBadge = () => {
     const statusConfig = {
       activo: { label: 'Activo', variant: 'default' as const, className: 'bg-green-500 hover:bg-green-600' },
@@ -32,6 +38,34 @@ export function PropertyCard({ property, onView, onEdit, onManageCalendar }: Pro
   }
 
   const hasAlerts = property.aiRecommendations && property.aiRecommendations.length > 0
+  const hasMultipleImages = property.images.length > 1
+
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setImageDirection(-1)
+    setCurrentImageIndex((prev) => (prev === 0 ? property.images.length - 1 : prev - 1))
+  }
+
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setImageDirection(1)
+    setCurrentImageIndex((prev) => (prev === property.images.length - 1 ? 0 : prev + 1))
+  }
+
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 300 : -300,
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? -300 : 300,
+      opacity: 0
+    })
+  }
 
   return (
     <motion.div
@@ -41,13 +75,81 @@ export function PropertyCard({ property, onView, onEdit, onManageCalendar }: Pro
     >
       <Card className="overflow-hidden hover:shadow-xl transition-all duration-300">
         <div className="flex flex-col md:flex-row">
-          <div className="relative w-full md:w-64 h-48 md:h-auto overflow-hidden bg-muted">
-            {property.images[0] ? (
-              <img
-                src={property.images[0]}
-                alt={property.name}
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-              />
+          <div className="relative w-full md:w-64 h-48 md:h-auto overflow-hidden bg-muted group cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation()
+              if (property.images.length > 0) {
+                setShowGallery(true)
+              }
+            }}
+          >
+            {property.images.length > 0 ? (
+              <>
+                <AnimatePresence initial={false} custom={imageDirection}>
+                  <motion.img
+                    key={currentImageIndex}
+                    src={property.images[currentImageIndex]}
+                    alt={`${property.name} - Foto ${currentImageIndex + 1}`}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    custom={imageDirection}
+                    variants={variants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                      x: { type: "spring", stiffness: 300, damping: 30 },
+                      opacity: { duration: 0.2 }
+                    }}
+                  />
+                </AnimatePresence>
+
+                {hasMultipleImages && (
+                  <>
+                    <button
+                      onClick={handlePrevImage}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                      aria-label="Imagen anterior"
+                    >
+                      <CaretLeft size={16} weight="bold" />
+                    </button>
+                    <button
+                      onClick={handleNextImage}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                      aria-label="Siguiente imagen"
+                    >
+                      <CaretRight size={16} weight="bold" />
+                    </button>
+
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+                      {property.images.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setImageDirection(idx > currentImageIndex ? 1 : -1)
+                            setCurrentImageIndex(idx)
+                          }}
+                          className={cn(
+                            "h-1.5 rounded-full transition-all",
+                            idx === currentImageIndex 
+                              ? "w-6 bg-white" 
+                              : "w-1.5 bg-white/50 hover:bg-white/70"
+                          )}
+                          aria-label={`Ir a foto ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+
+                    <Badge 
+                      variant="secondary" 
+                      className="absolute top-2 left-2 bg-black/60 text-white border-0"
+                    >
+                      <Images size={12} className="mr-1" />
+                      {property.images.length}
+                    </Badge>
+                  </>
+                )}
+              </>
             ) : (
               <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                 Sin imagen
@@ -143,6 +245,14 @@ export function PropertyCard({ property, onView, onEdit, onManageCalendar }: Pro
           </CardContent>
         </div>
       </Card>
+
+      <PhotoGalleryModal
+        images={property.images}
+        initialIndex={currentImageIndex}
+        open={showGallery}
+        onOpenChange={setShowGallery}
+        title={property.name}
+      />
     </motion.div>
   )
 }
