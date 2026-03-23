@@ -268,7 +268,7 @@ export function getCurrentRoute(): RouteMatch {
   }
   
   return {
-    page: '404' as PageRoute,
+    page: 'home',
     params: {},
     queryParams: new URLSearchParams(window.location.search),
   }

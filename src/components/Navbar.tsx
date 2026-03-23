@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { NotificationCenter } from '@/components/NotificationCenter'
+import logoVantix from '@/assets/images/logovantix.png'
 
 interface NavbarProps {
   currentPage: PageRoute
@@ -53,7 +54,7 @@ export function Navbar({ currentPage, onNavigate }: NavbarProps) {
             className="flex items-center gap-3 group"
           >
             <div className="p-2 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
-              <img src="/src/assets/images/logovantix.png" alt="Vantix" className="h-8 w-auto" />
+              <img src={logoVantix} alt="Vantix" className="h-8 w-auto" />
             </div>
             <span className="text-xl font-bold text-gradient hidden sm:inline">Vantix</span>
           </button>
