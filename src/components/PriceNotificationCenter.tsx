@@ -1,10 +1,17 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badg
-import { Bell, ChartLineDown, ChartLineUp, X } from '@phosphor-icons/react'
+import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Bell, ChartLineDown, ChartLineUp, X } from '@phosphor-icons/react'
 import { useFavorites } from '@/hooks/use-favorites'
 import { formatDistanceToNow } from 'date-fns'
+import { es } from 'date-fns/locale'
+import { motion, AnimatePresence } from 'framer-motion'
+
+export function PriceNotificationCenter() {
+  const [open, setOpen] = useState(false)
+  const { priceNotifications, markNotificationViewed, clearNotifications, unviewedNotificationsCount } = useFavorites()
 
   const handleNotificationClick = (notificationId: string) => {
     markNotificationViewed(notificationId)
@@ -124,6 +131,7 @@ import { formatDistanceToNow } from 'date-fns'
                               variant={isDecrease ? 'default' : 'secondary'}
                               className={`text-xs ${
                                 isDecrease ? 'bg-success/20 text-success hover:bg-success/30' : 'bg-warning/20 text-warning hover:bg-warning/30'
+                              }`}
                             >
                               {isDecrease ? '' : '+'}
                               {Math.abs(notification.changePercentage).toFixed(1)}%
