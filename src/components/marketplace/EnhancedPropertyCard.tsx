@@ -207,7 +207,7 @@ export function EnhancedPropertyCard({ property, onView, onBook, className }: En
             </span>
           </div>
 
-          <div className="border-t pt-3">
+          <div className="border-t pt-3 space-y-3">
             <div className="flex items-end justify-between">
               <div>
                 {property.originalPrice && (
@@ -227,6 +227,36 @@ export function EnhancedPropertyCard({ property, onView, onBook, className }: En
                   </p>
                 )}
               </div>
+              {property.instantBook && (
+                <Badge className="bg-accent text-white text-xs">
+                  <Lightning size={12} className="mr-1" weight="fill" />
+                  Instantáneo
+                </Badge>
+              )}
+            </div>
+            
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  if (onView) onView()
+                }}
+                className="flex-1"
+              >
+                Ver más
+              </Button>
+              <Button
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  if (onBook) onBook()
+                }}
+                className="flex-1 bg-primary hover:bg-primary/90"
+              >
+                Reservar
+              </Button>
             </div>
           </div>
         </CardContent>

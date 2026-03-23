@@ -48,6 +48,7 @@ export interface Accommodation {
   rating: number
   reviewCount: number
   featured: boolean
+  verified?: boolean
   latitude: number
   longitude: number
   amenities: string[]

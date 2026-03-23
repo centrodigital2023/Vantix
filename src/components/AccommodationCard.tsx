@@ -151,21 +151,44 @@ export function AccommodationCard({ accommodation, onSelect, featured }: Accommo
               )}
             </div>
 
-            <div className="pt-2 border-t flex items-end justify-between">
-              <div>
-                <div className="text-xs text-muted-foreground">Desde</div>
-                <div className="text-2xl font-bold text-primary">
-                  ${accommodation.pricePerNight.toLocaleString('es-CO')}
+            <div className="pt-2 border-t space-y-3">
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-xs text-muted-foreground">Desde</div>
+                  <div className="text-2xl font-bold text-primary">
+                    ${accommodation.pricePerNight.toLocaleString('es-CO')}
+                  </div>
+                  <div className="text-xs text-muted-foreground">por noche</div>
                 </div>
-                <div className="text-xs text-muted-foreground">por noche</div>
+                
+                {accommodation.verified && (
+                  <Badge className="bg-success text-white">
+                    ✓ Verificado
+                  </Badge>
+                )}
               </div>
               
-              <Button 
-                onClick={() => onSelect(accommodation.id)}
-                className="bg-primary hover:bg-primary/90"
-              >
-                Ver disponibilidad
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onSelect(accommodation.id)
+                  }}
+                  className="flex-1"
+                >
+                  Ver más
+                </Button>
+                <Button 
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onSelect(accommodation.id)
+                  }}
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                >
+                  Reservar
+                </Button>
+              </div>
             </div>
           </div>
         </CardContent>
