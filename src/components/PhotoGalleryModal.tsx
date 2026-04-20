@@ -1,131 +1,131 @@
 import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { X, CaretLeft, CaretRight, MagnifyingGlassPlus, MagnifyingGlassMinus } from '@phosphor-icons/react'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { X, CaretLeft, CaretRight, MagnifyingGlassPlus,
+import { Button } from '@/components/ui/button'
+
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface PhotoGalleryModalProps {
-  images: string[]
-  initialIndex?: number
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  title?: string
-}
-
-export function PhotoGalleryModal({ 
   images, 
-  initialIndex = 0, 
   open, 
-  onOpenChange,
   title 
-}: PhotoGalleryModalProps) {
-  const [currentIndex, setCurrentIndex] = useState(initialIndex)
-  const [direction, setDirection] = useState(0)
-  const [zoom, setZoom] = useState(1)
+  const [currentIndex, setCurrentIndex]
+  const [zoom, s
+ 
 
-  const handlePrevious = () => {
-    setDirection(-1)
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
-    setZoom(1)
   }
-
-  const handleNext = () => {
-    setDirection(1)
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
-    setZoom(1)
+  const ha
+    setCurrentIndex(
   }
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowLeft') handlePrevious()
-    if (e.key === 'ArrowRight') handleNext()
-    if (e.key === 'Escape') onOpenChange(false)
+  const handleK
+    if (
   }
-
   const variants = {
-    enter: (direction: number) => ({
       x: direction > 0 ? 1000 : -1000,
-      opacity: 0
     }),
-    center: {
-      x: 0,
-      opacity: 1
-    },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0
-    })
-  }
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent 
-        className="max-w-7xl h-[90vh] p-0 bg-black/95"
-        onKeyDown={handleKeyDown}
+    },
+      x: direction <
+    })
+
+   
+
       >
-        <div className="relative w-full h-full flex flex-col">
-          <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 bg-gradient-to-b from-black/80 to-transparent">
-            <div className="flex-1">
+          <div clas
               {title && (
-                <h2 className="text-white font-semibold text-lg">{title}</h2>
-              )}
-              <p className="text-white/70 text-sm">
-                {currentIndex + 1} / {images.length}
-              </p>
-            </div>
+              
+   
 
             <div className="flex items-center gap-2">
-              <Button
                 variant="ghost"
-                size="icon"
-                onClick={() => setZoom(Math.max(1, zoom - 0.5))}
-                disabled={zoom <= 1}
-                className="text-white hover:bg-white/10"
-              >
-                <MagnifyingGlassMinus size={20} />
-              </Button>
-              
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setZoom(Math.min(3, zoom + 0.5))}
-                disabled={zoom >= 3}
-                className="text-white hover:bg-white/10"
-              >
-                <MagnifyingGlassPlus size={20} />
-              </Button>
+                onClick={() => setZoom(Math.
+                className="text-white hover:bg-
+   
 
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => onOpenChange(false)}
-                className="text-white hover:bg-white/10"
+                vari
+                onClick={() => setZo
+                className="text-white 
+                
+
+             
+           
               >
-                <X size={24} />
-              </Button>
-            </div>
+      
           </div>
+          <div className="flex-1 relat
+              <m
+      
+   
 
-          <div className="flex-1 relative overflow-hidden flex items-center justify-center p-16">
-            <AnimatePresence initial={false} custom={direction}>
-              <motion.img
-                key={currentIndex}
-                src={images[currentIndex]}
-                alt={`Foto ${currentIndex + 1}`}
-                className="max-w-full max-h-full object-contain"
-                style={{ transform: `scale(${zoom})` }}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
+          
                 exit="exit"
-                transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 }
+                  x: 
                 }}
-                drag={zoom > 1 ? true : false}
-                dragConstraints={{
-                  left: -200 * zoom,
+                dragConstraints={
+       
+                  bottom: 200 * zoom
+              />
+
+              <>
+                  variant="ghost"
+                
+                >
+                </Button>
+                <B
+                  
+
+                  <CaretRight size={24} weight="bold"
+              </>
+          </div>
+          <div className="a
+              {images.map((image, idx) => (
+                  key={idx}
+                    setDirection(idx > currentIndex ? 1 
+               
+                  className={cn(
+                    idx
+              
+                >
+                    src={image}
+                    classNa
+                </button>
+            </div>
+        </div>
+    </Dialog>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   right: 200 * zoom,
                   top: -200 * zoom,
                   bottom: 200 * zoom
